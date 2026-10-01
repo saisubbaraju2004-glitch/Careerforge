@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Placement Analytics & Prediction — CareerForge AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='assets/careerforge-favicon.png') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/placement_analytics.css') }}">
+</head>
+<body class="dark-theme">
+    <div class="app-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="{{ url_for('static', filename='assets/careerforge-logo.png') }}" alt="CareerForge AI Logo" class="sidebar-logo-img" height="44" width="auto">
+                <span class="sidebar-brand-name">CareerForge<span style="color: var(--secondary);">.AI</span></span>
+            </div>
+            <nav class="sidebar-menu">
+                <a href="/" class="sidebar-link"><i class="fa-solid fa-house"></i> <span>Overview</span></a>
+                <a href="/career-agent" class="sidebar-link"><i class="fa-solid fa-robot" style="color: var(--secondary);"></i> <span>AI Career Agent</span></a>
+                <a href="/placements" class="sidebar-link"><i class="fa-solid fa-graduation-cap" style="color: var(--cyan);"></i> <span>Placement Command</span></a>
+                <a href="/placement-strategy" class="sidebar-link"><i class="fa-solid fa-bullseye" style="color: var(--secondary);"></i> <span>Placement Strategy</span></a>
+                <a href="/job-match" class="sidebar-link"><i class="fa-solid fa-microchip" style="color: var(--accent);"></i> <span>AI Job Matching</span></a>
+                <a href="/interview-intelligence" class="sidebar-link"><i class="fa-solid fa-brain"></i> <span>Interview Intelligence</span></a>
+                <a href="/learning" class="sidebar-link"><i class="fa-solid fa-book-open"></i> <span>Personalized Learning</span></a>
+                <a href="/placement-analytics" class="sidebar-link active"><i class="fa-solid fa-chart-pie" style="color: var(--cyan);"></i> <span>Placement Analytics</span></a>
+                <a href="/resume-builder" class="sidebar-link"><i class="fa-solid fa-file-signature"></i> <span>Resume Builder</span></a>
+                <a href="/jobs" class="sidebar-link"><i class="fa-solid fa-briefcase"></i> <span>Jobs</span></a>
+                <a href="/applications" class="sidebar-link"><i class="fa-solid fa-paper-plane"></i> <span>Applications</span></a>
+                <a href="/progress" class="sidebar-link"><i class="fa-solid fa-chart-line"></i> <span>Progress</span></a>
+            </nav>
+        </aside>
+
+        <main class="app-main">
+            <div class="main-content">
+                <div class="card-title-row" style="margin-bottom: 1.5rem;">
+                    <div>
+                        <h1 class="hero-title" style="font-size: 2.2rem; margin-bottom: 0.3rem;">Placement Analytics & <span class="text-gradient">Prediction</span></h1>
+                        <p style="color: var(--text-muted); font-size: 0.95rem; margin: 0;">Observed account metrics and application history. Probabilities remain unavailable until a validated model is configured.</p>
+                    </div>
+                </div>
+
+                <!-- PROBABILITY HERO CARD -->
+                <div class="glass-card strategy-hero-card" style="margin-bottom: 1.5rem;">
+                    <div class="card-title-row" style="margin-bottom: 0.75rem;">
+                        <span class="badge badge-cyan"><i class="fa-solid fa-chart-pie"></i> OBSERVED DATA / MODEL STATUS</span>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <div class="prob-box">
+                            <span class="prob-val" id="probReadiness">Unavailable</span>
+                            <span class="prob-lbl">Placement Readiness Probability</span>
+                        </div>
+                        <div class="prob-box">
+                            <span class="prob-val" id="probInterview">Unavailable</span>
+                            <span class="prob-lbl">Interview Call Probability</span>
+                        </div>
+                        <div class="prob-box">
+                            <span class="prob-val" id="probOffer">Unavailable</span>
+                            <span class="prob-lbl">Offer Conversion Probability</span>
+                        </div>
+                    </div>
+
+                    <p style="font-size: 0.75rem; color: var(--text-muted); margin: 1rem 0 0 0; text-align: center;" id="probDisclaimer">
+                        No validated placement prediction model or outcome dataset is configured.
+                    </p>
+                </div>
+
+                <!-- CONVERSION FUNNEL & RISKS GRID -->
+                <div class="grid-2-col">
+                    <!-- Funnel Card -->
+                    <div class="glass-card dash-card">
+                        <div class="card-title-row" style="margin-bottom: 1rem;">
+                            <h3><i class="fa-solid fa-filter text-secondary"></i> Application Conversion Funnel</h3>
+                        </div>
+                        <div class="funnel-grid" id="funnelGrid">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Risk Detection Card -->
+                    <div class="glass-card dash-card">
+                        <div class="card-title-row" style="margin-bottom: 1rem;">
+                            <h3><i class="fa-solid fa-triangle-exclamation text-warning"></i> Weakness Risk Flags</h3>
+                        </div>
+                        <div id="riskList">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/placement_analytics.js') }}"></script>
+</body>
+</html>

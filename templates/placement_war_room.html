@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company War Room — CareerForge AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='assets/careerforge-favicon.png') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/placement_strategy.css') }}">
+</head>
+<body class="dark-theme">
+    <div class="app-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="{{ url_for('static', filename='assets/careerforge-logo.png') }}" alt="CareerForge AI Logo" class="sidebar-logo-img" height="44" width="auto">
+                <span class="sidebar-brand-name">CareerForge<span style="color: var(--secondary);">.AI</span></span>
+            </div>
+            <nav class="sidebar-menu">
+                <a href="/career-agent" class="sidebar-link"><i class="fa-solid fa-robot" style="color: var(--secondary);"></i> <span>AI Career Agent</span></a>
+                <a href="/placements" class="sidebar-link"><i class="fa-solid fa-graduation-cap" style="color: var(--cyan);"></i> <span>Placement Command</span></a>
+                <a href="/placement-strategy" class="sidebar-link active"><i class="fa-solid fa-bullseye" style="color: var(--secondary);"></i> <span>Placement Strategy</span></a>
+                <a href="/" class="sidebar-link"><i class="fa-solid fa-house"></i> <span>Overview</span></a>
+                <a href="/#formSection" class="sidebar-link"><i class="fa-solid fa-sliders"></i> <span>Career Guide</span></a>
+                <a href="/#tabATS" class="sidebar-link"><i class="fa-solid fa-file-contract"></i> <span>Resume Analyzer</span></a>
+                <a href="/resume-builder" class="sidebar-link"><i class="fa-solid fa-file-signature"></i> <span>AI Resume Builder</span></a>
+                <a href="/intelligence" class="sidebar-link"><i class="fa-solid fa-brain"></i> <span>Career Intelligence</span></a>
+                <a href="/#tabOverview" class="sidebar-link"><i class="fa-solid fa-layer-group"></i> <span>Skill Gaps</span></a>
+                <a href="/#tabRoadmap" class="sidebar-link"><i class="fa-solid fa-route"></i> <span>Roadmap</span></a>
+                <a href="/#tabPlan" class="sidebar-link"><i class="fa-solid fa-calendar-check"></i> <span>30-Day Plan</span></a>
+                <a href="/jobs" class="sidebar-link"><i class="fa-solid fa-briefcase"></i> <span>AI Job Matching</span></a>
+                <a href="/interview" class="sidebar-link"><i class="fa-solid fa-microphone"></i> <span>AI Interview</span></a>
+                <a href="/applications" class="sidebar-link"><i class="fa-solid fa-briefcase"></i> <span>Applications</span></a>
+                <a href="/progress" class="sidebar-link"><i class="fa-solid fa-chart-line"></i> <span>Progress</span></a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="sidebar-footer-btn">
+                    <span><i class="fa-solid fa-shield-halved" style="color: var(--secondary);"></i> War Room</span>
+                    <span class="ai-status-indicator"></span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="app-main">
+            <div class="main-content">
+                <!-- Back Link -->
+                <div style="margin-bottom: 1rem;">
+                    <a href="/placement-strategy" class="btn btn-outline btn-sm"><i class="fa-solid fa-arrow-left"></i> Back to Placement Strategy</a>
+                </div>
+
+                <!-- WAR ROOM HERO BANNER -->
+                <div class="glass-card war-room-hero" style="margin-bottom: 1.5rem; padding: 1.75rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+                        <div>
+                            <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.4rem;">
+                                <span class="badge badge-purple" id="warTargetStatus">🔥 PRIORITY TARGET</span>
+                                <span class="badge badge-success" id="warUrgency">🔴 Deadline Approaching</span>
+                            </div>
+                            <h1 style="font-size: 2.2rem; font-weight: 800; color: #fff; margin: 0 0 0.3rem 0;" id="warCompName">Zenvexa Technologies</h1>
+                            <div style="font-size: 1.1rem; color: var(--secondary); font-weight: 700;" id="warCompRole">Software Development Engineer</div>
+                        </div>
+
+                        <div style="text-align: right;">
+                            <div style="font-size: 0.8rem; color: var(--text-muted);">Package (CTC)</div>
+                            <div style="font-size: 1.8rem; font-weight: 800; color: #34d399;" id="warCompCtc">₹7.5 - 9.0 LPA</div>
+                            <div style="font-size: 0.85rem; color: var(--text-muted);" id="warCompMatch">Role Match: <strong>87%</strong></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SHOULD YOU APPLY? DECISION CARD -->
+                <div class="glass-card dash-card" style="margin-bottom: 1.5rem; background: linear-gradient(135deg, rgba(30, 27, 75, 0.7) 0%, rgba(15, 23, 42, 0.9) 100%); border: 1px solid rgba(167, 139, 250, 0.4);">
+                    <div class="card-title-row">
+                        <h3><i class="fa-solid fa-circle-question text-cyan"></i> SHOULD YOU APPLY?</h3>
+                        <span class="badge badge-success" id="applyDecisionBadge">YES — HIGH PRIORITY</span>
+                    </div>
+
+                    <div style="margin-top: 1rem;" id="applyDecisionReasons">
+                        <!-- Populated by JS -->
+                    </div>
+
+                    <div class="war-room-actions" style="display: flex; gap: 1rem; margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.08);">
+                        <button class="btn btn-primary btn-lg" onclick="applyFromWarRoom()"><i class="fa-solid fa-paper-plane"></i> APPLY NOW</button>
+                        <a href="/placement-practice/coding" class="btn btn-outline btn-lg"><i class="fa-solid fa-code"></i> START PREPARATION</a>
+                        <a href="/interview?company=Zenvexa Technologies" class="btn btn-secondary btn-lg"><i class="fa-solid fa-microphone"></i> MOCK INTERVIEW</a>
+                    </div>
+                </div>
+
+                <!-- WHY THIS COMPANY & WHAT TO PREPARE GRID -->
+                <div class="grid-2-col">
+                    <!-- WHY THIS COMPANY -->
+                    <div class="glass-card dash-card">
+                        <div class="card-title-row">
+                            <h3><i class="fa-solid fa-thumbs-up text-success"></i> WHY THIS COMPANY?</h3>
+                            <span class="badge badge-info">Strategic Advantages</span>
+                        </div>
+
+                        <div class="why-list" id="warWhyList" style="margin-top: 1rem; display: flex; flex-direction: column; gap: 0.6rem;">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- WHAT TO PREPARE (SKILL GAPS) -->
+                    <div class="glass-card dash-card">
+                        <div class="card-title-row">
+                            <h3><i class="fa-solid fa-layer-group text-warning"></i> WHAT TO PREPARE</h3>
+                            <span class="badge badge-accent">Skill Gap Breakdown</span>
+                        </div>
+
+                        <div class="skills-gap-list" id="warSkillsList" style="margin-top: 1rem; display: flex; flex-direction: column; gap: 0.6rem;">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ROUND-BY-ROUND PREPARATION TIMELINE -->
+                <div class="glass-card dash-card" style="margin-bottom: 1.5rem;">
+                    <div class="card-title-row">
+                        <h3><i class="fa-solid fa-timeline text-violet"></i> Round-by-Round Selection Timeline</h3>
+                        <span class="badge badge-purple">Selection Pipeline</span>
+                    </div>
+
+                    <div class="rounds-timeline-grid" id="warRoundsTimeline" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- COMPANY-SPECIFIC 7-DAY ADAPTIVE WAR PLAN -->
+                <div class="glass-card dash-card" style="margin-bottom: 1.5rem;">
+                    <div class="card-title-row">
+                        <h3><i class="fa-solid fa-shield-halved text-success"></i> Company-Specific 7-Day Adaptive War Plan</h3>
+                        <span class="badge badge-success">Weakness-Adaptive Schedule</span>
+                    </div>
+
+                    <div class="war-plan-grid" id="warPlanGrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/placement_strategy.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const compId = "{{ company_id }}";
+            loadCompanyWarRoomView(compId);
+        });
+    </script>
+</body>
+</html>

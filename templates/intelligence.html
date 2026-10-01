@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Career Intelligence — CareerForge AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='assets/careerforge-favicon.png') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/intelligence.css') }}">
+</head>
+<body class="dark-theme">
+    <div class="app-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="{{ url_for('static', filename='assets/careerforge-logo.png') }}" alt="CareerForge AI Logo" class="sidebar-logo-img" height="44" width="auto">
+                <span class="sidebar-brand-name">CareerForge<span style="color: var(--secondary);">.AI</span></span>
+            </div>
+            <nav class="sidebar-menu">
+                <a href="/career-agent" class="sidebar-link"><i class="fa-solid fa-robot" style="color: var(--secondary);"></i> <span>AI Career Agent</span></a>
+                <a href="/" class="sidebar-link"><i class="fa-solid fa-house"></i> <span>Overview</span></a>
+                <a href="/#formSection" class="sidebar-link"><i class="fa-solid fa-bullseye"></i> <span>Career Guide</span></a>
+                <a href="/#tabATS" class="sidebar-link"><i class="fa-solid fa-file-contract"></i> <span>Resume Analyzer</span></a>
+                <a href="/resume-builder" class="sidebar-link"><i class="fa-solid fa-file-signature"></i> <span>AI Resume Builder</span></a>
+                <a href="/intelligence" class="sidebar-link active"><i class="fa-solid fa-brain" style="color: var(--secondary);"></i> <span>Career Intelligence</span></a>
+                <a href="/#tabOverview" class="sidebar-link"><i class="fa-solid fa-layer-group"></i> <span>Skill Gaps</span></a>
+                <a href="/#tabRoadmap" class="sidebar-link"><i class="fa-solid fa-route"></i> <span>Roadmap</span></a>
+                <a href="/#tabPlan" class="sidebar-link"><i class="fa-solid fa-calendar-check"></i> <span>30-Day Plan</span></a>
+                <a href="/jobs" class="sidebar-link"><i class="fa-solid fa-briefcase"></i> <span>AI Job Matching</span></a>
+                <a href="/interview" class="sidebar-link"><i class="fa-solid fa-microphone"></i> <span>AI Interview</span></a>
+                <a href="/applications" class="sidebar-link"><i class="fa-solid fa-briefcase"></i> <span>Applications</span></a>
+                <a href="/progress" class="sidebar-link"><i class="fa-solid fa-chart-line"></i> <span>Progress</span></a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="sidebar-footer-btn" id="aiStatusBtn">
+                    <span><i class="fa-solid fa-brain" style="color: var(--secondary);"></i> Gemini Engine</span>
+                    <span class="ai-status-indicator"></span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="app-main">
+            <div class="main-content">
+                <!-- Page Header -->
+                <header class="intelligence-header">
+                    <div class="hero-badge"><i class="fa-solid fa-brain"></i> Autonomous Decision Engine</div>
+                    <h1 class="page-title">AI Career Intelligence</h1>
+                    <p class="page-subtitle">Your career decisions, powered by your actual technical progress & real-time readiness analysis.</p>
+                </header>
+
+                <!-- Hero Grid: Current Readiness & Next Best Action -->
+                <div class="intel-hero-grid">
+                    <!-- Readiness Level Card -->
+                    <div class="glass-card readiness-level-card">
+                        <div class="card-header-compact">
+                            <span class="card-tag"><i class="fa-solid fa-gauge-high"></i> Readiness Assessment</span>
+                            <span class="role-badge-tag" id="intelTargetRole">Python Backend Developer</span>
+                        </div>
+                        <div class="gauge-display-container">
+                            <div class="score-circle-large glow-pulse">
+                                <span class="score-number-hero" id="intelReadinessScore">72</span>
+                                <span class="score-percent">%</span>
+                            </div>
+                            <div class="readiness-meta">
+                                <div class="level-pill" id="intelReadinessLevel">INTERVIEW PREP</div>
+                                <p class="level-desc" id="intelLevelDesc">You are approaching interview readiness. Polish your technical screens.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Next Best Action Card -->
+                    <div class="glass-card next-action-card border-glow">
+                        <div class="card-header-compact">
+                            <span class="card-tag action-tag"><i class="fa-solid fa-bullseye"></i> Next Best Action</span>
+                            <span class="impact-badge" id="intelImpactBadge">+8 readiness points</span>
+                        </div>
+                        <h2 class="action-title" id="intelActionTitle">Master Docker Fundamentals</h2>
+                        <div class="action-why-box">
+                            <strong>Why this action?</strong>
+                            <p id="intelActionWhy">Docker is one of your highest-impact missing skills for Python Backend Developer. Mastering containerization directly improves your technical screening score.</p>
+                        </div>
+                        <div class="action-cta-wrapper">
+                            <a href="/#tabOverview" class="btn btn-primary btn-glow" id="intelActionBtn">
+                                <i class="fa-solid fa-rocket"></i> START THIS ACTION
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Intelligence Dashboard Grid -->
+                <div class="intel-dashboard-grid">
+                    <!-- Left Column: Breakdown & Simulator -->
+                    <div class="intel-col">
+                        <!-- Readiness Breakdown Card -->
+                        <div class="glass-card">
+                            <div class="card-title-wrap">
+                                <i class="fa-solid fa-sliders"></i>
+                                <h3>Career Readiness Breakdown</h3>
+                            </div>
+                            <p class="section-intro">Detailed evaluation across core placement readiness vectors:</p>
+                            
+                            <div class="breakdown-list" id="breakdownList">
+                                <!-- JS will populate progress bars -->
+                            </div>
+
+                            <div class="callout-grid">
+                                <div class="callout-box positive-callout">
+                                    <i class="fa-solid fa-shield-check"></i>
+                                    <div>
+                                        <div class="callout-label">Strongest Area</div>
+                                        <div class="callout-val" id="strongestAreaText">Your strongest area is Resume readiness.</div>
+                                    </div>
+                                </div>
+                                <div class="callout-box warning-callout">
+                                    <i class="fa-solid fa-triangle-exclamation"></i>
+                                    <div>
+                                        <div class="callout-label">Biggest Blocker</div>
+                                        <div class="callout-val" id="biggestBlockerText">Your biggest blocker is Interview readiness.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Readiness Simulator Card -->
+                        <div class="glass-card simulator-card">
+                            <div class="card-title-wrap">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                <h3>Readiness Simulator <span class="sub-pill">WHAT IF I IMPROVE?</span></h3>
+                            </div>
+                            <p class="section-intro">Simulate impact of completing recommended target actions:</p>
+
+                            <div class="sim-comparison">
+                                <div class="sim-stat-box">
+                                    <span class="sim-label">Current Readiness</span>
+                                    <span class="sim-score current" id="simCurrentScore">72%</span>
+                                </div>
+                                <div class="sim-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                                <div class="sim-stat-box">
+                                    <span class="sim-label">Potential Readiness</span>
+                                    <span class="sim-score potential glow-text" id="simPotentialScore">89%</span>
+                                </div>
+                            </div>
+
+                            <div class="sim-boost-list" id="simBoostList">
+                                <!-- JS will populate boost rows -->
+                            </div>
+                        </div>
+
+                        <!-- AI Insights Card -->
+                        <div class="glass-card">
+                            <div class="card-title-wrap">
+                                <i class="fa-solid fa-lightbulb"></i>
+                                <h3>AI Career Insights</h3>
+                            </div>
+                            <div class="insights-list" id="insightsList">
+                                <!-- JS will populate insights -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Journey & Weekly Review -->
+                    <div class="intel-col">
+                        <!-- Milestones Journey Card -->
+                        <div class="glass-card">
+                            <div class="card-title-wrap">
+                                <i class="fa-solid fa-route"></i>
+                                <h3>Career Journey Milestones</h3>
+                            </div>
+                            <div class="milestones-timeline" id="milestonesTimeline">
+                                <!-- JS will populate milestones -->
+                            </div>
+                        </div>
+
+                        <!-- Weekly Review Card -->
+                        <div class="glass-card week-review-card">
+                            <div class="card-title-wrap">
+                                <i class="fa-solid fa-calendar-week"></i>
+                                <h3>Your Week in Review</h3>
+                            </div>
+                            
+                            <div class="week-stats-grid" id="weekStatsGrid">
+                                <div class="week-stat-tile">
+                                    <span class="stat-num" id="statSkills">+2</span>
+                                    <span class="stat-lbl">Skills Improved</span>
+                                </div>
+                                <div class="week-stat-tile">
+                                    <span class="stat-num" id="statInterview">3</span>
+                                    <span class="stat-lbl">Interview Sessions</span>
+                                </div>
+                                <div class="week-stat-tile">
+                                    <span class="stat-num" id="statApps">5</span>
+                                    <span class="stat-lbl">Applications</span>
+                                </div>
+                                <div class="week-stat-tile">
+                                    <span class="stat-num" id="statATS">68 → 76</span>
+                                    <span class="stat-lbl">Resume ATS</span>
+                                </div>
+                                <div class="week-stat-tile">
+                                    <span class="stat-num" id="statReadiness">61 → 67</span>
+                                    <span class="stat-lbl">Readiness Score</span>
+                                </div>
+                                <div class="week-stat-tile">
+                                    <span class="stat-num" id="statTasks">12 / 15</span>
+                                    <span class="stat-lbl">Tasks Done</span>
+                                </div>
+                            </div>
+
+                            <div class="next-week-priorities-box">
+                                <h4><i class="fa-solid fa-list-check"></i> Next Week's Priorities</h4>
+                                <ol class="priority-list" id="priorityList">
+                                    <!-- JS will populate priorities -->
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/intelligence.js') }}"></script>
+</body>
+</html>

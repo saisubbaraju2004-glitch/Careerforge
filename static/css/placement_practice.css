@@ -1,0 +1,75 @@
+/* ==========================================================================
+   CareerForge AI V9 — Placement Practice Arena Stylesheet
+   ========================================================================== */
+
+.arena-tab-group {
+    display: flex;
+    gap: 0.5rem;
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 0.25rem;
+}
+
+.arena-tab-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0.45rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.arena-tab-btn.active, .arena-tab-btn:hover {
+    background: var(--secondary);
+    color: #ffffff;
+}
+
+/* Arena View */
+.arena-card {
+    padding: 1.75rem;
+}
+
+.arena-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.timer-display {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.q-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.5;
+}
+
+/* Options Selector */
+.option-btn {
+    background: rgba(15, 23, 42, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 0.85rem 1.25rem;
+    color: #e2e8f0;
+    font-size: 0.95rem;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.option-btn:hover, .option-btn.selected {
+    background: rgba(167, 139, 250, 0.15);
+    border-color: var(--secondary);
+    color: #ffffff;
+}

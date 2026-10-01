@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ "Create account" if mode == "register" else "Sign in" }} | CareerForge AI</title>
+    <style>
+        :root { color-scheme: dark; font-family: Inter, system-ui, sans-serif; background: #0b1220; color: #e2e8f0; }
+        body { min-height: 100vh; margin: 0; display: grid; place-items: center; }
+        main { box-sizing: border-box; width: min(92vw, 420px); padding: 2rem; border: 1px solid #263449; border-radius: 16px; background: #111c2e; }
+        h1 { margin: 0 0 .5rem; color: #fff; font-size: 1.7rem; }
+        p { color: #94a3b8; line-height: 1.5; }
+        label { display: block; margin: 1rem 0 .4rem; }
+        input { box-sizing: border-box; width: 100%; padding: .8rem; border: 1px solid #334155; border-radius: 8px; background: #0b1220; color: #fff; }
+        button { width: 100%; margin-top: 1.3rem; padding: .85rem; border: 0; border-radius: 8px; background: #4f46e5; color: #fff; font-weight: 700; cursor: pointer; }
+        a { color: #a5b4fc; }
+        .error { padding: .7rem; border-radius: 8px; background: #7f1d1d; color: #fee2e2; }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>{{ "Create your account" if mode == "register" else "Welcome back" }}</h1>
+        <p>Your CareerForge data is private to your account and stored persistently.</p>
+        {% if error %}<p class="error" role="alert">{{ error }}</p>{% endif %}
+        <form method="post" action="{{ url_for('auth.' + mode, next=next_url) }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+            <input type="hidden" name="next" value="{{ next_url }}">
+            <label for="username">Username</label>
+            <input id="username" name="username" autocomplete="username" required minlength="3" maxlength="64">
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" autocomplete="{{ 'new-password' if mode == 'register' else 'current-password' }}" required minlength="{{ 12 if mode == 'register' else 1 }}" maxlength="256">
+            <button type="submit">{{ "Create account" if mode == "register" else "Sign in" }}</button>
+        </form>
+        <p>
+            {% if mode == "register" %}
+                Already registered? <a href="{{ url_for('auth.login') }}">Sign in</a>
+            {% else %}
+                New to CareerForge? <a href="{{ url_for('auth.register') }}">Create an account</a>
+            {% endif %}
+        </p>
+    </main>
+</body>
+</html>

@@ -1,0 +1,42 @@
+{
+  "Python": {
+    "documentation": "https://docs.python.org/3/",
+    "tutorial": "https://realpython.com/",
+    "practice": "https://leetcode.com/problemset/all/"
+  },
+  "Flask": {
+    "documentation": "https://flask.palletsprojects.com/",
+    "tutorial": "https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world",
+    "practice": "https://github.com/pallets/flask"
+  },
+  "REST APIs": {
+    "documentation": "https://restfulapi.net/",
+    "tutorial": "https://developer.mozilla.org/en-US/docs/Glossary/REST",
+    "practice": "https://postman.com"
+  },
+  "SQL": {
+    "documentation": "https://www.postgresql.org/docs/",
+    "tutorial": "https://mode.com/sql-tutorial/",
+    "practice": "https://sqlbolt.com/"
+  },
+  "PostgreSQL": {
+    "documentation": "https://www.postgresql.org/docs/",
+    "tutorial": "https://www.postgresqltutorial.com/",
+    "practice": "https://pg-tutorial.com/"
+  },
+  "Docker": {
+    "documentation": "https://docs.docker.com/",
+    "tutorial": "https://docker-curriculum.com/",
+    "practice": "https://labs.play-with-docker.com/"
+  },
+  "Testing": {
+    "documentation": "https://docs.pytest.org/",
+    "tutorial": "https://realpython.com/pytest-python-testing/",
+    "practice": "https://github.com/pytest-dev/pytest"
+  },
+  "Git": {
+    "documentation": "https://git-scm.com/doc",
+    "tutorial": "https://git-fork.com",
+    "practice": "https://learngitbranching.js.org/"
+  }
+}

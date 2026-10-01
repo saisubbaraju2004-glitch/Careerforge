@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Interview Intelligence — CareerForge AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='assets/careerforge-favicon.png') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/interview_intelligence.css') }}">
+</head>
+<body class="dark-theme">
+    <div class="app-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="{{ url_for('static', filename='assets/careerforge-logo.png') }}" alt="CareerForge AI Logo" class="sidebar-logo-img" height="44" width="auto">
+                <span class="sidebar-brand-name">CareerForge<span style="color: var(--secondary);">.AI</span></span>
+            </div>
+            <nav class="sidebar-menu">
+                <a href="/" class="sidebar-link"><i class="fa-solid fa-house"></i> <span>Overview</span></a>
+                <a href="/career-agent" class="sidebar-link"><i class="fa-solid fa-robot" style="color: var(--secondary);"></i> <span>AI Career Agent</span></a>
+                <a href="/placements" class="sidebar-link"><i class="fa-solid fa-graduation-cap" style="color: var(--cyan);"></i> <span>Placement Command</span></a>
+                <a href="/placement-strategy" class="sidebar-link"><i class="fa-solid fa-bullseye" style="color: var(--secondary);"></i> <span>Placement Strategy</span></a>
+                <a href="/job-match" class="sidebar-link"><i class="fa-solid fa-microchip" style="color: var(--accent);"></i> <span>AI Job Matching</span></a>
+                <a href="/interview-intelligence" class="sidebar-link active"><i class="fa-solid fa-brain" style="color: var(--purple, #a855f7);"></i> <span>Interview Intelligence</span></a>
+                <a href="/resume-builder" class="sidebar-link"><i class="fa-solid fa-file-signature"></i> <span>Resume Builder</span></a>
+                <a href="/jobs" class="sidebar-link"><i class="fa-solid fa-briefcase"></i> <span>Jobs</span></a>
+                <a href="/applications" class="sidebar-link"><i class="fa-solid fa-paper-plane"></i> <span>Applications</span></a>
+                <a href="/progress" class="sidebar-link"><i class="fa-solid fa-chart-line"></i> <span>Progress</span></a>
+                <a href="/intelligence" class="sidebar-link"><i class="fa-solid fa-brain"></i> <span>Intelligence</span></a>
+            </nav>
+        </aside>
+
+        <main class="app-main">
+            <div class="main-content">
+                <div class="card-title-row" style="margin-bottom: 1.5rem;">
+                    <div>
+                        <h1 class="hero-title" style="font-size: 2.2rem; margin-bottom: 0.3rem;">AI Interview <span class="text-gradient">Intelligence</span></h1>
+                        <p style="color: var(--text-muted); font-size: 0.95rem; margin: 0;">Multi-dimensional performance breakdown, real-time STAR detection & 7-day improvement plans.</p>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary" onclick="startNewSessionModal()">
+                            <i class="fa-solid fa-play"></i> Start Adaptive Interview
+                        </button>
+                    </div>
+                </div>
+
+                <!-- PERFORMANCE DASHBOARD CARDS -->
+                <div class="glass-card strategy-hero-card" style="margin-bottom: 1.5rem;">
+                    <div class="card-title-row" style="margin-bottom: 1rem;">
+                        <span class="badge badge-purple"><i class="fa-solid fa-shield-halved"></i> INTERVIEW READINESS EVALUATION</span>
+                        <span class="badge badge-purple" id="intelReadinessBadge">ALMOST READY</span>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem;">
+                        <div>
+                            <h2 style="font-size: 1.8rem; font-weight: 800; color: #fff; margin: 0 0 0.4rem 0;" id="intelOverallScore">82 / 100</h2>
+                            <p style="color: var(--text-muted); font-size: 0.95rem; margin: 0;">Overall Candidate Performance Across 8 Evaluation Dimensions</p>
+                        </div>
+                    </div>
+
+                    <div class="intel-metrics-grid" style="margin-top: 1.25rem;">
+                        <div class="intel-metric-card"><span class="metric-val" id="scoreTech">84%</span><span class="metric-lbl">Technical</span></div>
+                        <div class="intel-metric-card"><span class="metric-val" id="scoreComm">80%</span><span class="metric-lbl">Communication</span></div>
+                        <div class="intel-metric-card"><span class="metric-val" id="scoreConf">78%</span><span class="metric-lbl">Confidence</span></div>
+                        <div class="intel-metric-card"><span class="metric-val" id="scorePS">85%</span><span class="metric-lbl">Problem Solving</span></div>
+                        <div class="intel-metric-card"><span class="metric-val" id="scoreHR">82%</span><span class="metric-lbl">HR / Behavioral</span></div>
+                        <div class="intel-metric-card"><span class="metric-val" id="scoreProj">84%</span><span class="metric-lbl">Project Exp</span></div>
+                    </div>
+                </div>
+
+                <!-- LIVE INTERVIEW SIMULATOR CARD -->
+                <div class="glass-card dash-card" style="margin-bottom: 1.5rem;" id="simCard">
+                    <div class="card-title-row">
+                        <div>
+                            <h3><i class="fa-solid fa-microphone text-secondary"></i> Interactive AI Interview Simulator</h3>
+                            <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0.2rem 0 0 0;" id="simMeta">Target: Python Backend Developer @ TechForge Solutions</p>
+                        </div>
+                    </div>
+
+                    <div class="sim-question-box" style="margin-top: 1rem;" id="simQuestionText">
+                        Click "Start Adaptive Interview" to begin your AI evaluation session.
+                    </div>
+
+                    <div style="margin-top: 1rem;">
+                        <label class="form-label">Your Response</label>
+                        <textarea id="userAnswerInput" class="form-textarea" rows="4" placeholder="Type your answer here using concrete examples (STAR method)..."></textarea>
+                    </div>
+
+                    <div style="margin-top: 1rem; text-align: right;">
+                        <button class="btn btn-primary" onclick="submitAnswerForAnalysis()">
+                            <i class="fa-solid fa-paper-plane"></i> Submit Answer for Analysis
+                        </button>
+                    </div>
+
+                    <!-- AI Answer Analysis Feedback Box -->
+                    <div class="answer-analysis-box" id="analysisFeedbackBox" style="display: none; margin-top: 1.5rem;">
+                        <h4 style="color: #fff; margin-bottom: 0.75rem;"><i class="fa-solid fa-wand-magic-sparkles text-accent"></i> AI Answer Analysis Breakdown</h4>
+                        <div class="analysis-grid">
+                            <div class="analysis-item good"><strong style="color: #10b981;">What Was Good:</strong> <span id="anaGood"></span></div>
+                            <div class="analysis-item missing"><strong style="color: #f59e0b;">What Was Missing:</strong> <span id="anaMissing"></span></div>
+                        </div>
+                        <div style="margin-top: 0.75rem; background: rgba(15,23,42,0.6); padding: 0.75rem; border-radius: 8px;">
+                            <strong style="color: var(--accent);">Improved Structure Suggestion:</strong>
+                            <p style="margin: 0.3rem 0 0 0; color: #f8fafc; font-size: 0.9rem;" id="anaImproved"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 7-DAY IMPROVEMENT PLAN -->
+                <div class="glass-card dash-card">
+                    <div class="card-title-row">
+                        <div>
+                            <h3><i class="fa-solid fa-calendar-days text-cyan"></i> 7-Day Interview Improvement Plan</h3>
+                        </div>
+                    </div>
+
+                    <div class="seven-day-grid" id="sevenDayPlanGrid" style="margin-top: 1rem;">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/interview_intelligence.js') }}"></script>
+</body>
+</html>

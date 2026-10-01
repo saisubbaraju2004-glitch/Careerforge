@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Detail — CareerForge AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='assets/careerforge-favicon.png') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/application_intelligence.css') }}">
+</head>
+<body class="dark-theme">
+    <div class="app-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="{{ url_for('static', filename='assets/careerforge-logo.png') }}" alt="CareerForge AI Logo" class="sidebar-logo-img" height="44" width="auto">
+                <span class="sidebar-brand-name">CareerForge<span style="color: var(--secondary);">.AI</span></span>
+            </div>
+            <nav class="sidebar-menu">
+                <a href="/" class="sidebar-link"><i class="fa-solid fa-house"></i> <span>Overview</span></a>
+                <a href="/#formSection" class="sidebar-link"><i class="fa-solid fa-bullseye"></i> <span>Career Guide</span></a>
+                <a href="/#tabATS" class="sidebar-link"><i class="fa-solid fa-file-contract"></i> <span>Resume Analyzer</span></a>
+                <a href="/resume-builder" class="sidebar-link"><i class="fa-solid fa-file-signature"></i> <span>AI Resume Builder</span></a>
+                <a href="/#tabOverview" class="sidebar-link"><i class="fa-solid fa-layer-group"></i> <span>Skill Gaps</span></a>
+                <a href="/#tabRoadmap" class="sidebar-link"><i class="fa-solid fa-route"></i> <span>Roadmap</span></a>
+                <a href="/#tabPlan" class="sidebar-link"><i class="fa-solid fa-calendar-check"></i> <span>30-Day Plan</span></a>
+                <a href="/interview" class="sidebar-link"><i class="fa-solid fa-microphone"></i> <span>AI Interview</span></a>
+                <a href="/intelligence" class="sidebar-link"><i class="fa-solid fa-brain" style="color: var(--secondary);"></i> <span>Career Intelligence</span></a>
+                <a href="/jobs" class="sidebar-link"><i class="fa-solid fa-briefcase"></i> <span>AI Job Matching</span></a>
+                <a href="/applications" class="sidebar-link active"><i class="fa-solid fa-briefcase"></i> <span>Applications</span></a>
+                <a href="/progress" class="sidebar-link"><i class="fa-solid fa-chart-line"></i> <span>Progress</span></a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="sidebar-footer-btn" id="aiStatusBtn">
+                    <span><i class="fa-solid fa-brain" style="color: var(--secondary);"></i> Gemini Engine</span>
+                    <span class="ai-status-indicator"></span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="app-main">
+            <div class="main-content">
+                <!-- Page Header -->
+                <header class="app-detail-header">
+                    <a href="/applications" class="btn btn-secondary btn-sm" style="margin-bottom: 0.75rem;"><i class="fa-solid fa-arrow-left"></i> Back to Command Center</a>
+                    <h1 class="page-title" id="detailCompanyTitle">Company Name — Role</h1>
+                    <p class="page-subtitle">Track events, follow-ups, and resume matching performance for this application.</p>
+                </header>
+
+                <!-- Detail Content Layout -->
+                <div class="app-detail-grid">
+                    <!-- Left Column: Info & Actions -->
+                    <div class="detail-col">
+                        <div class="glass-card">
+                            <div class="card-title-wrap">
+                                <i class="fa-solid fa-building"></i>
+                                <h3>Job & Application Information</h3>
+                            </div>
+                            <div class="info-table-grid">
+                                <div class="info-row"><span class="lbl">Company:</span><span class="val" id="detCompany">TechForge Solutions</span></div>
+                                <div class="info-row"><span class="lbl">Role:</span><span class="val" id="detRole">Python Backend Developer</span></div>
+                                <div class="info-row"><span class="lbl">Location:</span><span class="val" id="detLocation">Bengaluru (Hybrid)</span></div>
+                                <div class="info-row"><span class="lbl">Applied Date:</span><span class="val" id="detAppliedDate">30 Sep 2026</span></div>
+                                <div class="info-row"><span class="lbl">Current Status:</span><span class="val highlight-cyan" id="detStatus">Applied</span></div>
+                                <div class="info-row"><span class="lbl">Resume Used:</span><span class="val" id="detResume">Python Backend Resume v2</span></div>
+                                <div class="info-row"><span class="lbl">Job Match:</span><span class="val highlight-purple" id="detMatch">87%</span></div>
+                                <div class="info-row"><span class="lbl">ATS Estimate:</span><span class="val" id="detATS">84%</span></div>
+                            </div>
+
+                            <div class="detail-actions-bar">
+                                <a href="/resume-builder" class="btn btn-secondary btn-sm" id="btnViewResume"><i class="fa-solid fa-file-signature"></i> VIEW RESUME</a>
+                                <a href="/interview" class="btn btn-secondary btn-sm" id="btnPracticeInterview"><i class="fa-solid fa-microphone"></i> PRACTICE INTERVIEW</a>
+                                <a href="/jobs" class="btn btn-secondary btn-sm" id="btnViewMatch"><i class="fa-solid fa-bullseye"></i> VIEW MATCH</a>
+                            </div>
+                        </div>
+
+                        <!-- Follow-up Intelligence Box -->
+                        <div class="glass-card follow-up-intel-box">
+                            <h4><i class="fa-solid fa-paper-plane" style="color: var(--secondary);"></i> FOLLOW-UP INTELLIGENCE</h4>
+                            <p id="followupDesc">Application sitting in Applied status for 7 days. Sending a polite follow-up is recommended.</p>
+                            <button type="button" class="btn btn-primary btn-glow" id="btnGenFollowup"><i class="fa-solid fa-wand-magic-sparkles"></i> GENERATE FOLLOW-UP MESSAGE</button>
+                            
+                            <div class="followup-msg-preview" id="followupMsgPreview" style="display: none; margin-top: 1rem;">
+                                <textarea id="followupMsgText" class="form-control" rows="6"></textarea>
+                                <button type="button" class="btn btn-secondary btn-sm" id="btnCopyFollowup" style="margin-top: 0.5rem;"><i class="fa-solid fa-copy"></i> Copy to Clipboard</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Timeline & Log -->
+                    <div class="detail-col">
+                        <div class="glass-card">
+                            <div class="card-title-wrap">
+                                <i class="fa-solid fa-timeline"></i>
+                                <h3>Application Event Timeline</h3>
+                            </div>
+
+                            <div class="timeline-wrapper" id="timelineWrapper">
+                                <!-- JS populates timeline events -->
+                            </div>
+
+                            <div class="add-event-box">
+                                <h4>Add Timeline Event</h4>
+                                <div class="grid-2">
+                                    <input type="text" id="evDate" class="form-control" placeholder="Date (e.g. 05 Oct)">
+                                    <select id="evType" class="form-control">
+                                        <option value="Applied">Applied</option>
+                                        <option value="Assessment">Assessment</option>
+                                        <option value="Interview">Interview</option>
+                                        <option value="Follow-up">Follow-up</option>
+                                        <option value="Offer">Offer</option>
+                                        <option value="Rejected">Rejected</option>
+                                    </select>
+                                </div>
+                                <input type="text" id="evNotes" class="form-control" placeholder="Notes / details..." style="margin-top:0.5rem;">
+                                <button type="button" class="btn btn-secondary btn-sm" id="btnAddEv" style="margin-top:0.5rem;"><i class="fa-solid fa-plus"></i> Add Event</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const appId = "{{ app_id }}";
+            let apps = JSON.parse(localStorage.getItem('careerforge_applications') || '[]');
+            let app = apps.find(a => a.id === appId) || apps[0] || {
+                id: appId,
+                company: "TechForge Solutions",
+                role: "Python Backend Developer",
+                location: "Bengaluru",
+                status: "Applied",
+                applied_date: "30 Sep 2026",
+                match_score: 87,
+                ats_score: 84,
+                resume_version: "Python Backend Resume v2",
+                timeline: [
+                    { date: "30 Sep", type: "Applied", notes: "Submitted via CareerForge AI Job Match" }
+                ]
+            };
+
+            document.getElementById('detailCompanyTitle').textContent = `${app.company} — ${app.role}`;
+            document.getElementById('detCompany').textContent = app.company;
+            document.getElementById('detRole').textContent = app.role;
+            document.getElementById('detLocation').textContent = app.location || 'Bengaluru';
+            document.getElementById('detAppliedDate').textContent = app.applied_date || '30 Sep 2026';
+            document.getElementById('detStatus').textContent = app.status || 'Applied';
+            document.getElementById('detResume').textContent = app.resume_version || 'Python Backend Resume v2';
+            document.getElementById('detMatch').textContent = `${app.match_score || 87}%`;
+            document.getElementById('detATS').textContent = `${app.ats_score || 84}%`;
+
+            renderTimeline(app.timeline || []);
+
+            document.getElementById('btnGenFollowup').addEventListener('click', function() {
+                fetch('/api/applications/follow-up', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ company: app.company, role: app.role, days_since_application: 7, status: app.status })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success && data.data && data.data.message) {
+                        document.getElementById('followupMsgText').value = data.data.message;
+                        document.getElementById('followupMsgPreview').style.display = 'block';
+                    }
+                });
+            });
+
+            document.getElementById('btnCopyFollowup').addEventListener('click', function() {
+                const txt = document.getElementById('followupMsgText');
+                txt.select();
+                navigator.clipboard.writeText(txt.value);
+                alert("Follow-up message copied to clipboard!");
+            });
+
+            document.getElementById('btnAddEv').addEventListener('click', function() {
+                const date = document.getElementById('evDate').value || 'Today';
+                const type = document.getElementById('evType').value;
+                const notes = document.getElementById('evNotes').value || 'Updated status';
+                
+                app.timeline = app.timeline || [];
+                app.timeline.push({ date: date, type: type, notes: notes });
+                app.status = type;
+                
+                const idx = apps.findIndex(a => a.id === app.id);
+                if (idx !== -1) { apps[idx] = app; } else { apps.push(app); }
+                localStorage.setItem('careerforge_applications', JSON.stringify(apps));
+                
+                renderTimeline(app.timeline);
+                document.getElementById('detStatus').textContent = type;
+            });
+        });
+
+        function renderTimeline(timeline) {
+            const wrapper = document.getElementById('timelineWrapper');
+            if (!wrapper) return;
+            wrapper.innerHTML = '';
+            timeline.forEach(t => {
+                const div = document.createElement('div');
+                div.className = 'timeline-event-item';
+                div.innerHTML = `
+                    <span class="ev-date">${t.date}</span>
+                    <strong class="ev-type">${t.type}</strong>
+                    <span class="ev-notes">${t.notes}</span>
+                `;
+                wrapper.appendChild(div);
+            });
+        }
+    </script>
+</body>
+</html>

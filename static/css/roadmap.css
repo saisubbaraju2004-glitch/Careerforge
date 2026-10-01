@@ -1,0 +1,121 @@
+/* Roadmap Flowchart Nodes */
+.roadmap-nodes-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 2rem 1rem;
+    position: relative;
+}
+
+.roadmap-node-card {
+    width: 100%;
+    max-width: 520px;
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    transition: var(--transition);
+    z-index: 2;
+}
+
+.roadmap-node-card::after {
+    content: '';
+    position: absolute;
+    bottom: -1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 1.5rem;
+    background: var(--border-color);
+    z-index: 1;
+}
+
+.roadmap-node-card:last-child::after {
+    display: none;
+}
+
+.roadmap-node-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--secondary);
+    box-shadow: 0 4px 20px rgba(6, 182, 212, 0.2);
+}
+
+.roadmap-node-card.know {
+    border-left: 5px solid var(--success);
+}
+
+.roadmap-node-card.improving {
+    border-left: 5px solid var(--warning);
+}
+
+.roadmap-node-card.missing {
+    border-left: 5px solid var(--danger);
+}
+
+.node-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.node-number {
+    font-family: var(--font-mono);
+    font-weight: 800;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.05);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.node-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+.node-status-pill {
+    padding: 0.25rem 0.65rem;
+    border-radius: var(--radius-full);
+    font-size: 0.78rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.node-status-pill.know { background: rgba(34, 197, 94, 0.2); color: #4ADE80; }
+.node-status-pill.improving { background: rgba(245, 158, 11, 0.2); color: #FBBF24; }
+.node-status-pill.missing { background: rgba(239, 68, 68, 0.2); color: #FCA5A5; }
+
+/* Legend */
+.roadmap-legend {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.8rem;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--text-muted);
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.dot-green { background: var(--success); }
+.dot-amber { background: var(--warning); }
+.dot-red { background: var(--danger); }

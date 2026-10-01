@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Interview Intelligence — CareerForge AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='assets/careerforge-favicon.png') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/interview.css') }}">
+</head>
+<body class="dark-theme">
+    <div class="app-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="{{ url_for('static', filename='assets/careerforge-logo.png') }}" alt="CareerForge AI Logo" class="sidebar-logo-img" height="44" width="auto">
+                <span class="sidebar-brand-name">CareerForge<span style="color: var(--secondary);">.AI</span></span>
+            </div>
+            <nav class="sidebar-menu">
+                <a href="/career-agent" class="sidebar-link"><i class="fa-solid fa-robot" style="color: var(--secondary);"></i> <span>AI Career Agent</span></a>
+                <a href="/" class="sidebar-link"><i class="fa-solid fa-house"></i> <span>Overview</span></a>
+                <a href="/#formSection" class="sidebar-link"><i class="fa-solid fa-bullseye"></i> <span>Career Guide</span></a>
+                <a href="/#tabATS" class="sidebar-link"><i class="fa-solid fa-file-contract"></i> <span>Resume Analyzer</span></a>
+                <a href="/resume-builder" class="sidebar-link"><i class="fa-solid fa-file-signature"></i> <span>AI Resume Builder</span></a>
+                <a href="/intelligence" class="sidebar-link"><i class="fa-solid fa-brain" style="color: var(--secondary);"></i> <span>Career Intelligence</span></a>
+                <a href="/#tabOverview" class="sidebar-link"><i class="fa-solid fa-layer-group"></i> <span>Skill Gaps</span></a>
+                <a href="/#tabRoadmap" class="sidebar-link"><i class="fa-solid fa-route"></i> <span>Roadmap</span></a>
+                <a href="/#tabPlan" class="sidebar-link"><i class="fa-solid fa-calendar-check"></i> <span>30-Day Plan</span></a>
+                <a href="/jobs" class="sidebar-link"><i class="fa-solid fa-briefcase"></i> <span>AI Job Matching</span></a>
+                <a href="/interview" class="sidebar-link active"><i class="fa-solid fa-microphone"></i> <span>AI Interview</span></a>
+                <a href="/applications" class="sidebar-link"><i class="fa-solid fa-briefcase"></i> <span>Applications</span></a>
+                <a href="/progress" class="sidebar-link"><i class="fa-solid fa-chart-line"></i> <span>Progress</span></a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="sidebar-footer-btn" id="aiStatusBtn">
+                    <span><i class="fa-solid fa-brain" style="color: var(--secondary);"></i> Gemini Engine</span>
+                    <span class="ai-status-indicator"></span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="app-main">
+            <div class="main-content">
+                <!-- Page Header -->
+                <header class="interview-header">
+                    <div class="hero-badge"><i class="fa-solid fa-microphone-lines"></i> Job-Specific Evaluation Engine</div>
+                    <h1 class="page-title">AI Interview Intelligence</h1>
+                    <p class="page-subtitle">Practice live technical & HR questions tailored to target jobs and your actual resume experience.</p>
+                </header>
+
+                <!-- Target Job Header Banner (Loaded dynamically when job_id present) -->
+                <div class="job-target-banner glass-card" id="jobTargetBanner" style="display: none;">
+                    <div class="target-meta-tile">
+                        <span class="metric-lbl">INTERVIEWING FOR</span>
+                        <span class="metric-val" id="targetJobTitle">Python Backend Developer</span>
+                        <span class="text-muted" id="targetJobCompany">TechForge Solutions</span>
+                    </div>
+                    <div class="summary-metric-divider"></div>
+                    <div class="target-meta-tile">
+                        <span class="metric-lbl">TARGET JOB MATCH</span>
+                        <span class="metric-val highlight-cyan" id="targetJobMatch">83%</span>
+                    </div>
+                    <div class="summary-metric-divider"></div>
+                    <div class="target-meta-tile">
+                        <span class="metric-lbl">RESUME ATS SCORE</span>
+                        <span class="metric-val highlight-purple" id="targetResumeAts">84%</span>
+                    </div>
+                    <div class="summary-metric-divider"></div>
+                    <div class="target-meta-tile">
+                        <span class="data-tag-pill"><i class="fa-solid fa-bullseye"></i> Job-Specific Mode</span>
+                    </div>
+                </div>
+
+                <!-- Setup / Configuration Card -->
+                <div class="glass-card setup-card" id="setupCard">
+                    <div class="card-title-wrap">
+                        <i class="fa-solid fa-sliders"></i>
+                        <h3>Configure Interview Session</h3>
+                    </div>
+                    
+                    <div class="setup-grid">
+                        <div class="form-group">
+                            <label>Interview Target</label>
+                            <select id="selectTarget" class="filter-select">
+                                <option value="role">My Target Role</option>
+                                <option value="job" id="optSelectJob">Selected Target Job</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Interview Type</label>
+                            <select id="selectType" class="filter-select">
+                                <option value="Job-Specific">Job-Specific & Resume-Aware</option>
+                                <option value="Technical">Technical Deep-Dive</option>
+                                <option value="HR">HR & Behavioral</option>
+                                <option value="Project-Based">Project Architecture</option>
+                                <option value="Mixed">Mixed Comprehensive</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Difficulty Level</label>
+                            <select id="selectDifficulty" class="filter-select">
+                                <option value="Beginner">Beginner</option>
+                                <option value="Intermediate" selected>Intermediate</option>
+                                <option value="Advanced">Advanced</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Question Count</label>
+                            <select id="selectCount" class="filter-select">
+                                <option value="5" selected>5 Questions</option>
+                                <option value="10">10 Questions</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 1.25rem;">
+                        <button type="button" class="btn btn-primary btn-glow" id="btnStartInterview" style="width: 100%; justify-content: center; padding: 0.85rem;">
+                            <i class="fa-solid fa-play"></i> START INTERVIEW SESSION
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Live Interview Screen -->
+                <div class="glass-card live-interview-card" id="liveInterviewCard" style="display: none;">
+                    <!-- Question Header & Progress -->
+                    <div class="question-header">
+                        <div class="question-meta-bar">
+                            <span class="question-counter" id="qCounter">QUESTION 1 / 5</span>
+                            <div class="question-badges">
+                                <span class="q-badge category" id="qCategory">Python</span>
+                                <span class="q-badge difficulty" id="qDifficulty">Intermediate</span>
+                                <span class="q-badge skill" id="qSkill">FastAPI</span>
+                            </div>
+                        </div>
+                        <div class="timer-box">
+                            <i class="fa-solid fa-clock"></i> <span id="timerDisplay">00:00</span>
+                        </div>
+                    </div>
+
+                    <div class="progress-track" style="margin: 0.75rem 0 1.25rem 0;">
+                        <div class="progress-fill" id="qProgressFill" style="width: 20%;"></div>
+                    </div>
+
+                    <!-- Question Prompt Box -->
+                    <div class="question-prompt-box">
+                        <h2 id="questionText">Loading interview question...</h2>
+                    </div>
+
+                    <!-- Answer Input Area -->
+                    <div class="answer-input-box">
+                        <label><i class="fa-solid fa-keyboard"></i> Your Answer:</label>
+                        <textarea id="answerInput" class="form-control" rows="5" placeholder="Type your detailed response using standard technical terms, execution steps, and practical examples..."></textarea>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="interview-action-buttons">
+                        <button type="button" class="btn btn-secondary" id="btnSkipQuestion"><i class="fa-solid fa-forward"></i> SKIP</button>
+                        <button type="button" class="btn btn-primary btn-glow" id="btnSubmitAnswer"><i class="fa-solid fa-paper-plane"></i> SUBMIT ANSWER</button>
+                    </div>
+
+                    <!-- Per-Answer Evaluation Drawer -->
+                    <div class="evaluation-drawer" id="evalDrawer" style="display: none;">
+                        <div class="eval-header">
+                            <div class="eval-score-ring glow-pulse">
+                                <span id="evalScoreNum">82</span>%
+                            </div>
+                            <div>
+                                <h3 style="margin: 0; color: #ffffff;">Answer Evaluation</h3>
+                                <p class="text-muted" style="margin: 0; font-size: 0.85rem;" id="evalCategoryLabel">Category: Technical Accuracy</p>
+                            </div>
+                        </div>
+
+                        <div class="eval-metrics-grid">
+                            <div class="eval-metric-tile"><span class="lbl">Technical</span><span class="val" id="evalTech">82%</span></div>
+                            <div class="eval-metric-tile"><span class="lbl">Communication</span><span class="val" id="evalComm">74%</span></div>
+                            <div class="eval-metric-tile"><span class="lbl">Relevance</span><span class="val" id="evalRel">91%</span></div>
+                            <div class="eval-metric-tile"><span class="lbl">Completeness</span><span class="val" id="evalComp">68%</span></div>
+                        </div>
+
+                        <div class="eval-feedback-grid">
+                            <div class="eval-box positive">
+                                <h4><i class="fa-solid fa-circle-check"></i> STRENGTHS</h4>
+                                <ul id="evalStrengths"></ul>
+                            </div>
+                            <div class="eval-box warning">
+                                <h4><i class="fa-solid fa-triangle-exclamation"></i> AREAS TO IMPROVE</h4>
+                                <ul id="evalWeaknesses"></ul>
+                            </div>
+                        </div>
+
+                        <div class="eval-box model-answer-box">
+                            <h4><i class="fa-solid fa-wand-magic-sparkles"></i> MODEL ANSWER <span class="sub-pill">Exemplar Candidate Response</span></h4>
+                            <p id="evalBetterAnswer">A top candidate answer states core definitions, runtime execution flow, and scalability considerations.</p>
+                        </div>
+
+                        <div style="margin-top: 1rem; text-align: right;">
+                            <button type="button" class="btn btn-primary btn-glow" id="btnNextQuestion"><i class="fa-solid fa-arrow-right"></i> NEXT QUESTION</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Final Interview Report Card -->
+                <div class="glass-card report-card" id="finalReportCard" style="display: none;">
+                    <div class="card-title-wrap">
+                        <i class="fa-solid fa-award"></i>
+                        <h3>AI Interview Report & Growth Analysis</h3>
+                    </div>
+
+                    <div class="report-hero-grid">
+                        <div class="report-score-box">
+                            <div class="report-score-circle glow-pulse">
+                                <span class="report-score-num" id="reportScore">78</span>%
+                            </div>
+                            <div class="report-level-pill" id="reportReadinessLevel">INTERVIEW READY</div>
+                            <p class="report-level-desc" id="reportLevelDesc">You are ready for basic-to-intermediate interviews, but should strengthen system design.</p>
+                        </div>
+
+                        <div class="report-breakdown-box">
+                            <h4>Score Dimensions</h4>
+                            <div class="breakdown-list">
+                                <div class="breakdown-item">
+                                    <div class="breakdown-meta"><span>Technical Accuracy</span><span id="repTech">82%</span></div>
+                                    <div class="breakdown-track"><div class="breakdown-fill" id="fillTech" style="width: 82%;"></div></div>
+                                </div>
+                                <div class="breakdown-item">
+                                    <div class="breakdown-meta"><span>Communication</span><span id="repComm">74%</span></div>
+                                    <div class="breakdown-track"><div class="breakdown-fill" id="fillComm" style="width: 74%;"></div></div>
+                                </div>
+                                <div class="breakdown-item">
+                                    <div class="breakdown-meta"><span>Relevance</span><span id="repRel">86%</span></div>
+                                    <div class="breakdown-track"><div class="breakdown-fill" id="fillRel" style="width: 86%;"></div></div>
+                                </div>
+                                <div class="breakdown-item">
+                                    <div class="breakdown-meta"><span>Completeness</span><span id="repComp">69%</span></div>
+                                    <div class="breakdown-track"><div class="breakdown-fill" id="fillComp" style="width: 69%;"></div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="callout-grid" style="margin: 1.5rem 0;">
+                        <div class="callout-box positive-callout">
+                            <i class="fa-solid fa-shield-check"></i>
+                            <div>
+                                <div class="callout-label">Strongest Areas</div>
+                                <div id="reportStrongest">✓ Python Core, ✓ REST APIs</div>
+                            </div>
+                        </div>
+                        <div class="callout-box warning-callout">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                            <div>
+                                <div class="callout-label">Weakest Areas</div>
+                                <div id="reportWeakest">⚠ Docker (41%), ⚠ System Design (48%)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI Coach Feedback Box -->
+                    <div class="glass-card coach-feedback-box" style="margin-bottom: 1.5rem;">
+                        <h4><i class="fa-solid fa-brain" style="color: var(--secondary);"></i> AI INTERVIEW COACH RECOMMENDATION</h4>
+                        <p id="reportCoachText">You understand Python fundamentals well. Your biggest weakness is explaining architecture. Practice backend system-design questions before your next interview.</p>
+                    </div>
+
+                    <!-- 7-Day Improvement Plan -->
+                    <div class="plan-section">
+                        <h4><i class="fa-solid fa-calendar-week"></i> YOUR 7-DAY INTERVIEW PLAN</h4>
+                        <div class="plan-days-grid" id="planDaysGrid">
+                            <!-- JS populates 7 day plan -->
+                        </div>
+                    </div>
+
+                    <div class="report-actions-row" style="margin-top: 1.5rem; display: flex; gap: 1rem;">
+                        <button type="button" class="btn btn-secondary" id="btnPracticeWeak" style="flex: 1; justify-content: center;">
+                            <i class="fa-solid fa-rotate-right"></i> PRACTICE WEAK AREAS
+                        </button>
+                        <button type="button" class="btn btn-primary btn-glow" id="btnNewSession" style="flex: 1; justify-content: center;">
+                            <i class="fa-solid fa-plus"></i> NEW INTERVIEW SESSION
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Growth & Session History Section -->
+                <section class="history-section glass-card" style="margin-top: 2rem;">
+                    <div class="card-title-wrap">
+                        <i class="fa-solid fa-chart-line"></i>
+                        <h3>Interview Growth & Session History</h3>
+                    </div>
+
+                    <div class="growth-stats-grid">
+                        <div class="growth-tile"><span class="num" id="histBest">78%</span><span class="lbl">Best Score</span></div>
+                        <div class="growth-tile"><span class="num" id="histAvg">69%</span><span class="lbl">Average Score</span></div>
+                        <div class="growth-tile"><span class="num" id="histCount">3</span><span class="lbl">Sessions Done</span></div>
+                        <div class="growth-tile"><span class="num highlight-cyan" id="histGrowth">+17%</span><span class="lbl">Total Growth</span></div>
+                    </div>
+
+                    <div class="history-list" id="historyList" style="margin-top: 1.25rem;">
+                        <!-- JS populates recent interview sessions -->
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/interview.js') }}"></script>
+</body>
+</html>

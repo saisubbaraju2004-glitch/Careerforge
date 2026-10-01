@@ -1,0 +1,144 @@
+{
+  "python_backend_developer": {
+    "title": "Python Backend Developer",
+    "category": "Backend Development",
+    "required_skills": [
+      "Python",
+      "Flask",
+      "REST APIs",
+      "SQL",
+      "PostgreSQL",
+      "Git",
+      "Testing",
+      "Docker"
+    ],
+    "optional_skills": ["Redis", "Celery", "CI/CD", "AWS"],
+    "keyword_weights": {
+      "Python": 15,
+      "Flask": 15,
+      "REST APIs": 15,
+      "SQL": 15,
+      "PostgreSQL": 10,
+      "Git": 10,
+      "Testing": 10,
+      "Docker": 10
+    },
+    "roadmap_flow": [
+      {"name": "Python", "category": "core", "order": 1},
+      {"name": "Flask", "category": "framework", "order": 2},
+      {"name": "REST APIs", "category": "architecture", "order": 3},
+      {"name": "SQL", "category": "database", "order": 4},
+      {"name": "PostgreSQL", "category": "database", "order": 5},
+      {"name": "Git", "category": "tools", "order": 6},
+      {"name": "Testing", "category": "quality", "order": 7},
+      {"name": "Docker", "category": "devops", "order": 8}
+    ]
+  },
+  "frontend_developer": {
+    "title": "Frontend Web Developer",
+    "category": "Frontend Development",
+    "required_skills": [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "React",
+      "REST APIs",
+      "Git",
+      "Responsive Design",
+      "Tailwind CSS"
+    ],
+    "optional_skills": ["TypeScript", "Next.js", "Jest", "Webpack"],
+    "keyword_weights": {
+      "JavaScript": 20,
+      "React": 20,
+      "HTML": 10,
+      "CSS": 10,
+      "REST APIs": 15,
+      "Git": 10,
+      "Responsive Design": 10,
+      "Tailwind CSS": 5
+    },
+    "roadmap_flow": [
+      {"name": "HTML", "category": "core", "order": 1},
+      {"name": "CSS", "category": "core", "order": 2},
+      {"name": "JavaScript", "category": "core", "order": 3},
+      {"name": "Git", "category": "tools", "order": 4},
+      {"name": "Responsive Design", "category": "ui", "order": 5},
+      {"name": "Tailwind CSS", "category": "ui", "order": 6},
+      {"name": "React", "category": "framework", "order": 7},
+      {"name": "REST APIs", "category": "architecture", "order": 8}
+    ]
+  },
+  "fullstack_developer": {
+    "title": "Full-Stack Web Developer",
+    "category": "Full Stack",
+    "required_skills": [
+      "JavaScript",
+      "Python",
+      "Node.js",
+      "React",
+      "Flask",
+      "SQL",
+      "REST APIs",
+      "Git",
+      "Docker"
+    ],
+    "optional_skills": ["TypeScript", "PostgreSQL", "MongoDB", "AWS"],
+    "keyword_weights": {
+      "JavaScript": 15,
+      "Python": 15,
+      "Node.js": 10,
+      "React": 15,
+      "Flask": 10,
+      "SQL": 15,
+      "REST APIs": 10,
+      "Git": 5,
+      "Docker": 5
+    },
+    "roadmap_flow": [
+      {"name": "JavaScript", "category": "core", "order": 1},
+      {"name": "Python", "category": "core", "order": 2},
+      {"name": "React", "category": "frontend", "order": 3},
+      {"name": "Flask", "category": "backend", "order": 4},
+      {"name": "SQL", "category": "database", "order": 5},
+      {"name": "REST APIs", "category": "architecture", "order": 6},
+      {"name": "Git", "category": "tools", "order": 7},
+      {"name": "Docker", "category": "devops", "order": 8}
+    ]
+  },
+  "ai_engineer": {
+    "title": "AI & Machine Learning Engineer",
+    "category": "Artificial Intelligence",
+    "required_skills": [
+      "Python",
+      "NumPy",
+      "Pandas",
+      "Scikit-Learn",
+      "PyTorch",
+      "LLM APIs",
+      "Git",
+      "REST APIs"
+    ],
+    "optional_skills": ["TensorFlow", "LangChain", "Vector DBs", "Docker"],
+    "keyword_weights": {
+      "Python": 20,
+      "PyTorch": 15,
+      "Scikit-Learn": 15,
+      "LLM APIs": 15,
+      "Pandas": 10,
+      "NumPy": 10,
+      "Git": 5,
+      "REST APIs": 10
+    },
+    "roadmap_flow": [
+      {"name": "Python", "category": "core", "order": 1},
+      {"name": "NumPy", "category": "data", "order": 2},
+      {"name": "Pandas", "category": "data", "order": 3},
+      {"name": "Scikit-Learn", "category": "ml", "order": 4},
+      {"name": "PyTorch", "category": "dl", "order": 5},
+      {"name": "LLM APIs", "category": "ai", "order": 6},
+      {"name": "Git", "category": "tools", "order": 7},
+      {"name": "REST APIs", "category": "deployment", "order": 8}
+    ]
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "portals": [
+    {
+      "name": "LinkedIn",
+      "icon": "linkedin",
+      "url_template": "https://www.linkedin.com/jobs/search/?keywords={query}"
+    },
+    {
+      "name": "Indeed",
+      "icon": "briefcase",
+      "url_template": "https://www.indeed.com/jobs?q={query}"
+    },
+    {
+      "name": "Naukri",
+      "icon": "search",
+      "url_template": "https://www.naukri.com/{query_slug}-jobs"
+    },
+    {
+      "name": "Wellfound",
+      "icon": "rocket",
+      "url_template": "https://wellfound.com/jobs?q={query}"
+    }
+  ]
+}

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Placement Practice Arena — CareerForge AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='assets/careerforge-favicon.png') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/placement_practice.css') }}">
+</head>
+<body class="dark-theme">
+    <div class="app-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="{{ url_for('static', filename='assets/careerforge-logo.png') }}" alt="CareerForge AI Logo" class="sidebar-logo-img" height="44" width="auto">
+                <span class="sidebar-brand-name">CareerForge<span style="color: var(--secondary);">.AI</span></span>
+            </div>
+            <nav class="sidebar-menu">
+                <a href="/career-agent" class="sidebar-link"><i class="fa-solid fa-robot" style="color: var(--secondary);"></i> <span>AI Career Agent</span></a>
+                <a href="/placements" class="sidebar-link active"><i class="fa-solid fa-graduation-cap" style="color: var(--cyan);"></i> <span>Placement Command</span></a>
+                <a href="/" class="sidebar-link"><i class="fa-solid fa-house"></i> <span>Overview</span></a>
+                <a href="/#formSection" class="sidebar-link"><i class="fa-solid fa-bullseye"></i> <span>Career Guide</span></a>
+                <a href="/#tabATS" class="sidebar-link"><i class="fa-solid fa-file-contract"></i> <span>Resume Analyzer</span></a>
+                <a href="/resume-builder" class="sidebar-link"><i class="fa-solid fa-file-signature"></i> <span>AI Resume Builder</span></a>
+                <a href="/intelligence" class="sidebar-link"><i class="fa-solid fa-brain"></i> <span>Career Intelligence</span></a>
+                <a href="/#tabOverview" class="sidebar-link"><i class="fa-solid fa-layer-group"></i> <span>Skill Gaps</span></a>
+                <a href="/#tabRoadmap" class="sidebar-link"><i class="fa-solid fa-route"></i> <span>Roadmap</span></a>
+                <a href="/#tabPlan" class="sidebar-link"><i class="fa-solid fa-calendar-check"></i> <span>30-Day Plan</span></a>
+                <a href="/jobs" class="sidebar-link"><i class="fa-solid fa-briefcase"></i> <span>AI Job Matching</span></a>
+                <a href="/interview" class="sidebar-link"><i class="fa-solid fa-microphone"></i> <span>AI Interview</span></a>
+                <a href="/applications" class="sidebar-link"><i class="fa-solid fa-briefcase"></i> <span>Applications</span></a>
+                <a href="/progress" class="sidebar-link"><i class="fa-solid fa-chart-line"></i> <span>Progress</span></a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="sidebar-footer-btn">
+                    <span><i class="fa-solid fa-laptop-code" style="color: var(--secondary);"></i> Practice Arena</span>
+                    <span class="ai-status-indicator"></span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="app-main">
+            <div class="main-content">
+                <!-- Back Link -->
+                <div style="margin-bottom: 1rem;">
+                    <a href="/placements" class="btn btn-outline btn-sm"><i class="fa-solid fa-arrow-left"></i> Back to Placement Command Center</a>
+                </div>
+
+                <!-- Header Row & Mode Selector -->
+                <div class="card-title-row" style="margin-bottom: 1.5rem;">
+                    <div>
+                        <h1 class="hero-title" style="font-size: 2.2rem; margin-bottom: 0.3rem;">Placement <span class="text-gradient">Practice Arena</span></h1>
+                        <p style="color: var(--text-muted); font-size: 0.95rem; margin: 0;">Master quantitative aptitude, logical reasoning, verbal ability, and DSA coding challenges.</p>
+                    </div>
+
+                    <div class="arena-tab-group">
+                        <button class="arena-tab-btn active" id="tabAptitude" onclick="switchPracticeMode('aptitude')">
+                            <i class="fa-solid fa-calculator"></i> Aptitude Arena
+                        </button>
+                        <button class="arena-tab-btn" id="tabCoding" onclick="switchPracticeMode('coding')">
+                            <i class="fa-solid fa-code"></i> Coding Arena
+                        </button>
+                    </div>
+                </div>
+
+                <!-- SETUP CARD -->
+                <div class="glass-card dash-card" id="practiceSetupCard" style="margin-bottom: 1.5rem;">
+                    <div class="card-title-row">
+                        <h3><i class="fa-solid fa-sliders text-cyan"></i> Configure Practice Session</h3>
+                        <span class="badge badge-accent">Interactive Test Generator</span>
+                    </div>
+
+                    <div class="form-grid" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+                        <div>
+                            <label style="font-size: 0.85rem; color: var(--text-muted);">Topic Category</label>
+                            <select id="selectCategory" class="form-select">
+                                <option value="All" selected>All Categories</option>
+                                <option value="Quantitative Aptitude">Quantitative Aptitude</option>
+                                <option value="Logical Reasoning">Logical Reasoning</option>
+                                <option value="Verbal Ability">Verbal Ability</option>
+                                <option value="Data Interpretation">Data Interpretation</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label style="font-size: 0.85rem; color: var(--text-muted);">Question Count</label>
+                            <select id="selectCount" class="form-select">
+                                <option value="10" selected>10 Questions</option>
+                                <option value="20">20 Questions</option>
+                                <option value="30">30 Questions</option>
+                            </select>
+                        </div>
+                        <div style="display: flex; align-items: flex-end;">
+                            <button class="btn btn-primary btn-lg" style="width: 100%;" onclick="startPracticeSession()">
+                                <i class="fa-solid fa-play"></i> START PRACTICE SESSION
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LIVE PRACTICE ARENA -->
+                <div class="glass-card arena-card" id="liveArenaCard" style="display: none; margin-bottom: 1.5rem;">
+                    <div class="arena-header-row">
+                        <span class="badge badge-info" id="qNumBadge">QUESTION 1 / 10</span>
+                        <span class="badge badge-accent" id="qTopicBadge">Time & Work</span>
+                        <div class="timer-display"><i class="fa-solid fa-stopwatch text-warning"></i> <span id="timerVal">00:00</span></div>
+                    </div>
+
+                    <div class="arena-body" style="margin-top: 1.25rem;">
+                        <h3 class="q-title" id="qTitle">A can complete a project in 12 days, and B can complete the same project in 24 days. How many days will it take if they work together?</h3>
+
+                        <!-- Aptitude Options Container -->
+                        <div class="options-container" id="optionsContainer" style="margin-top: 1.25rem; display: flex; flex-direction: column; gap: 0.75rem;">
+                            <!-- Populated by JS -->
+                        </div>
+
+                        <!-- Coding Code Editor Container -->
+                        <div class="code-editor-container" id="codeEditorContainer" style="display: none; margin-top: 1.25rem;">
+                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.4rem;">Python 3 Solution:</div>
+                            <textarea id="codeEditor" class="code-textarea" rows="10" style="width: 100%; font-family: JetBrains Mono; background: #0f172a; color: #f8fafc; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 1rem; font-size: 0.95rem;"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="arena-footer" style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center;">
+                        <button class="btn btn-outline" onclick="skipQuestion()">Skip</button>
+                        <button class="btn btn-primary btn-lg" onclick="submitCurrentQuestion()"><i class="fa-solid fa-paper-plane"></i> SUBMIT RESPONSE</button>
+                    </div>
+                </div>
+
+                <!-- RESULT SUMMARY CARD -->
+                <div class="glass-card result-card" id="resultCard" style="display: none; margin-bottom: 1.5rem;">
+                    <div class="card-title-row">
+                        <h3><i class="fa-solid fa-square-poll-vertical text-success"></i> Session Performance & Evaluation</h3>
+                        <span class="badge badge-success" id="resStatusBadge">COMPLETED</span>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 1.5rem; margin-top: 1rem;" class="grid-2-col">
+                        <div style="text-align: center; background: rgba(15,23,42,0.6); padding: 1.5rem; border-radius: 10px;">
+                            <div style="font-size: 0.85rem; color: var(--text-muted);">Accuracy Score</div>
+                            <div style="font-size: 3rem; font-weight: 800; color: var(--secondary);" id="resScore">80%</div>
+                            <div style="font-size: 0.85rem; color: #fff;" id="resDetail">8 / 10 Questions Correct</div>
+                        </div>
+
+                        <div>
+                            <h4 style="color: #fff; margin: 0 0 0.5rem 0;">Explanation & Weak Topics</h4>
+                            <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;" id="resFeedback">
+                                Strong performance on Quantitative Aptitude! Focus additional practice on Time & Work word problems.
+                            </p>
+                            <div style="margin-top: 1rem; display: flex; gap: 0.75rem;">
+                                <button class="btn btn-primary" onclick="resetPracticeSetup()"><i class="fa-solid fa-rotate-right"></i> Practice Again</button>
+                                <a href="/placements" class="btn btn-outline">Back to Placements</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/placement_practice.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const defaultMode = "{{ default_mode }}";
+            switchPracticeMode(defaultMode || 'aptitude');
+        });
+    </script>
+</body>
+</html>

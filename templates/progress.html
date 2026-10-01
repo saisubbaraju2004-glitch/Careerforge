@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Progress — CareerForge AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='assets/careerforge-favicon.png') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/progress.css') }}">
+</head>
+<body class="dark-theme">
+    <div class="app-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="{{ url_for('static', filename='assets/careerforge-logo.png') }}" alt="CareerForge AI Logo" class="sidebar-logo-img" height="44" width="auto">
+                <span class="sidebar-brand-name">CareerForge<span style="color: var(--secondary);">.AI</span></span>
+            </div>
+            <nav class="sidebar-menu">
+                <a href="/career-agent" class="sidebar-link"><i class="fa-solid fa-robot" style="color: var(--secondary);"></i> <span>AI Career Agent</span></a>
+                <a href="/" class="sidebar-link"><i class="fa-solid fa-house"></i> <span>Overview</span></a>
+                <a href="/#formSection" class="sidebar-link"><i class="fa-solid fa-bullseye"></i> <span>Career Guide</span></a>
+                <a href="/#tabATS" class="sidebar-link"><i class="fa-solid fa-file-contract"></i> <span>Resume Analyzer</span></a>
+                <a href="/resume-builder" class="sidebar-link"><i class="fa-solid fa-file-signature"></i> <span>AI Resume Builder</span></a>
+                <a href="/intelligence" class="sidebar-link"><i class="fa-solid fa-brain" style="color: var(--secondary);"></i> <span>Career Intelligence</span></a>
+                <a href="/#tabOverview" class="sidebar-link"><i class="fa-solid fa-layer-group"></i> <span>Skill Gaps</span></a>
+                <a href="/#tabRoadmap" class="sidebar-link"><i class="fa-solid fa-route"></i> <span>Roadmap</span></a>
+                <a href="/#tabPlan" class="sidebar-link"><i class="fa-solid fa-calendar-check"></i> <span>30-Day Plan</span></a>
+                <a href="/jobs" class="sidebar-link"><i class="fa-solid fa-briefcase"></i> <span>AI Job Matching</span></a>
+                <a href="/interview" class="sidebar-link"><i class="fa-solid fa-microphone"></i> <span>AI Interview</span></a>
+                <a href="/applications" class="sidebar-link"><i class="fa-solid fa-briefcase"></i> <span>Applications</span></a>
+                <a href="/progress" class="sidebar-link active"><i class="fa-solid fa-chart-line"></i> <span>Progress</span></a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="sidebar-footer-btn">
+                    <span><i class="fa-solid fa-award" style="color: var(--secondary);"></i> Command Center</span>
+                    <span class="ai-status-indicator"></span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="app-main">
+            <div class="main-content">
+                <!-- Header -->
+                <div class="card-title-row" style="margin-bottom: 1.5rem;">
+                    <div>
+                        <h1 class="hero-title" style="font-size: 2.2rem; margin-bottom: 0.3rem;">Career <span class="text-gradient">Progress & Analytics</span></h1>
+                        <p style="color: var(--text-muted); font-size: 0.95rem; margin: 0;">Track your skill progression, readiness momentum, interview milestone history, and application velocity.</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="window.print()"><i class="fa-solid fa-print"></i> Export Career Report</button>
+                </div>
+
+                <!-- High Level Progress Cards -->
+                <div class="prog-metrics-grid" style="margin-bottom: 1.5rem;">
+                    <div class="prog-card">
+                        <div class="prog-card-title"><i class="fa-solid fa-crosshairs text-violet"></i> Overall Career Readiness</div>
+                        <div class="prog-val-big" id="progReadiness">72%</div>
+                        <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0;">Target: Placement Screen Pass (80%+)</p>
+                    </div>
+
+                    <div class="prog-card">
+                        <div class="prog-card-title"><i class="fa-solid fa-microphone text-cyan"></i> Mock Interview Score</div>
+                        <div class="prog-val-big" id="progInterview">78%</div>
+                        <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0;" id="progSessions">3 Sessions Completed</p>
+                    </div>
+
+                    <div class="prog-card">
+                        <div class="prog-card-title"><i class="fa-solid fa-file-contract text-warning"></i> Resume ATS Score</div>
+                        <div class="prog-val-big" id="progATS">83%</div>
+                        <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0;">Formatting & Keywords Verified</p>
+                    </div>
+
+                    <div class="prog-card">
+                        <div class="prog-card-title"><i class="fa-solid fa-calendar-check text-success"></i> 30-Day Plan Tracker</div>
+                        <div class="prog-val-big" id="progPlanDay">Day 12</div>
+                        <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0;">12 / 30 Days Completed</p>
+                    </div>
+                </div>
+
+                <!-- Skill Mastery Bars Grid -->
+                <div class="glass-card dash-card" style="margin-bottom: 1.5rem;">
+                    <div class="card-title-row">
+                        <h3><i class="fa-solid fa-layer-group text-violet"></i> Skill Proficiency & Growth Tracker</h3>
+                        <span class="badge badge-info">Mastery Breakdown</span>
+                    </div>
+
+                    <div class="skill-prog-list" id="skillProgList">
+                        <div class="skill-prog-item">
+                            <div class="skill-prog-header"><span>Python Core</span> <span>100% (Strong)</span></div>
+                            <div class="skill-prog-bar-bg"><div class="skill-prog-bar-fill" style="width: 100%;"></div></div>
+                        </div>
+                        <div class="skill-prog-item">
+                            <div class="skill-prog-header"><span>Flask Web Framework</span> <span>80% (Intermediate)</span></div>
+                            <div class="skill-prog-bar-bg"><div class="skill-prog-bar-fill" style="width: 80%;"></div></div>
+                        </div>
+                        <div class="skill-prog-item">
+                            <div class="skill-prog-header"><span>SQL & PostgreSQL</span> <span>60% (Improving)</span></div>
+                            <div class="skill-prog-bar-bg"><div class="skill-prog-bar-fill" style="width: 60%;"></div></div>
+                        </div>
+                        <div class="skill-prog-item">
+                            <div class="skill-prog-header"><span>Docker Containerization</span> <span>40% (Needs Improvement)</span></div>
+                            <div class="skill-prog-bar-bg"><div class="skill-prog-bar-fill" style="width: 40%;"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Career Conversion Funnel -->
+                <div class="glass-card dash-card" style="margin-bottom: 1.5rem;">
+                    <div class="card-title-row">
+                        <h3><i class="fa-solid fa-filter-circle-dollar text-cyan"></i> Career Conversion Funnel</h3>
+                        <span class="badge badge-accent">End-to-End Pipeline</span>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 1rem; margin-top: 1rem; text-align: center;">
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem;">
+                            <div style="font-size: 0.8rem; color: var(--text-muted);">Applications</div>
+                            <div style="font-size: 1.6rem; font-weight: 700; color: #fff;" id="funnelApps">0</div>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem;">
+                            <div style="font-size: 0.8rem; color: var(--text-muted);">Responses</div>
+                            <div style="font-size: 1.6rem; font-weight: 700; color: #60a5fa;" id="funnelResponses">0</div>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem;">
+                            <div style="font-size: 0.8rem; color: var(--text-muted);">Interviews</div>
+                            <div style="font-size: 1.6rem; font-weight: 700; color: #a78bfa;" id="funnelInterviews">0</div>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem;">
+                            <div style="font-size: 0.8rem; color: var(--text-muted);">Offers</div>
+                            <div style="font-size: 1.6rem; font-weight: 700; color: #34d399;" id="funnelOffers">0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Career Coach Panel -->
+                <div class="glass-card coach-widget-card">
+                    <div class="card-title-row">
+                        <h3><i class="fa-solid fa-user-astronaut text-cyan"></i> AI Career Coach Panel</h3>
+                        <span class="badge badge-accent">Context-Aware AI Assistant</span>
+                    </div>
+
+                    <div class="coach-chat-window" id="coachChatWindow">
+                        <div class="chat-bubble ai">
+                            Hello! I am your <strong>CareerForge AI Coach</strong>. I've reviewed your target role, skill gap analysis, resume score, and mock interview performance. How can I help you accelerate your job readiness today?
+                        </div>
+                    </div>
+
+                    <div class="coach-prompts-row" id="coachPromptsRow">
+                        <span class="coach-prompt-chip" onclick="window.CoachHandler.sendPrompt('What should I learn today?')">What should I learn today?</span>
+                        <span class="coach-prompt-chip" onclick="window.CoachHandler.sendPrompt('Why is my readiness score low?')">Why is my readiness score low?</span>
+                        <span class="coach-prompt-chip" onclick="window.CoachHandler.sendPrompt('What should I improve in my resume?')">What should I improve in my resume?</span>
+                        <span class="coach-prompt-chip" onclick="window.CoachHandler.sendPrompt('Am I ready for a Python interview?')">Am I ready for a Python interview?</span>
+                        <span class="coach-prompt-chip" onclick="window.CoachHandler.sendPrompt('What project should I build next?')">What project should I build next?</span>
+                    </div>
+
+                    <form id="coachInputForm" style="display: flex; gap: 0.75rem; margin-top: 0.5rem;">
+                        <input type="text" id="coachQueryInput" class="form-input" placeholder="Ask your AI Career Coach a question..." required>
+                        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> Send</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Mobile Nav -->
+    <div class="mobile-nav">
+        <a href="/" class="mobile-nav-link"><i class="fa-solid fa-house"></i><span>Home</span></a>
+        <a href="/interview" class="mobile-nav-link"><i class="fa-solid fa-microphone"></i><span>Interview</span></a>
+        <a href="/applications" class="mobile-nav-link"><i class="fa-solid fa-briefcase"></i><span>Apps</span></a>
+        <a href="/progress" class="mobile-nav-link active"><i class="fa-solid fa-chart-line"></i><span>Progress</span></a>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/coach.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/progress.js') }}"></script>
+</body>
+</html>

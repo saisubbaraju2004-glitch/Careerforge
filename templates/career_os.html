@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Career Operating System — CareerForge AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='assets/careerforge-favicon.png') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/career_os.css') }}">
+</head>
+<body class="dark-theme">
+    <div class="app-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="{{ url_for('static', filename='assets/careerforge-logo.png') }}" alt="CareerForge AI Logo" class="sidebar-logo-img" height="44" width="auto">
+                <span class="sidebar-brand-name">CareerForge<span style="color: var(--secondary);">.AI</span></span>
+            </div>
+            <nav class="sidebar-menu">
+                <a href="/" class="sidebar-link active"><i class="fa-solid fa-house"></i> <span>Overview</span></a>
+                <a href="/career-agent" class="sidebar-link"><i class="fa-solid fa-robot" style="color: var(--secondary);"></i> <span>AI Career Agent</span></a>
+                <a href="/placements" class="sidebar-link"><i class="fa-solid fa-graduation-cap" style="color: var(--cyan);"></i> <span>Placement Command</span></a>
+                <a href="/placement-strategy" class="sidebar-link"><i class="fa-solid fa-bullseye" style="color: var(--secondary);"></i> <span>Placement Strategy</span></a>
+                <a href="/job-match" class="sidebar-link"><i class="fa-solid fa-microchip" style="color: var(--accent);"></i> <span>AI Job Matching</span></a>
+                <a href="/interview-intelligence" class="sidebar-link"><i class="fa-solid fa-brain"></i> <span>Interview Intelligence</span></a>
+                <a href="/learning" class="sidebar-link"><i class="fa-solid fa-book-open"></i> <span>Personalized Learning</span></a>
+                <a href="/placement-analytics" class="sidebar-link"><i class="fa-solid fa-chart-pie"></i> <span>Placement Analytics</span></a>
+                <a href="/resume-builder" class="sidebar-link"><i class="fa-solid fa-file-signature"></i> <span>Resume Builder</span></a>
+                <a href="/jobs" class="sidebar-link"><i class="fa-solid fa-briefcase"></i> <span>Jobs</span></a>
+                <a href="/applications" class="sidebar-link"><i class="fa-solid fa-paper-plane"></i> <span>Applications</span></a>
+                <a href="/progress" class="sidebar-link"><i class="fa-solid fa-chart-line"></i> <span>Progress</span></a>
+            </nav>
+        </aside>
+
+        <main class="app-main">
+            <div class="main-content">
+                <!-- HERO TITLE & GLOBAL SEARCH -->
+                <div class="card-title-row" style="margin-bottom: 1.5rem;">
+                    <div>
+                        <h1 class="hero-title" style="font-size: 2.2rem; margin-bottom: 0.3rem;">YOUR AI CAREER <span class="text-gradient">OPERATING SYSTEM</span></h1>
+                        <p style="color: var(--text-muted); font-size: 0.95rem; margin: 0;">Unified command center connecting placement strategy, interview intelligence, and learning.</p>
+                    </div>
+
+                    <div style="display: flex; gap: 0.5rem; align-items: center;">
+                        <input type="text" id="globalSearchInput" class="form-input" placeholder="Search roles, skills, companies..." onkeyup="executeGlobalSearch()" style="width: 250px;">
+                    </div>
+                </div>
+
+                <!-- QUICK ACTIONS BAR -->
+                <div class="quick-actions-bar" style="margin-bottom: 1.5rem;">
+                    <a href="/interview-intelligence" class="btn btn-outline btn-sm"><i class="fa-solid fa-microphone text-secondary"></i> Start Interview</a>
+                    <a href="/#tabATS" class="btn btn-outline btn-sm"><i class="fa-solid fa-file-contract text-cyan"></i> Analyze Resume</a>
+                    <a href="/job-match" class="btn btn-outline btn-sm"><i class="fa-solid fa-briefcase text-accent"></i> Find Best Job</a>
+                    <a href="/learning" class="btn btn-outline btn-sm"><i class="fa-solid fa-book-open text-success"></i> Start Learning</a>
+                    <a href="/placement-strategy" class="btn btn-outline btn-sm"><i class="fa-solid fa-bullseye text-warning"></i> View Placement Strategy</a>
+                </div>
+
+                <!-- HERO CARD: ONE SMART NEXT ACTION -->
+                <div class="glass-card strategy-hero-card" style="margin-bottom: 1.5rem;">
+                    <div class="card-title-row" style="margin-bottom: 0.75rem;">
+                        <span class="badge badge-purple"><i class="fa-solid fa-bullseye"></i> 🎯 YOUR NEXT BEST ACTION</span>
+                        <span class="badge badge-success" id="osHealthBadge">HEALTHY</span>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                        <div>
+                            <h2 style="font-size: 1.6rem; font-weight: 800; color: #fff; margin: 0 0 0.4rem 0;" id="osActionTitle">
+                                Loading your next action...
+                            </h2>
+                            <p style="font-size: 0.95rem; color: var(--text-muted); margin: 0; max-width: 680px;" id="osActionWhy">
+                                Your recommendation will use activity recorded in your account.
+                            </p>
+                        </div>
+
+                        <div>
+                            <a href="/interview-intelligence" class="btn btn-primary btn-lg" id="btnOSStartAction">
+                                <i class="fa-solid fa-play"></i> START ACTION NOW
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 8-FACTOR OVERVIEW METRICS GRID -->
+                <div class="os-metrics-grid" style="margin-bottom: 1.5rem;">
+                    <div class="os-card"><span class="os-val" id="ovReadiness">—</span><span class="os-lbl">Observed Score Average</span></div>
+                    <div class="os-card"><span class="os-val" id="ovPlacement">—</span><span class="os-lbl">Placement Probability</span></div>
+                    <div class="os-card"><span class="os-val" id="ovJobMatch">—</span><span class="os-lbl">Resume Skill Match</span></div>
+                    <div class="os-card"><span class="os-val" id="ovATS">—</span><span class="os-lbl">Latest ATS Resume Score</span></div>
+                    <div class="os-card"><span class="os-val" id="ovInterview">—</span><span class="os-lbl">Interview Score Average</span></div>
+                    <div class="os-card"><span class="os-val" id="ovSkill">0%</span><span class="os-lbl">30-Lesson Curriculum Completion</span></div>
+                    <div class="os-card"><span class="os-val" id="ovApp">0</span><span class="os-lbl">Applications Recorded</span></div>
+                    <div class="os-card"><span class="os-val" id="ovMomentum">—</span><span class="os-lbl">Recorded Activity</span></div>
+                </div>
+
+                <!-- TODAY'S COMMAND CENTER & AI CHAT GRID -->
+                <div class="os-command-grid">
+                    <!-- Command Center -->
+                    <div class="glass-card dash-card">
+                        <div class="card-title-row" style="margin-bottom: 1rem;">
+                            <h3><i class="fa-solid fa-list-check text-secondary"></i> Today's Command Center</h3>
+                        </div>
+                        <div id="commandList">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- AI Career OS Chat -->
+                    <div class="glass-card dash-card" style="display: flex; flex-direction: column;">
+                        <div class="card-title-row" style="margin-bottom: 1rem;">
+                            <h3><i class="fa-solid fa-robot text-purple"></i> AI Career OS Assistant</h3>
+                        </div>
+
+                        <div class="os-chat-box" id="osChatHistory" style="flex: 1; min-height: 180px; max-height: 250px; overflow-y: auto; background: rgba(15,23,42,0.6); padding: 0.8rem; border-radius: 8px; margin-bottom: 0.75rem;">
+                            <div class="chat-msg ai">Ask about your resume, interview practice, learning progress, or recorded applications.</div>
+                        </div>
+
+                        <div style="display: flex; gap: 0.5rem;">
+                            <input type="text" id="chatInput" class="form-input" placeholder="Ask 'What should I do today?'..." onkeypress="if(event.key==='Enter') sendOSChatMessage()">
+                            <button class="btn btn-primary" onclick="sendOSChatMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/career_os.js') }}"></script>
+</body>
+</html>

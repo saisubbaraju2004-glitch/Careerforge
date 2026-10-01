@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Placement Command Center — CareerForge AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='assets/careerforge-favicon.png') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/placements.css') }}">
+</head>
+<body class="dark-theme">
+    <div class="app-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="{{ url_for('static', filename='assets/careerforge-logo.png') }}" alt="CareerForge AI Logo" class="sidebar-logo-img" height="44" width="auto">
+                <span class="sidebar-brand-name">CareerForge<span style="color: var(--secondary);">.AI</span></span>
+            </div>
+            <nav class="sidebar-menu">
+                <a href="/career-agent" class="sidebar-link"><i class="fa-solid fa-robot" style="color: var(--secondary);"></i> <span>AI Career Agent</span></a>
+                <a href="/placements" class="sidebar-link active"><i class="fa-solid fa-graduation-cap" style="color: var(--cyan);"></i> <span>Placement Command</span></a>
+                <a href="/placement-strategy" class="sidebar-link"><i class="fa-solid fa-bullseye" style="color: var(--secondary);"></i> <span>Placement Strategy</span></a>
+                <a href="/job-match" class="sidebar-link"><i class="fa-solid fa-microchip" style="color: var(--accent);"></i> <span>AI Job Matching</span></a>
+                <a href="/" class="sidebar-link"><i class="fa-solid fa-house"></i> <span>Overview</span></a>
+                <a href="/#formSection" class="sidebar-link"><i class="fa-solid fa-bullseye"></i> <span>Career Guide</span></a>
+                <a href="/#tabATS" class="sidebar-link"><i class="fa-solid fa-file-contract"></i> <span>Resume Analyzer</span></a>
+                <a href="/resume-builder" class="sidebar-link"><i class="fa-solid fa-file-signature"></i> <span>AI Resume Builder</span></a>
+                <a href="/intelligence" class="sidebar-link"><i class="fa-solid fa-brain"></i> <span>Career Intelligence</span></a>
+                <a href="/#tabOverview" class="sidebar-link"><i class="fa-solid fa-layer-group"></i> <span>Skill Gaps</span></a>
+                <a href="/#tabRoadmap" class="sidebar-link"><i class="fa-solid fa-route"></i> <span>Roadmap</span></a>
+                <a href="/#tabPlan" class="sidebar-link"><i class="fa-solid fa-calendar-check"></i> <span>30-Day Plan</span></a>
+                <a href="/jobs" class="sidebar-link"><i class="fa-solid fa-briefcase"></i> <span>AI Job Matching</span></a>
+                <a href="/interview" class="sidebar-link"><i class="fa-solid fa-microphone"></i> <span>AI Interview</span></a>
+                <a href="/applications" class="sidebar-link"><i class="fa-solid fa-briefcase"></i> <span>Applications</span></a>
+                <a href="/progress" class="sidebar-link"><i class="fa-solid fa-chart-line"></i> <span>Progress</span></a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="sidebar-footer-btn">
+                    <span><i class="fa-solid fa-graduation-cap" style="color: var(--cyan);"></i> Placement Cell</span>
+                    <span class="ai-status-indicator"></span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="app-main">
+            <div class="main-content">
+                <!-- Page Header -->
+                <div class="card-title-row" style="margin-bottom: 1.5rem;">
+                    <div>
+                        <h1 class="hero-title" style="font-size: 2.2rem; margin-bottom: 0.3rem;">Placement <span class="text-gradient">Command Center</span></h1>
+                        <p style="color: var(--text-muted); font-size: 0.95rem; margin: 0;">Your complete campus placement preparation system — company-by-company.</p>
+                    </div>
+                    <div style="display: flex; gap: 0.75rem; align-items: center;">
+                        <div class="streak-badge" id="placementStreak">
+                            <i class="fa-solid fa-fire text-warning"></i> <span id="streakDays">8</span> DAY STREAK
+                        </div>
+                        <button class="btn btn-outline" onclick="openProfileModal()">
+                            <i class="fa-solid fa-user-pen"></i> Edit Profile
+                        </button>
+                        <button class="btn btn-primary" onclick="generatePlacementReport()">
+                            <i class="fa-solid fa-file-invoice"></i> Placement Report
+                        </button>
+                    </div>
+                </div>
+
+                <!-- HERO CARD: PLACEMENT READINESS -->
+                <div class="glass-card placement-hero-card" style="margin-bottom: 1.5rem;">
+                    <div class="placement-hero-body">
+                        <div>
+                            <span class="badge badge-accent" style="margin-bottom: 0.5rem; display: inline-block;">CAMPUS PLACEMENT READINESS</span>
+                            <div class="hero-readiness-val" id="dispPlacementReadiness">78%</div>
+                            <div style="font-size: 0.95rem; font-weight: 700; color: #fff;" id="dispCandidateMeta">
+                                Rahul Sharma • CSE (Batch 2027) • NIT • CGPA 7.85
+                            </div>
+                        </div>
+
+                        <div class="placement-hero-meta-grid">
+                            <div class="meta-card">
+                                <span class="meta-lbl">STATUS</span>
+                                <strong class="text-success" id="dispReadinessStatus">ON TRACK</strong>
+                            </div>
+                            <div class="meta-card">
+                                <span class="meta-lbl">TARGET ROLE</span>
+                                <strong id="dispTargetRole">Software Developer</strong>
+                            </div>
+                            <div class="meta-card">
+                                <span class="meta-lbl">GRADUATION</span>
+                                <strong id="dispGradYear">2027</strong>
+                            </div>
+                            <div class="meta-card">
+                                <span class="meta-lbl">BACKLOGS</span>
+                                <strong class="text-cyan" id="dispBacklogs">0 Active</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DASHBOARD METRICS GRID -->
+                <div class="placement-metrics-grid" style="margin-bottom: 1.5rem;">
+                    <div class="p-card">
+                        <div class="p-card-title"><i class="fa-solid fa-building text-violet"></i> Eligible Companies</div>
+                        <div class="p-val" id="cntEligible">18</div>
+                        <div class="p-sub">Full Drive Criteria Met</div>
+                    </div>
+                    <div class="p-card">
+                        <div class="p-card-title"><i class="fa-solid fa-paper-plane text-cyan"></i> Applications</div>
+                        <div class="p-val" id="cntApplied">8</div>
+                        <div class="p-sub">Submitted & Pending</div>
+                    </div>
+                    <div class="p-card">
+                        <div class="p-card-title"><i class="fa-solid fa-laptop-code text-warning"></i> Assessments</div>
+                        <div class="p-val" id="cntAssessments">4</div>
+                        <div class="p-sub">Coding & Aptitude Tests</div>
+                    </div>
+                    <div class="p-card">
+                        <div class="p-card-title"><i class="fa-solid fa-microphone text-secondary"></i> Interviews</div>
+                        <div class="p-val" id="cntInterviews">3</div>
+                        <div class="p-sub">Technical & HR Rounds</div>
+                    </div>
+                    <div class="p-card">
+                        <div class="p-card-title"><i class="fa-solid fa-award text-success"></i> Offers</div>
+                        <div class="p-val text-success" id="cntOffers">1</div>
+                        <div class="p-sub">Letter Extended</div>
+                    </div>
+                    <div class="p-card">
+                        <div class="p-card-title"><i class="fa-solid fa-gauge-high text-gradient"></i> Placement Score</div>
+                        <div class="p-val text-gradient" id="cntScore">78%</div>
+                        <div class="p-sub">System Readiness</div>
+                    </div>
+                </div>
+
+                <!-- READINESS RADAR & BREAKDOWN -->
+                <div class="glass-card dash-card" style="margin-bottom: 1.5rem;">
+                    <div class="card-title-row">
+                        <h3><i class="fa-solid fa-chart-radar text-cyan"></i> Placement Readiness Radar & Multi-Factor Breakdown</h3>
+                        <span class="badge badge-info">8 Evaluation Domains</span>
+                    </div>
+
+                    <div class="radar-breakdown-grid">
+                        <div class="radar-list" id="radarList">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NEXT BEST PLACEMENT ACTION -->
+                <div class="glass-card dash-card" style="margin-bottom: 1.5rem; background: linear-gradient(135deg, rgba(30, 27, 75, 0.6) 0%, rgba(15, 23, 42, 0.8) 100%); border: 1px solid rgba(167, 139, 250, 0.3);">
+                    <div class="card-title-row">
+                        <h3><i class="fa-solid fa-bolt text-warning"></i> Next Placement Recommendation</h3>
+                        <span class="badge badge-danger">HIGH PRIORITY</span>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-top: 0.5rem;">
+                        <div>
+                            <h4 style="font-size: 1.3rem; color: #fff; margin: 0 0 0.3rem 0;" id="nextPlacementActionTitle">🎯 Prepare SQL & DSA for Zenvexa Assessment</h4>
+                            <p style="font-size: 0.9rem; color: var(--text-muted); margin: 0; max-width: 650px;" id="nextPlacementActionReason">
+                                Assessment is upcoming in 5 days and SQL Joins is one of your weaker required skills.
+                            </p>
+                        </div>
+                        <div style="display: flex; gap: 0.75rem; align-items: center;">
+                            <span class="badge badge-info"><i class="fa-solid fa-clock"></i> 45 minutes</span>
+                            <a href="/placement-practice/coding" class="btn btn-primary btn-lg" id="btnNextPlacementAction"><i class="fa-solid fa-play"></i> START PREPARATION</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TODAY'S PLACEMENT MISSION -->
+                <div class="glass-card dash-card" style="margin-bottom: 1.5rem;">
+                    <div class="card-title-row">
+                        <h3><i class="fa-solid fa-list-check text-success"></i> Today's Campus Placement Mission</h3>
+                        <span class="badge badge-accent" id="missionTimeBadge">1h 45m Total</span>
+                    </div>
+
+                    <div class="mission-tasks-list" id="placementMissionList">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- ELIGIBLE COMPANIES & DRIVE CARDS -->
+                <div class="glass-card dash-card" style="margin-bottom: 1.5rem;">
+                    <div class="card-title-row">
+                        <div>
+                            <h3><i class="fa-solid fa-building-user text-secondary"></i> Eligible Campus Placement Drives</h3>
+                            <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0.2rem 0 0 0;">Ranked by Priority Engine based on your eligibility, role fit, and readiness.</p>
+                        </div>
+
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn btn-outline btn-sm" onclick="filterCompanies('all')">All Companies</button>
+                            <button class="btn btn-primary btn-sm" onclick="filterCompanies('eligible')">Eligible Only</button>
+                        </div>
+                    </div>
+
+                    <div class="company-cards-grid" id="companyCardsGrid">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- COMPANY COMPARISON MATRIX -->
+                <div class="glass-card dash-card" style="margin-bottom: 1.5rem;">
+                    <div class="card-title-row">
+                        <h3><i class="fa-solid fa-code-compare text-cyan"></i> Campus Drives Comparison Matrix</h3>
+                        <span class="badge badge-info">Side-by-Side Analysis</span>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="comparison-table">
+                            <thead>
+                                <tr>
+                                    <th>Drive Metric</th>
+                                    <th>Zenvexa Technologies</th>
+                                    <th>TechForge Solutions</th>
+                                    <th>DataPrime AI</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Eligibility</strong></td>
+                                    <td><span class="badge badge-success">✓ Eligible</span></td>
+                                    <td><span class="badge badge-success">✓ Eligible</span></td>
+                                    <td><span class="badge badge-success">✓ Eligible</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Role Offered</strong></td>
+                                    <td>Software Development Engineer</td>
+                                    <td>Python Backend Developer</td>
+                                    <td>AI & ML Engineer Trainee</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Package (CTC)</strong></td>
+                                    <td>₹7.5 - 9.0 LPA</td>
+                                    <td>₹6.0 - 7.5 LPA</td>
+                                    <td>₹9.0 - 12.0 LPA</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Resume Match</strong></td>
+                                    <td><strong class="text-success">88%</strong></td>
+                                    <td><strong class="text-cyan">84%</strong></td>
+                                    <td><strong class="text-warning">82%</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Placement Readiness</strong></td>
+                                    <td><strong class="text-gradient">81%</strong></td>
+                                    <td><strong class="text-gradient">78%</strong></td>
+                                    <td><strong class="text-gradient">74%</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Rounds Count</strong></td>
+                                    <td>4 Rounds</td>
+                                    <td>4 Rounds</td>
+                                    <td>4 Rounds</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Application Status</strong></td>
+                                    <td><span class="badge badge-info">Applied</span></td>
+                                    <td><span class="badge badge-purple">Interview</span></td>
+                                    <td><span class="badge badge-gray">Not Applied</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- PLACEMENT CALENDAR & ANALYTICS GRID -->
+                <div class="grid-2-col">
+                    <!-- Calendar -->
+                    <div class="glass-card dash-card">
+                        <div class="card-title-row">
+                            <h3><i class="fa-solid fa-calendar-days text-violet"></i> Placement Calendar</h3>
+                            <span class="badge badge-accent">Upcoming Deadlines</span>
+                        </div>
+
+                        <div class="calendar-event-list">
+                            <div class="cal-event-item">
+                                <div class="cal-date">OCT 15</div>
+                                <div>
+                                    <strong>Zenvexa Online Assessment</strong>
+                                    <div style="font-size: 0.775rem; color: var(--text-muted);">Aptitude & Coding Test • 10:00 AM</div>
+                                </div>
+                                <span class="badge badge-danger">Upcoming</span>
+                            </div>
+                            <div class="cal-event-item">
+                                <div class="cal-date">OCT 18</div>
+                                <div>
+                                    <strong>TechForge Technical Interview</strong>
+                                    <div style="font-size: 0.775rem; color: var(--text-muted);">Python & System Design • 02:00 PM</div>
+                                </div>
+                                <span class="badge badge-purple">Scheduled</span>
+                            </div>
+                            <div class="cal-event-item">
+                                <div class="cal-date">OCT 22</div>
+                                <div>
+                                    <strong>CloudScale Application Deadline</strong>
+                                    <div style="font-size: 0.775rem; color: var(--text-muted);">Submit resume before 11:59 PM</div>
+                                </div>
+                                <span class="badge badge-warning">Deadline</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Analytics -->
+                    <div class="glass-card dash-card">
+                        <div class="card-title-row">
+                            <h3><i class="fa-solid fa-chart-line text-success"></i> Placement Conversion Analytics</h3>
+                            <span class="badge badge-success">Funnel Metrics</span>
+                        </div>
+
+                        <div class="funnel-metrics-list">
+                            <div class="funnel-row">
+                                <span>Application → Assessment Rate</span>
+                                <strong class="text-cyan">40%</strong>
+                            </div>
+                            <div class="funnel-bar-bg"><div class="funnel-bar-fill" style="width: 40%; background: var(--cyan);"></div></div>
+
+                            <div class="funnel-row" style="margin-top: 0.75rem;">
+                                <span>Assessment → Interview Conversion</span>
+                                <strong class="text-secondary">63%</strong>
+                            </div>
+                            <div class="funnel-bar-bg"><div class="funnel-bar-fill" style="width: 63%; background: var(--secondary);"></div></div>
+
+                            <div class="funnel-row" style="margin-top: 0.75rem;">
+                                <span>Interview → Offer Letter Conversion</span>
+                                <strong class="text-success">40%</strong>
+                            </div>
+                            <div class="funnel-bar-bg"><div class="funnel-bar-fill" style="width: 40%; background: var(--success);"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI PLACEMENT COACH CHAT -->
+                <div class="glass-card coach-widget-card">
+                    <div class="card-title-row">
+                        <h3><i class="fa-solid fa-user-astronaut text-cyan"></i> AI Placement Coach</h3>
+                        <span class="badge badge-accent">Campus Placement Guide</span>
+                    </div>
+
+                    <div class="coach-chat-window" id="placementChatWindow">
+                        <div class="chat-bubble ai">
+                            Hello! I am your <strong>AI Placement Coach</strong>. I've analyzed your academic CGPA, branch eligibility, skill readiness, and upcoming campus drives. What company or round would you like help with today?
+                        </div>
+                    </div>
+
+                    <div class="coach-prompts-row" id="placementPromptsRow">
+                        <span class="coach-prompt-chip" onclick="sendPlacementPrompt('Which company should I prepare for?')">Which company should I prepare for?</span>
+                        <span class="coach-prompt-chip" onclick="sendPlacementPrompt('Am I ready for this company?')">Am I ready for this company?</span>
+                        <span class="coach-prompt-chip" onclick="sendPlacementPrompt('What should I study today?')">What should I study today?</span>
+                        <span class="coach-prompt-chip" onclick="sendPlacementPrompt('Which round is my weakest?')">Which round is my weakest?</span>
+                        <span class="coach-prompt-chip" onclick="sendPlacementPrompt('Which companies am I eligible for?')">Which companies am I eligible for?</span>
+                        <span class="coach-prompt-chip" onclick="sendPlacementPrompt('Should I apply now or prepare first?')">Should I apply now or prepare first?</span>
+                    </div>
+
+                    <form id="placementInputForm" style="display: flex; gap: 0.75rem; margin-top: 0.5rem;">
+                        <input type="text" id="placementQueryInput" class="form-input" placeholder="Ask your AI Placement Coach anything..." required>
+                        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> Send</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- PROFILE EDIT MODAL -->
+    <div class="modal-backdrop" id="profileModal" style="display: none;">
+        <div class="glass-card modal-content" style="max-width: 600px; width: 90%; margin: 10vh auto; padding: 1.75rem;">
+            <div class="card-title-row" style="margin-bottom: 1rem;">
+                <h3><i class="fa-solid fa-user-pen text-secondary"></i> Student Placement Profile</h3>
+                <button class="btn-icon" onclick="closeProfileModal()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <form id="profileForm" onsubmit="savePlacementProfile(event)">
+                <div class="form-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                    <div>
+                        <label style="font-size: 0.8rem; color: var(--text-muted);">Full Name</label>
+                        <input type="text" id="profName" class="form-input" value="Rahul Sharma" required>
+                    </div>
+                    <div>
+                        <label style="font-size: 0.8rem; color: var(--text-muted);">College Name</label>
+                        <input type="text" id="profCollege" class="form-input" value="National Institute of Technology" required>
+                    </div>
+                    <div>
+                        <label style="font-size: 0.8rem; color: var(--text-muted);">Branch</label>
+                        <select id="profBranch" class="form-select" required>
+                            <option value="CSE" selected>CSE (Computer Science)</option>
+                            <option value="IT">IT (Information Tech)</option>
+                            <option value="AIML">AIML / Data Science</option>
+                            <option value="ECE">ECE (Electronics)</option>
+                            <option value="EEE">EEE (Electrical)</option>
+                            <option value="MECH">Mechanical</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="font-size: 0.8rem; color: var(--text-muted);">Graduation Year</label>
+                        <input type="number" id="profYear" class="form-input" value="2027" required>
+                    </div>
+                    <div>
+                        <label style="font-size: 0.8rem; color: var(--text-muted);">Cumulative CGPA</label>
+                        <input type="number" step="0.01" id="profCgpa" class="form-input" value="7.85" required>
+                    </div>
+                    <div>
+                        <label style="font-size: 0.8rem; color: var(--text-muted);">Active Backlogs</label>
+                        <input type="number" id="profBacklogs" class="form-input" value="0" required>
+                    </div>
+                </div>
+
+                <div style="margin-top: 1rem; text-align: right;">
+                    <button type="button" class="btn btn-outline" onclick="closeProfileModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Placement Profile</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- PLACEMENT REPORT MODAL -->
+    <div class="modal-backdrop" id="placementReportModal" style="display: none;">
+        <div class="glass-card modal-content" style="max-width: 800px; width: 90%; max-height: 85vh; overflow-y: auto; margin: 5vh auto; padding: 2rem;">
+            <div class="card-title-row" style="margin-bottom: 1rem;">
+                <h2><i class="fa-solid fa-file-invoice text-secondary"></i> Executive Placement Readiness Report</h2>
+                <button class="btn-icon" onclick="closePlacementReport()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <div id="placementReportContainer" style="color: #e2e8f0; line-height: 1.6; font-size: 0.95rem;">
+                <div style="text-align: center; padding: 2rem;"><i class="fa-solid fa-spinner fa-spin fa-2x text-secondary"></i><br><br>Generating campus placement report...</div>
+            </div>
+
+            <div style="margin-top: 1.5rem; text-align: right;">
+                <button class="btn btn-outline" onclick="window.print()"><i class="fa-solid fa-print"></i> Print</button>
+                <button class="btn btn-primary" onclick="closePlacementReport()">Done</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/placements.js') }}"></script>
+</body>
+</html>

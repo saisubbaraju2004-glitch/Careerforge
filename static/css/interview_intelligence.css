@@ -1,0 +1,73 @@
+/* Advanced Interview Intelligence CSS */
+.intel-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 0.75rem;
+}
+
+.intel-metric-card {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    padding: 0.8rem;
+    text-align: center;
+}
+
+.metric-val {
+    display: block;
+    font-size: 1.4rem;
+    font-weight: 800;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--secondary, #6366f1);
+}
+
+.metric-lbl {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted, #94a3b8);
+    margin-top: 0.2rem;
+}
+
+.sim-question-box {
+    background: rgba(15, 23, 42, 0.8);
+    border-left: 4px solid var(--secondary, #6366f1);
+    border-radius: 8px;
+    padding: 1.25rem;
+    font-size: 1.05rem;
+    color: #fff;
+    line-height: 1.6;
+}
+
+.answer-analysis-box {
+    background: rgba(30, 41, 59, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 1.25rem;
+}
+
+.analysis-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.analysis-item {
+    background: rgba(15, 23, 42, 0.5);
+    border-radius: 8px;
+    padding: 0.8rem;
+    font-size: 0.88rem;
+}
+
+.seven-day-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.day-plan-card {
+    background: rgba(30, 41, 59, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    padding: 1rem;
+}

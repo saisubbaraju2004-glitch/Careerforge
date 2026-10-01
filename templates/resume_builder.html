@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Resume Builder — CareerForge AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='assets/careerforge-favicon.png') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/resume_builder.css') }}">
+</head>
+<body class="dark-theme">
+    <div class="app-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="{{ url_for('static', filename='assets/careerforge-logo.png') }}" alt="CareerForge AI Logo" class="sidebar-logo-img" height="44" width="auto">
+                <span class="sidebar-brand-name">CareerForge<span style="color: var(--secondary);">.AI</span></span>
+            </div>
+            <nav class="sidebar-menu">
+                <a href="/career-agent" class="sidebar-link"><i class="fa-solid fa-robot" style="color: var(--secondary);"></i> <span>AI Career Agent</span></a>
+                <a href="/" class="sidebar-link"><i class="fa-solid fa-house"></i> <span>Overview</span></a>
+                <a href="/#formSection" class="sidebar-link"><i class="fa-solid fa-bullseye"></i> <span>Career Guide</span></a>
+                <a href="/#tabATS" class="sidebar-link"><i class="fa-solid fa-file-contract"></i> <span>Resume Analyzer</span></a>
+                <a href="/resume-builder" class="sidebar-link active"><i class="fa-solid fa-file-signature"></i> <span>AI Resume Builder</span></a>
+                <a href="/intelligence" class="sidebar-link"><i class="fa-solid fa-brain" style="color: var(--secondary);"></i> <span>Career Intelligence</span></a>
+                <a href="/#tabOverview" class="sidebar-link"><i class="fa-solid fa-layer-group"></i> <span>Skill Gaps</span></a>
+                <a href="/#tabRoadmap" class="sidebar-link"><i class="fa-solid fa-route"></i> <span>Roadmap</span></a>
+                <a href="/#tabPlan" class="sidebar-link"><i class="fa-solid fa-calendar-check"></i> <span>30-Day Plan</span></a>
+                <a href="/jobs" class="sidebar-link"><i class="fa-solid fa-briefcase"></i> <span>AI Job Matching</span></a>
+                <a href="/interview" class="sidebar-link"><i class="fa-solid fa-microphone"></i> <span>AI Interview</span></a>
+                <a href="/applications" class="sidebar-link"><i class="fa-solid fa-briefcase"></i> <span>Applications</span></a>
+                <a href="/progress" class="sidebar-link"><i class="fa-solid fa-chart-line"></i> <span>Progress</span></a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="sidebar-footer-btn" id="aiStatusBtn">
+                    <span><i class="fa-solid fa-brain" style="color: var(--secondary);"></i> Gemini Engine</span>
+                    <span class="ai-status-indicator"></span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="app-main">
+            <div class="main-content">
+                <!-- Page Header -->
+                <header class="builder-header">
+                    <div class="hero-badge"><i class="fa-solid fa-file-signature"></i> ATS Target Optimization Engine</div>
+                    <h1 class="page-title">AI Resume Builder</h1>
+                    <p class="page-subtitle">Build a resume optimized for your target role and ATS scanner compliance.</p>
+                </header>
+
+                <!-- Top Metrics & Controls Banner -->
+                <div class="builder-summary-banner glass-card">
+                    <div class="summary-metric-tile">
+                        <span class="metric-lbl">TARGET ROLE</span>
+                        <span class="metric-val" id="rbTargetRole">Python Backend Developer</span>
+                    </div>
+                    <div class="summary-metric-divider"></div>
+                    <div class="summary-metric-tile">
+                        <span class="metric-lbl">CURRENT ATS SCORE</span>
+                        <span class="metric-val highlight-cyan" id="rbAtsScore">76%</span>
+                    </div>
+                    <div class="summary-metric-divider"></div>
+                    <div class="summary-metric-tile">
+                        <span class="metric-lbl">TARGET JOB MATCH</span>
+                        <span class="metric-val highlight-purple" id="rbJobMatch">83%</span>
+                    </div>
+                    <div class="summary-metric-divider"></div>
+                    <div class="banner-actions">
+                        <button type="button" class="btn btn-secondary btn-sm" id="btnOptimizeResume">
+                            <i class="fa-solid fa-wand-magic-sparkles" style="color: var(--secondary);"></i> OPTIMIZE RESUME
+                        </button>
+                        <button type="button" class="btn btn-secondary btn-sm" id="btnSaveVersion">
+                            <i class="fa-solid fa-floppy-disk"></i> SAVE RESUME
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Template Selector & Version History Bar -->
+                <div class="builder-toolbar glass-card">
+                    <div class="toolbar-group">
+                        <label><i class="fa-solid fa-palette"></i> Resume Template:</label>
+                        <div class="template-chips">
+                            <button type="button" class="tmpl-chip active" data-tmpl="modern">Modern</button>
+                            <button type="button" class="tmpl-chip" data-tmpl="professional">Professional</button>
+                            <button type="button" class="tmpl-chip" data-tmpl="minimal">Minimal</button>
+                        </div>
+                    </div>
+                    <div class="toolbar-group">
+                        <label><i class="fa-solid fa-clock-rotate-left"></i> Versions:</label>
+                        <select id="versionSelect" class="version-select">
+                            <option value="current">Current Draft</option>
+                        </select>
+                        <button type="button" class="btn-text-action" id="btnRestoreVersion">Restore</button>
+                    </div>
+                </div>
+
+                <!-- Split Workspace: Left Editor (50%) / Right Preview (50%) -->
+                <div class="builder-workspace">
+                    <!-- Left Column: Editor Form -->
+                    <div class="editor-column glass-card">
+                        <div class="editor-section-header">
+                            <h2><i class="fa-solid fa-pen-to-square"></i> Resume Content Editor</h2>
+                            <span class="text-muted" style="font-size:0.8rem;">Changes update live preview</span>
+                        </div>
+
+                        <form id="resumeForm" onsubmit="return false;">
+                            <!-- Personal Info -->
+                            <div class="form-accordion active">
+                                <div class="accordion-title"><i class="fa-solid fa-user"></i> Personal Information</div>
+                                <div class="accordion-body grid-2">
+                                    <div class="form-group">
+                                        <label>Full Name</label>
+                                        <input type="text" id="piName" class="form-control" value="G.Subbaraju">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Email Address</label>
+                                        <input type="email" id="piEmail" class="form-control" value="subbaraju@example.com">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Phone Number</label>
+                                        <input type="text" id="piPhone" class="form-control" value="+91 98765 43210">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Location</label>
+                                        <input type="text" id="piLocation" class="form-control" value="Bengaluru, India">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>LinkedIn URL</label>
+                                        <input type="text" id="piLinkedin" class="form-control" value="linkedin.com/in/subbaraju">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>GitHub URL</label>
+                                        <input type="text" id="piGithub" class="form-control" value="github.com/subbaraju">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Career Summary -->
+                            <div class="form-accordion">
+                                <div class="accordion-title">
+                                    <span><i class="fa-solid fa-paragraph"></i> Professional Summary</span>
+                                    <button type="button" class="btn-ai-sparkle" id="btnGenSummary">
+                                        <i class="fa-solid fa-wand-magic-sparkles"></i> GENERATE AI SUMMARY
+                                    </button>
+                                </div>
+                                <div class="accordion-body">
+                                    <div class="form-group">
+                                        <textarea id="summaryText" class="form-control" rows="4" placeholder="Write or generate a professional summary..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Skills -->
+                            <div class="form-accordion">
+                                <div class="accordion-title"><i class="fa-solid fa-code"></i> Technical Skills</div>
+                                <div class="accordion-body grid-2">
+                                    <div class="form-group">
+                                        <label>Programming Languages</label>
+                                        <input type="text" id="skillsProg" class="form-control" value="Python, SQL, JavaScript, HTML, CSS">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Frameworks & Libraries</label>
+                                        <input type="text" id="skillsFw" class="form-control" value="Flask, FastAPI, Django, REST APIs">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Databases & Cloud</label>
+                                        <input type="text" id="skillsDb" class="form-control" value="PostgreSQL, SQLite, Redis">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Tools & Platforms</label>
+                                        <input type="text" id="skillsTools" class="form-control" value="Git, Docker, VS Code, Linux">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Projects -->
+                            <div class="form-accordion">
+                                <div class="accordion-title"><i class="fa-solid fa-laptop-code"></i> Projects</div>
+                                <div class="accordion-body">
+                                    <div id="projectsContainer">
+                                        <!-- JS populates project form fields -->
+                                    </div>
+                                    <button type="button" class="btn-add-item" id="btnAddProject"><i class="fa-solid fa-plus"></i> Add Project</button>
+                                </div>
+                            </div>
+
+                            <!-- Experience -->
+                            <div class="form-accordion">
+                                <div class="accordion-title"><i class="fa-solid fa-briefcase"></i> Experience</div>
+                                <div class="accordion-body">
+                                    <div id="experienceContainer">
+                                        <!-- JS populates experience form fields -->
+                                    </div>
+                                    <button type="button" class="btn-add-item" id="btnAddExperience"><i class="fa-solid fa-plus"></i> Add Experience</button>
+                                </div>
+                            </div>
+
+                            <!-- Education -->
+                            <div class="form-accordion">
+                                <div class="accordion-title"><i class="fa-solid fa-graduation-cap"></i> Education</div>
+                                <div class="accordion-body grid-2">
+                                    <div class="form-group">
+                                        <label>Degree</label>
+                                        <input type="text" id="eduDegree" class="form-control" value="B.Tech in Computer Science">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>College / University</label>
+                                        <input type="text" id="eduCollege" class="form-control" value="Engineering College">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Graduation Year</label>
+                                        <input type="text" id="eduYear" class="form-control" value="2027">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>CGPA / Percentage</label>
+                                        <input type="text" id="eduCgpa" class="form-control" value="8.5 / 10">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Certifications & Achievements -->
+                            <div class="form-accordion">
+                                <div class="accordion-title"><i class="fa-solid fa-award"></i> Certifications & Achievements</div>
+                                <div class="accordion-body grid-2">
+                                    <div class="form-group">
+                                        <label>Certifications (comma separated)</label>
+                                        <input type="text" id="certificationsText" class="form-control" value="Python Professional Certificate, REST API Specialist">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Key Achievements</label>
+                                        <input type="text" id="achievementsText" class="form-control" value="Secured 1st Rank in College CodeForge Hackathon 2026. Member of Core Developer Club.">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Right Column: Live Resume Preview (50%) -->
+                    <div class="preview-column">
+                        <div class="preview-toolbar glass-card">
+                            <span class="preview-title"><i class="fa-solid fa-eye"></i> LIVE ATS PREVIEW</span>
+                            <div class="preview-actions">
+                                <button type="button" class="btn btn-secondary btn-sm" id="btnPrintPdf"><i class="fa-solid fa-print"></i> PRINT / SAVE PDF</button>
+                                <button type="button" class="btn btn-primary btn-sm btn-glow" id="btnDownloadPdf"><i class="fa-solid fa-download"></i> DOWNLOAD PDF</button>
+                            </div>
+                        </div>
+
+                        <!-- Printable White Document Container -->
+                        <div class="resume-document-wrapper">
+                            <div class="resume-document template-modern" id="resumeDocument">
+                                <!-- JS live renders document content here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ATS Analysis & Keyword Coverage Section -->
+                <section class="ats-analysis-section glass-card" style="margin-top: 2.5rem;">
+                    <div class="section-header-compact">
+                        <h2><i class="fa-solid fa-sliders" style="color: var(--secondary);"></i> ATS OPTIMIZATION ANALYSIS</h2>
+                        <span class="attribution-badge">CareerForge ATS estimate • Target Role Alignment</span>
+                    </div>
+
+                    <div class="ats-analysis-grid">
+                        <div class="ats-card-box">
+                            <h4><i class="fa-solid fa-circle-check" style="color: #22c55e;"></i> MATCHED KEYWORDS</h4>
+                            <div class="keyword-tags" id="matchedKeywordsTags">
+                                <!-- JS populates matched keywords -->
+                            </div>
+                        </div>
+                        <div class="ats-card-box">
+                            <h4><i class="fa-solid fa-triangle-exclamation" style="color: #f59e0b;"></i> MISSING KEYWORDS</h4>
+                            <div class="keyword-tags" id="missingKeywordsTags">
+                                <!-- JS populates missing keywords -->
+                            </div>
+                        </div>
+                        <div class="ats-card-box">
+                            <h4><i class="fa-solid fa-lightbulb" style="color: #c084fc;"></i> AI RESUME INSIGHTS</h4>
+                            <div class="insights-list-compact" id="resumeInsightsList">
+                                <!-- JS populates resume insights -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Optimization Modal -->
+    <div class="modal-backdrop" id="optModalBackdrop" style="display: none;">
+        <div class="modal-window glass-card">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-wand-magic-sparkles"></i> AI Resume Optimization Suggestions</h2>
+                <button type="button" class="btn-close-modal" id="btnCloseOptModal">&times;</button>
+            </div>
+            <div class="modal-body" id="optModalBody">
+                <!-- JS populates suggestions -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="btnCancelOpt">Close</button>
+                <button type="button" class="btn btn-primary btn-glow" id="btnAcceptOpt">Accept All Suggestions</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/resume_builder.js') }}"></script>
+</body>
+</html>

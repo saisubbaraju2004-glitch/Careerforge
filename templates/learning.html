@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personalized Learning Engine — CareerForge AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='assets/careerforge-favicon.png') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/learning.css') }}">
+</head>
+<body class="dark-theme">
+    <div class="app-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="{{ url_for('static', filename='assets/careerforge-logo.png') }}" alt="CareerForge AI Logo" class="sidebar-logo-img" height="44" width="auto">
+                <span class="sidebar-brand-name">CareerForge<span style="color: var(--secondary);">.AI</span></span>
+            </div>
+            <nav class="sidebar-menu">
+                <a href="/" class="sidebar-link"><i class="fa-solid fa-house"></i> <span>Overview</span></a>
+                <a href="/career-agent" class="sidebar-link"><i class="fa-solid fa-robot" style="color: var(--secondary);"></i> <span>AI Career Agent</span></a>
+                <a href="/placements" class="sidebar-link"><i class="fa-solid fa-graduation-cap" style="color: var(--cyan);"></i> <span>Placement Command</span></a>
+                <a href="/placement-strategy" class="sidebar-link"><i class="fa-solid fa-bullseye" style="color: var(--secondary);"></i> <span>Placement Strategy</span></a>
+                <a href="/job-match" class="sidebar-link"><i class="fa-solid fa-microchip" style="color: var(--accent);"></i> <span>AI Job Matching</span></a>
+                <a href="/interview-intelligence" class="sidebar-link"><i class="fa-solid fa-brain"></i> <span>Interview Intelligence</span></a>
+                <a href="/learning" class="sidebar-link active"><i class="fa-solid fa-book-open" style="color: #10b981;"></i> <span>Personalized Learning</span></a>
+                <a href="/resume-builder" class="sidebar-link"><i class="fa-solid fa-file-signature"></i> <span>Resume Builder</span></a>
+                <a href="/jobs" class="sidebar-link"><i class="fa-solid fa-briefcase"></i> <span>Jobs</span></a>
+                <a href="/applications" class="sidebar-link"><i class="fa-solid fa-paper-plane"></i> <span>Applications</span></a>
+                <a href="/progress" class="sidebar-link"><i class="fa-solid fa-chart-line"></i> <span>Progress</span></a>
+            </nav>
+        </aside>
+
+        <main class="app-main">
+            <div class="main-content">
+                <div class="card-title-row" style="margin-bottom: 1.5rem;">
+                    <div>
+                        <h1 class="hero-title" style="font-size: 2.2rem; margin-bottom: 0.3rem;">Personalized <span class="text-gradient">Learning Engine</span></h1>
+                        <p style="color: var(--text-muted); font-size: 0.95rem; margin: 0;">Skill gap remediation, official docs links, and adaptive daily missions.</p>
+                    </div>
+                </div>
+
+                <!-- WHAT SHOULD I LEARN NEXT HERO -->
+                <div class="glass-card strategy-hero-card" style="margin-bottom: 1.5rem;">
+                    <div class="card-title-row" style="margin-bottom: 0.75rem;">
+                        <span class="badge badge-success"><i class="fa-solid fa-bolt"></i> 💡 WHAT SHOULD I LEARN NEXT?</span>
+                        <span class="badge badge-info" id="nextEstTime">45 Minutes</span>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                        <div>
+                            <h2 style="font-size: 1.5rem; font-weight: 800; color: #fff; margin: 0 0 0.3rem 0;" id="nextTitle">
+                                🎯 LEARN DOCKER CONTAINERIZATION TODAY
+                            </h2>
+                            <p style="font-size: 0.95rem; color: var(--text-muted); margin: 0;" id="nextReason">
+                                Docker is required by 6 target companies and was flagged as your #1 interview weakness.
+                            </p>
+                        </div>
+                        <div>
+                            <a href="https://docs.docker.com/" target="_blank" class="btn btn-primary" id="btnNextAction">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i> Open Official Docs
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DAILY LEARNING MISSION CARD -->
+                <div class="glass-card dash-card" style="margin-bottom: 1.5rem;">
+                    <div class="card-title-row">
+                        <div>
+                            <h3><i class="fa-solid fa-flag text-secondary"></i> Today's Learning Mission</h3>
+                            <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0.2rem 0 0 0;">Select your available time budget for today.</p>
+                        </div>
+
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn btn-outline btn-sm" onclick="setDailyTime('30 minutes')">30m</button>
+                            <button class="btn btn-primary btn-sm" onclick="setDailyTime('1 hour')">1h</button>
+                            <button class="btn btn-outline btn-sm" onclick="setDailyTime('2 hours')">2h</button>
+                        </div>
+                    </div>
+
+                    <div class="daily-mission-content" style="margin-top: 1rem; background: rgba(15,23,42,0.6); padding: 1.25rem; border-radius: 12px;" id="dailyMissionBox">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- 30-DAY LEARNING CURRICULUM -->
+                <div class="glass-card dash-card">
+                    <div class="card-title-row">
+                        <div>
+                            <h3><i class="fa-solid fa-list-ol text-cyan"></i> Personalized 30-Day Learning Plan</h3>
+                        </div>
+                    </div>
+
+                    <div class="plan-table-wrapper" style="margin-top: 1rem; max-height: 400px; overflow-y: auto;">
+                        <table class="table" id="planTable">
+                            <thead>
+                                <tr>
+                                    <th>Day</th>
+                                    <th>Skill</th>
+                                    <th>Topic & Description</th>
+                                    <th>Resource</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="planTableBody">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/learning.js') }}"></script>
+</body>
+</html>

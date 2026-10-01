@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Match Detail — CareerForge AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='assets/careerforge-favicon.png') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/job_match.css') }}">
+</head>
+<body class="dark-theme">
+    <div class="app-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="{{ url_for('static', filename='assets/careerforge-logo.png') }}" alt="CareerForge AI Logo" class="sidebar-logo-img" height="44" width="auto">
+                <span class="sidebar-brand-name">CareerForge<span style="color: var(--secondary);">.AI</span></span>
+            </div>
+            <nav class="sidebar-menu">
+                <a href="/career-agent" class="sidebar-link"><i class="fa-solid fa-robot" style="color: var(--secondary);"></i> <span>AI Career Agent</span></a>
+                <a href="/placements" class="sidebar-link"><i class="fa-solid fa-graduation-cap" style="color: var(--cyan);"></i> <span>Placement Command</span></a>
+                <a href="/placement-strategy" class="sidebar-link"><i class="fa-solid fa-bullseye" style="color: var(--secondary);"></i> <span>Placement Strategy</span></a>
+                <a href="/job-match" class="sidebar-link active"><i class="fa-solid fa-microchip" style="color: var(--accent);"></i> <span>AI Job Matching</span></a>
+                <a href="/" class="sidebar-link"><i class="fa-solid fa-house"></i> <span>Overview</span></a>
+                <a href="/#formSection" class="sidebar-link"><i class="fa-solid fa-sliders"></i> <span>Career Guide</span></a>
+                <a href="/#tabATS" class="sidebar-link"><i class="fa-solid fa-file-contract"></i> <span>Resume Analyzer</span></a>
+                <a href="/resume-builder" class="sidebar-link"><i class="fa-solid fa-file-signature"></i> <span>AI Resume Builder</span></a>
+                <a href="/intelligence" class="sidebar-link"><i class="fa-solid fa-brain"></i> <span>Career Intelligence</span></a>
+                <a href="/#tabOverview" class="sidebar-link"><i class="fa-solid fa-layer-group"></i> <span>Skill Gaps</span></a>
+                <a href="/#tabRoadmap" class="sidebar-link"><i class="fa-solid fa-route"></i> <span>Roadmap</span></a>
+                <a href="/#tabPlan" class="sidebar-link"><i class="fa-solid fa-calendar-check"></i> <span>30-Day Plan</span></a>
+                <a href="/jobs" class="sidebar-link"><i class="fa-solid fa-briefcase"></i> <span>AI Job Matching</span></a>
+                <a href="/interview" class="sidebar-link"><i class="fa-solid fa-microphone"></i> <span>AI Interview</span></a>
+                <a href="/applications" class="sidebar-link"><i class="fa-solid fa-briefcase"></i> <span>Applications</span></a>
+                <a href="/progress" class="sidebar-link"><i class="fa-solid fa-chart-line"></i> <span>Progress</span></a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="sidebar-footer-btn">
+                    <span><i class="fa-solid fa-microchip" style="color: var(--accent);"></i> Match Detail</span>
+                    <span class="ai-status-indicator"></span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="app-main">
+            <div class="main-content">
+                <input type="hidden" id="currentJobId" value="{{ job_id }}">
+
+                <!-- Breadcrumb & Header -->
+                <div style="margin-bottom: 1rem;">
+                    <a href="/job-match" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem;">
+                        <i class="fa-solid fa-arrow-left"></i> Back to AI Job Matches
+                    </a>
+                </div>
+
+                <div class="card-title-row" style="margin-bottom: 1.5rem;">
+                    <div>
+                        <h1 class="hero-title" style="font-size: 2rem; margin-bottom: 0.3rem;" id="detailJobTitle">
+                            Loading Job Title...
+                        </h1>
+                        <p style="color: var(--text-muted); font-size: 0.95rem; margin: 0;" id="detailCompanySub">
+                            Loading Company Name...
+                        </p>
+                    </div>
+                    <div>
+                        <span class="badge" id="detailMatchBadge" style="font-size: 1rem; padding: 0.5rem 1rem;">Analyzing Match...</span>
+                    </div>
+                </div>
+
+                <!-- MATCH OVERVIEW & APPLY DECISION HERO CARD -->
+                <div class="glass-card strategy-hero-card" style="margin-bottom: 1.5rem;">
+                    <div class="card-title-row" style="margin-bottom: 1rem;">
+                        <span class="badge badge-purple"><i class="fa-solid fa-award"></i> APPLY FIRST DECISION ENGINE</span>
+                        <span class="badge" id="detailPriorityBadge">HIGH PRIORITY</span>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem;">
+                        <div style="flex: 1; min-width: 280px;">
+                            <h2 style="font-size: 1.5rem; font-weight: 800; color: #fff; margin: 0 0 0.5rem 0;" id="detailDecisionTitle">
+                                Target Alignment Analysis
+                            </h2>
+                            <p style="font-size: 0.95rem; color: var(--text-muted); margin: 0; line-height: 1.6;" id="detailDecisionReason">
+                                Evaluating skills, experience, and eligibility factors...
+                            </p>
+                        </div>
+
+                        <div class="score-radial-box">
+                            <div class="score-number" id="detailOverallScore">0%</div>
+                            <div class="score-label">OVERALL MATCH FIT</div>
+                        </div>
+
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                            <a href="#" target="_blank" class="btn btn-primary btn-lg" id="btnApplyNowLink">
+                                <i class="fa-solid fa-paper-plane"></i> APPLY NOW FOR THIS ROLE
+                            </a>
+                            <a href="#" class="btn btn-outline" id="btnStartInterviewLink">
+                                <i class="fa-solid fa-microphone"></i> Practice Interview for Role
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 7-FACTOR MATCH BREAKDOWN GRID -->
+                <div class="dash-section" style="margin-bottom: 1.5rem;">
+                    <h3 style="margin-bottom: 1rem;"><i class="fa-solid fa-sliders text-secondary"></i> 7-Factor Match Alignment Breakdown</h3>
+                    <div class="factor-breakdown-grid" id="factorBreakdownGrid">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- TWO COLUMN: SKILL MATCHING VS AI RESUME BULLET OPTIMIZER -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                    <!-- Column 1: Skill Breakdown -->
+                    <div class="glass-card dash-card">
+                        <div class="card-title-row" style="margin-bottom: 1rem;">
+                            <h3><i class="fa-solid fa-circle-check text-success"></i> Skills Alignment & Gaps</h3>
+                        </div>
+
+                        <div style="margin-bottom: 1.25rem;">
+                            <h4 style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 0.5rem;">MATCHED SKILLS ON YOUR RESUME</h4>
+                            <div class="skills-flex" id="detailMatchedSkills">
+                                <!-- Populated by JS -->
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 0.5rem;">MISSING KEYWORDS & SKILLS</h4>
+                            <div class="skills-flex" id="detailMissingSkills">
+                                <!-- Populated by JS -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Column 2: AI Tailored Resume Bullet Generator -->
+                    <div class="glass-card dash-card">
+                        <div class="card-title-row" style="margin-bottom: 1rem;">
+                            <div>
+                                <h3><i class="fa-solid fa-wand-magic-sparkles text-accent"></i> Tailored Resume Bullet Suggestions</h3>
+                                <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0.2rem 0 0 0;">AI-tailored experience points for this target role.</p>
+                            </div>
+                            <div>
+                                <button class="btn btn-outline btn-sm" onclick="generateDetailBulletSuggestions()">
+                                    <i class="fa-solid fa-rotate-right"></i> Regenerate
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- MANDATORY DISCLAIMER LABEL -->
+                        <div class="ai-warning-banner" style="margin-bottom: 1rem;">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                            <span style="font-weight: 700;">AI Suggestion — Verify before using</span>
+                        </div>
+
+                        <div class="tailored-bullets-list" id="tailoredBulletsList">
+                            <p style="color: var(--text-muted); font-size: 0.9rem;">Click regenerate or load page to receive tailored ATS bullet points.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/job_match.js') }}"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const jid = document.getElementById("currentJobId").value;
+            if (jid) {
+                loadJobMatchDetail(jid);
+            }
+        });
+    </script>
+</body>
+</html>

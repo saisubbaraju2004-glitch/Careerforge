@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Job Matching — CareerForge AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='assets/careerforge-favicon.png') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/jobs.css') }}">
+</head>
+<body class="dark-theme">
+    <div class="app-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="{{ url_for('static', filename='assets/careerforge-logo.png') }}" alt="CareerForge AI Logo" class="sidebar-logo-img" height="44" width="auto">
+                <span class="sidebar-brand-name">CareerForge<span style="color: var(--secondary);">.AI</span></span>
+            </div>
+            <nav class="sidebar-menu">
+                <a href="/career-agent" class="sidebar-link"><i class="fa-solid fa-robot" style="color: var(--secondary);"></i> <span>AI Career Agent</span></a>
+                <a href="/placements" class="sidebar-link"><i class="fa-solid fa-graduation-cap" style="color: var(--cyan);"></i> <span>Placement Command</span></a>
+                <a href="/placement-strategy" class="sidebar-link"><i class="fa-solid fa-bullseye" style="color: var(--secondary);"></i> <span>Placement Strategy</span></a>
+                <a href="/" class="sidebar-link"><i class="fa-solid fa-house"></i> <span>Overview</span></a>
+                <a href="/#formSection" class="sidebar-link"><i class="fa-solid fa-bullseye"></i> <span>Career Guide</span></a>
+                <a href="/#tabATS" class="sidebar-link"><i class="fa-solid fa-file-contract"></i> <span>Resume Analyzer</span></a>
+                <a href="/resume-builder" class="sidebar-link"><i class="fa-solid fa-file-signature"></i> <span>AI Resume Builder</span></a>
+                <a href="/intelligence" class="sidebar-link"><i class="fa-solid fa-brain" style="color: var(--secondary);"></i> <span>Career Intelligence</span></a>
+                <a href="/#tabOverview" class="sidebar-link"><i class="fa-solid fa-layer-group"></i> <span>Skill Gaps</span></a>
+                <a href="/#tabRoadmap" class="sidebar-link"><i class="fa-solid fa-route"></i> <span>Roadmap</span></a>
+                <a href="/#tabPlan" class="sidebar-link"><i class="fa-solid fa-calendar-check"></i> <span>30-Day Plan</span></a>
+                <a href="/jobs" class="sidebar-link active"><i class="fa-solid fa-briefcase"></i> <span>AI Job Matching</span></a>
+                <a href="/interview" class="sidebar-link"><i class="fa-solid fa-microphone"></i> <span>AI Interview</span></a>
+                <a href="/applications" class="sidebar-link"><i class="fa-solid fa-briefcase"></i> <span>Applications</span></a>
+                <a href="/progress" class="sidebar-link"><i class="fa-solid fa-chart-line"></i> <span>Progress</span></a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="sidebar-footer-btn" id="aiStatusBtn">
+                    <span><i class="fa-solid fa-brain" style="color: var(--secondary);"></i> Gemini Engine</span>
+                    <span class="ai-status-indicator"></span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="app-main">
+            <div class="main-content">
+                <!-- Page Header -->
+                <header class="jobs-header">
+                    <div class="hero-badge"><i class="fa-solid fa-bullseye"></i> Placement Matchmaking Engine</div>
+                    <h1 class="page-title">AI Job Matching</h1>
+                    <p class="page-subtitle">Find opportunities that match your current career readiness & skill stack.</p>
+                </header>
+
+                <!-- Top Metrics Banner -->
+                <div class="jobs-summary-banner glass-card">
+                    <div class="summary-metric-tile">
+                        <span class="metric-lbl">TARGET ROLE</span>
+                        <span class="metric-val" id="jobsTargetRole">Python Backend Developer</span>
+                    </div>
+                    <div class="summary-metric-divider"></div>
+                    <div class="summary-metric-tile">
+                        <span class="metric-lbl">CAREER READINESS</span>
+                        <span class="metric-val highlight-cyan" id="jobsReadinessScore">72%</span>
+                    </div>
+                    <div class="summary-metric-divider"></div>
+                    <div class="summary-metric-tile">
+                        <span class="metric-lbl">MATCHING JOBS</span>
+                        <span class="metric-val highlight-purple" id="jobsTotalCount">8</span>
+                    </div>
+                    <div class="summary-metric-divider"></div>
+                    <div class="summary-metric-tile">
+                        <span class="data-tag-pill"><i class="fa-solid fa-database"></i> Demo Job Dataset</span>
+                    </div>
+                </div>
+
+                <!-- Top 3 AI Recommended Jobs -->
+                <section class="top-recommended-section">
+                    <div class="section-header-compact">
+                        <h2><i class="fa-solid fa-star" style="color: #eab308;"></i> AI RECOMMENDED FOR YOU</h2>
+                        <span class="section-desc">Top 3 high-probability placement opportunities based on your profile fit.</span>
+                    </div>
+                    <div class="top-recs-grid" id="topRecsGrid">
+                        <!-- JS populates top 3 job cards -->
+                    </div>
+                </section>
+
+                <!-- Main Job Matching Workspace -->
+                <div class="jobs-workspace-layout">
+                    <!-- Filters Sidebar / Bar -->
+                    <div class="glass-card jobs-filter-bar">
+                        <div class="filter-header">
+                            <h3><i class="fa-solid fa-filter"></i> Job Filters</h3>
+                            <button type="button" class="btn-reset-filters" id="btnResetFilters">Reset</button>
+                        </div>
+                        <div class="filter-controls-grid">
+                            <div class="filter-group">
+                                <label><i class="fa-solid fa-magnifying-glass"></i> Search Keyword</label>
+                                <input type="text" id="filterKeyword" class="filter-input" placeholder="Role, company, technology...">
+                            </div>
+                            <div class="filter-group">
+                                <label><i class="fa-solid fa-laptop-house"></i> Work Mode</label>
+                                <select id="filterWorkMode" class="filter-select">
+                                    <option value="All">All Modes</option>
+                                    <option value="Remote">Remote</option>
+                                    <option value="Hybrid">Hybrid</option>
+                                    <option value="Onsite">Onsite</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label><i class="fa-solid fa-user-graduate"></i> Experience</label>
+                                <select id="filterExperience" class="filter-select">
+                                    <option value="All">All Levels</option>
+                                    <option value="Fresher">Fresher</option>
+                                    <option value="0–1 Years">0–1 Years</option>
+                                    <option value="1–3 Years">1–3 Years</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label><i class="fa-solid fa-percent"></i> Match Score</label>
+                                <select id="filterMatchScore" class="filter-select">
+                                    <option value="All">All Scores</option>
+                                    <option value="80">80%+ Excellent</option>
+                                    <option value="60">60%+ Good</option>
+                                    <option value="40">40%+ Partial</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label><i class="fa-solid fa-arrow-down-short-wide"></i> Sort By</label>
+                                <select id="sortJobs" class="filter-select">
+                                    <option value="match">Best Match Score</option>
+                                    <option value="salary">Highest Salary</option>
+                                    <option value="gap">Lowest Skill Gap</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Job Cards Grid -->
+                    <div class="job-cards-container" id="jobCardsContainer">
+                        <!-- JS populates job cards -->
+                    </div>
+                </div>
+
+                <!-- Market Skill Demand Section -->
+                <section class="market-demand-section glass-card">
+                    <div class="section-header-compact">
+                        <h2><i class="fa-solid fa-chart-column" style="color: var(--secondary);"></i> WHAT EMPLOYERS ARE LOOKING FOR</h2>
+                        <span class="attribution-badge" id="marketAttribution">Based on available CareerForge job dataset</span>
+                    </div>
+                    <p class="section-intro">Skill prevalence across current database opportunities for your target role:</p>
+                    <div class="demand-bars-grid" id="demandBarsGrid">
+                        <!-- JS populates skill demand bars -->
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Job Details & Match Analysis Modal -->
+    <div class="modal-backdrop" id="jobModalBackdrop" style="display: none;">
+        <div class="modal-window glass-card">
+            <div class="modal-header">
+                <div class="modal-title-wrap">
+                    <span class="data-tag-pill">Demo Job Posting</span>
+                    <h2 id="modalJobTitle">Python Backend Developer</h2>
+                    <p id="modalJobMeta">TechForge Solutions • Bengaluru (Hybrid) • ₹5–8 LPA</p>
+                </div>
+                <button type="button" class="btn-close-modal" id="btnCloseModal">&times;</button>
+            </div>
+            
+            <div class="modal-body">
+                <!-- Match Score Header Pill -->
+                <div class="modal-match-header">
+                    <div class="modal-score-circle" id="modalScoreCircle">
+                        <span id="modalScoreNum">87</span>%
+                    </div>
+                    <div class="modal-score-info">
+                        <div class="readiness-badge-pill" id="modalReadinessPill">🟢 APPLY NOW</div>
+                        <p class="modal-readiness-reason" id="modalReadinessReason">You meet most critical requirements. High placement match probability.</p>
+                    </div>
+                </div>
+
+                <!-- 2 Column Modal Breakdown -->
+                <div class="modal-grid">
+                    <!-- Column 1: Why Match & Advantage -->
+                    <div class="modal-col">
+                        <div class="modal-box match-box">
+                            <h4><i class="fa-solid fa-circle-check" style="color: #22c55e;"></i> WHY YOU MATCH</h4>
+                            <ul class="match-list-bullets" id="modalMatchingSkills">
+                                <!-- JS populates matched skills -->
+                            </ul>
+                        </div>
+                        <div class="modal-box advantage-box">
+                            <h4><i class="fa-solid fa-wand-magic-sparkles" style="color: var(--secondary);"></i> YOUR ADVANTAGE</h4>
+                            <p id="modalAdvantageText">Your backend project experience aligns well with this position.</p>
+                        </div>
+                    </div>
+
+                    <!-- Column 2: What Needed & Skill Gap -->
+                    <div class="modal-col">
+                        <div class="modal-box gap-box">
+                            <h4><i class="fa-solid fa-triangle-exclamation" style="color: #f59e0b;"></i> WHAT YOU NEED</h4>
+                            <ul class="match-list-bullets" id="modalMissingSkills">
+                                <!-- JS populates missing skills -->
+                            </ul>
+                        </div>
+                        <div class="modal-box time-box">
+                            <h4><i class="fa-solid fa-clock-rotate-left"></i> ESTIMATED TIME TO CLOSE GAPS</h4>
+                            <span class="gap-time-val" id="modalGapTime">14 days</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Full Job Skill Checklist -->
+                <div class="modal-box checklist-box">
+                    <h4><i class="fa-solid fa-list-check"></i> JOB SKILL REQUIREMENT BREAKDOWN</h4>
+                    <div class="checklist-grid" id="modalSkillChecklist">
+                        <!-- JS populates checklist -->
+                    </div>
+                </div>
+
+                <!-- AI Job Coach Pitch Box -->
+                <div class="modal-box coach-pitch-box">
+                    <div class="coach-pitch-header">
+                        <span><i class="fa-solid fa-brain" style="color: var(--secondary);"></i> AI Job Coach Analysis</span>
+                        <button type="button" class="btn-ask-coach" id="btnAskJobCoach"><i class="fa-solid fa-comments"></i> Why should I apply?</button>
+                    </div>
+                    <div class="coach-reply-body" id="coachReplyBody">
+                        Click "Why should I apply?" for personalized AI application strategy.
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="btnModalClose">Close</button>
+                <a href="#" class="btn btn-secondary" id="btnModalBuildResume">
+                    <i class="fa-solid fa-file-signature"></i> BUILD RESUME FOR THIS JOB
+                </a>
+                <a href="#" class="btn btn-secondary" id="btnModalPracticeInterview">
+                    <i class="fa-solid fa-microphone"></i> PRACTICE FOR THIS JOB
+                </a>
+                <a href="#" target="_blank" class="btn btn-primary btn-glow" id="btnModalApply">
+                    <i class="fa-solid fa-paper-plane"></i> APPLY FOR THIS JOB
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/jobs.js') }}"></script>
+</body>
+</html>

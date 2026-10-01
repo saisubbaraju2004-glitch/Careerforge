@@ -1,0 +1,20 @@
+{
+  "skills": [
+    {"id": "python", "name": "Python", "category": "Languages"},
+    {"id": "javascript", "name": "JavaScript", "category": "Languages"},
+    {"id": "html", "name": "HTML", "category": "Languages"},
+    {"id": "css", "name": "CSS", "category": "Languages"},
+    {"id": "sql", "name": "SQL", "category": "Databases"},
+    {"id": "postgresql", "name": "PostgreSQL", "category": "Databases"},
+    {"id": "flask", "name": "Flask", "category": "Backend Frameworks"},
+    {"id": "django", "name": "Django", "category": "Backend Frameworks"},
+    {"id": "rest_api", "name": "REST APIs", "category": "Architecture"},
+    {"id": "docker", "name": "Docker", "category": "DevOps & Cloud"},
+    {"id": "git", "name": "Git", "category": "Tools"},
+    {"id": "testing", "name": "Testing", "category": "Quality Assurance"},
+    {"id": "react", "name": "React", "category": "Frontend Frameworks"},
+    {"id": "tailwind", "name": "Tailwind CSS", "category": "Frontend Frameworks"},
+    {"id": "pytorch", "name": "PyTorch", "category": "Machine Learning"},
+    {"id": "llm_api", "name": "LLM APIs", "category": "Machine Learning"}
+  ]
+}

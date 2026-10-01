@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Placement Details — CareerForge AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='assets/careerforge-favicon.png') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/placements.css') }}">
+</head>
+<body class="dark-theme">
+    <div class="app-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="{{ url_for('static', filename='assets/careerforge-logo.png') }}" alt="CareerForge AI Logo" class="sidebar-logo-img" height="44" width="auto">
+                <span class="sidebar-brand-name">CareerForge<span style="color: var(--secondary);">.AI</span></span>
+            </div>
+            <nav class="sidebar-menu">
+                <a href="/career-agent" class="sidebar-link"><i class="fa-solid fa-robot" style="color: var(--secondary);"></i> <span>AI Career Agent</span></a>
+                <a href="/placements" class="sidebar-link active"><i class="fa-solid fa-graduation-cap" style="color: var(--cyan);"></i> <span>Placement Command</span></a>
+                <a href="/" class="sidebar-link"><i class="fa-solid fa-house"></i> <span>Overview</span></a>
+                <a href="/#formSection" class="sidebar-link"><i class="fa-solid fa-bullseye"></i> <span>Career Guide</span></a>
+                <a href="/#tabATS" class="sidebar-link"><i class="fa-solid fa-file-contract"></i> <span>Resume Analyzer</span></a>
+                <a href="/resume-builder" class="sidebar-link"><i class="fa-solid fa-file-signature"></i> <span>AI Resume Builder</span></a>
+                <a href="/intelligence" class="sidebar-link"><i class="fa-solid fa-brain"></i> <span>Career Intelligence</span></a>
+                <a href="/#tabOverview" class="sidebar-link"><i class="fa-solid fa-layer-group"></i> <span>Skill Gaps</span></a>
+                <a href="/#tabRoadmap" class="sidebar-link"><i class="fa-solid fa-route"></i> <span>Roadmap</span></a>
+                <a href="/#tabPlan" class="sidebar-link"><i class="fa-solid fa-calendar-check"></i> <span>30-Day Plan</span></a>
+                <a href="/jobs" class="sidebar-link"><i class="fa-solid fa-briefcase"></i> <span>AI Job Matching</span></a>
+                <a href="/interview" class="sidebar-link"><i class="fa-solid fa-microphone"></i> <span>AI Interview</span></a>
+                <a href="/applications" class="sidebar-link"><i class="fa-solid fa-briefcase"></i> <span>Applications</span></a>
+                <a href="/progress" class="sidebar-link"><i class="fa-solid fa-chart-line"></i> <span>Progress</span></a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="sidebar-footer-btn">
+                    <span><i class="fa-solid fa-building" style="color: var(--cyan);"></i> Company Drive</span>
+                    <span class="ai-status-indicator"></span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="app-main">
+            <div class="main-content">
+                <!-- Back Link -->
+                <div style="margin-bottom: 1rem;">
+                    <a href="/placements" class="btn btn-outline btn-sm"><i class="fa-solid fa-arrow-left"></i> Back to Placement Command Center</a>
+                </div>
+
+                <!-- Company Banner -->
+                <div class="glass-card company-detail-banner" style="margin-bottom: 1.5rem; padding: 1.75rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+                        <div>
+                            <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.4rem;">
+                                <span class="badge badge-success" id="cEligibleBadge">✓ ELIGIBLE</span>
+                                <span class="badge badge-info" id="cStatusBadge">Applied</span>
+                            </div>
+                            <h1 style="font-size: 2.2rem; font-weight: 800; color: #fff; margin: 0 0 0.3rem 0;" id="cName">Zenvexa Technologies</h1>
+                            <div style="font-size: 1.1rem; color: var(--secondary); font-weight: 700;" id="cRole">Software Development Engineer</div>
+                        </div>
+
+                        <div style="text-align: right;">
+                            <div style="font-size: 0.8rem; color: var(--text-muted);">Package (CTC)</div>
+                            <div style="font-size: 1.8rem; font-weight: 800; color: #34d399;" id="cCtc">₹7.5 - 9.0 LPA</div>
+                            <div style="font-size: 0.85rem; color: var(--text-muted);" id="cLocation"><i class="fa-solid fa-location-dot"></i> Bengaluru / Remote</div>
+                        </div>
+                    </div>
+
+                    <div class="company-action-buttons" style="display: flex; gap: 1rem; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.08);">
+                        <button class="btn btn-primary btn-lg" id="btnApplyDrive" onclick="applyToDrive()"><i class="fa-solid fa-paper-plane"></i> APPLY TO DRIVE</button>
+                        <button class="btn btn-outline btn-lg" onclick="generateCompanyPrepPlan()"><i class="fa-solid fa-wand-magic-sparkles"></i> Generate 7-Day Prep Plan</button>
+                    </div>
+                </div>
+
+                <!-- READINESS & ROUNDS GRID -->
+                <div class="grid-2-col">
+                    <!-- Company Readiness -->
+                    <div class="glass-card dash-card">
+                        <div class="card-title-row">
+                            <h3><i class="fa-solid fa-gauge-high text-cyan"></i> Placement Readiness for Company</h3>
+                            <span class="badge badge-gradient" id="cReadinessScore">81% Match</span>
+                        </div>
+
+                        <div class="skill-prog-list" style="margin-top: 1rem;">
+                            <div class="skill-prog-item">
+                                <div class="skill-prog-header"><span>Aptitude Score</span> <span>82%</span></div>
+                                <div class="skill-prog-bar-bg"><div class="skill-prog-bar-fill" style="width: 82%; background: var(--cyan);"></div></div>
+                            </div>
+                            <div class="skill-prog-item">
+                                <div class="skill-prog-header"><span>Coding & DSA Score</span> <span>68%</span></div>
+                                <div class="skill-prog-bar-bg"><div class="skill-prog-bar-fill" style="width: 68%; background: var(--warning);"></div></div>
+                            </div>
+                            <div class="skill-prog-item">
+                                <div class="skill-prog-header"><span>Technical Interview Score</span> <span>78%</span></div>
+                                <div class="skill-prog-bar-bg"><div class="skill-prog-bar-fill" style="width: 78%; background: var(--secondary);"></div></div>
+                            </div>
+                            <div class="skill-prog-item">
+                                <div class="skill-prog-header"><span>HR & Leadership Score</span> <span>85%</span></div>
+                                <div class="skill-prog-bar-bg"><div class="skill-prog-bar-fill" style="width: 85%; background: var(--success);"></div></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Required Skills & Resume Match -->
+                    <div class="glass-card dash-card">
+                        <div class="card-title-row">
+                            <h3><i class="fa-solid fa-file-signature text-warning"></i> Resume Match & Required Stack</h3>
+                            <span class="badge badge-success" id="cResumeMatch">88% Resume Match</span>
+                        </div>
+
+                        <div style="margin-top: 1rem;">
+                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;">Required Technical Skills:</div>
+                            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;" id="cSkillsList">
+                                <!-- Populated by JS -->
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center;">
+                            <div style="font-size: 0.85rem; color: var(--text-muted);">Tailor resume keywords for this company:</div>
+                            <a href="/resume-builder" class="btn btn-outline btn-sm"><i class="fa-solid fa-file-pen"></i> OPTIMIZE RESUME</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SELECTION ROUNDS & PRACTICE ACTION CARDS -->
+                <div class="glass-card dash-card" style="margin-bottom: 1.5rem;">
+                    <div class="card-title-row">
+                        <h3><i class="fa-solid fa-route text-violet"></i> Selection Rounds & Targeted Practice Arenas</h3>
+                        <span class="badge badge-info">4-Step Drive Process</span>
+                    </div>
+
+                    <div class="rounds-action-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                        <div class="round-card">
+                            <div class="round-num">ROUND 1</div>
+                            <h4 class="round-title">Online Aptitude Assessment</h4>
+                            <p class="round-desc">Speed Quantitative Aptitude, Logical Reasoning, and Verbal Ability.</p>
+                            <a href="/placement-practice/aptitude" class="btn btn-primary btn-sm" style="width: 100%; text-align: center;"><i class="fa-solid fa-play"></i> START PRACTICE</a>
+                        </div>
+
+                        <div class="round-card">
+                            <div class="round-num">ROUND 2</div>
+                            <h4 class="round-title">Coding Challenge</h4>
+                            <p class="round-desc">2 DSA Coding problems (Arrays, Hashing, Two Pointers).</p>
+                            <a href="/placement-practice/coding" class="btn btn-primary btn-sm" style="width: 100%; text-align: center;"><i class="fa-solid fa-code"></i> START CODING</a>
+                        </div>
+
+                        <div class="round-card">
+                            <div class="round-num">ROUND 3</div>
+                            <h4 class="round-title">Technical Interview</h4>
+                            <p class="round-desc">Live system architecture, OOPs, SQL queries, and project deep dive.</p>
+                            <a href="/interview?company=Zenvexa Technologies" class="btn btn-primary btn-sm" style="width: 100%; text-align: center;"><i class="fa-solid fa-microphone"></i> MOCK INTERVIEW</a>
+                        </div>
+
+                        <div class="round-card">
+                            <div class="round-num">ROUND 4</div>
+                            <h4 class="round-title">HR & Leadership Round</h4>
+                            <p class="round-desc">Behavioral STAR method questions and company culture fit.</p>
+                            <a href="/interview?company=Zenvexa Technologies&type=hr" class="btn btn-primary btn-sm" style="width: 100%; text-align: center;"><i class="fa-solid fa-comments"></i> HR PRACTICE</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 7-DAY COMPANY PREPARATION PLAN (DYNAMIC) -->
+                <div class="glass-card dash-card" id="prepPlanCard" style="display: none; margin-bottom: 1.5rem;">
+                    <div class="card-title-row">
+                        <h3><i class="fa-solid fa-calendar-check text-success"></i> 7-Day Company Preparation Schedule</h3>
+                        <span class="badge badge-success">Personalized Blueprint</span>
+                    </div>
+
+                    <div class="prep-schedule-grid" id="prepScheduleList" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/placements.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const companyId = "{{ company_id }}";
+            loadCompanyDetailView(companyId);
+        });
+    </script>
+</body>
+</html>

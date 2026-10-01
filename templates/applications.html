@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Command Center — CareerForge AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='assets/careerforge-favicon.png') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/application_intelligence.css') }}">
+</head>
+<body class="dark-theme">
+    <div class="app-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="{{ url_for('static', filename='assets/careerforge-logo.png') }}" alt="CareerForge AI Logo" class="sidebar-logo-img" height="44" width="auto">
+                <span class="sidebar-brand-name">CareerForge<span style="color: var(--secondary);">.AI</span></span>
+            </div>
+            <nav class="sidebar-menu">
+                <a href="/career-agent" class="sidebar-link"><i class="fa-solid fa-robot" style="color: var(--secondary);"></i> <span>AI Career Agent</span></a>
+                <a href="/" class="sidebar-link"><i class="fa-solid fa-house"></i> <span>Overview</span></a>
+                <a href="/#formSection" class="sidebar-link"><i class="fa-solid fa-bullseye"></i> <span>Career Guide</span></a>
+                <a href="/#tabATS" class="sidebar-link"><i class="fa-solid fa-file-contract"></i> <span>Resume Analyzer</span></a>
+                <a href="/resume-builder" class="sidebar-link"><i class="fa-solid fa-file-signature"></i> <span>AI Resume Builder</span></a>
+                <a href="/intelligence" class="sidebar-link"><i class="fa-solid fa-brain" style="color: var(--secondary);"></i> <span>Career Intelligence</span></a>
+                <a href="/#tabOverview" class="sidebar-link"><i class="fa-solid fa-layer-group"></i> <span>Skill Gaps</span></a>
+                <a href="/#tabRoadmap" class="sidebar-link"><i class="fa-solid fa-route"></i> <span>Roadmap</span></a>
+                <a href="/#tabPlan" class="sidebar-link"><i class="fa-solid fa-calendar-check"></i> <span>30-Day Plan</span></a>
+                <a href="/jobs" class="sidebar-link"><i class="fa-solid fa-briefcase"></i> <span>AI Job Matching</span></a>
+                <a href="/interview" class="sidebar-link"><i class="fa-solid fa-microphone"></i> <span>AI Interview</span></a>
+                <a href="/applications" class="sidebar-link active"><i class="fa-solid fa-briefcase"></i> <span>Applications</span></a>
+                <a href="/progress" class="sidebar-link"><i class="fa-solid fa-chart-line"></i> <span>Progress</span></a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="sidebar-footer-btn" id="aiStatusBtn">
+                    <span><i class="fa-solid fa-brain" style="color: var(--secondary);"></i> Gemini Engine</span>
+                    <span class="ai-status-indicator"></span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="app-main">
+            <div class="main-content">
+                <!-- Page Header -->
+                <header class="app-intel-header">
+                    <div class="hero-badge"><i class="fa-solid fa-briefcase"></i> Pipeline Command Center</div>
+                    <h1 class="page-title">Application Command Center</h1>
+                    <p class="page-subtitle">Track, follow up, and analyze conversion rates across your job applications.</p>
+                </header>
+
+                <!-- Top Metrics Banner -->
+                <div class="app-summary-banner glass-card">
+                    <div class="summary-metric-tile">
+                        <span class="metric-lbl">TOTAL APPLICATIONS</span>
+                        <span class="metric-val" id="cntTotal">24</span>
+                    </div>
+                    <div class="summary-metric-divider"></div>
+                    <div class="summary-metric-tile">
+                        <span class="metric-lbl">INTERVIEWS</span>
+                        <span class="metric-val highlight-cyan" id="cntInterview">7</span>
+                    </div>
+                    <div class="summary-metric-divider"></div>
+                    <div class="summary-metric-tile">
+                        <span class="metric-lbl">OFFERS</span>
+                        <span class="metric-val highlight-purple" id="cntOffers">2</span>
+                    </div>
+                    <div class="summary-metric-divider"></div>
+                    <div class="summary-metric-tile">
+                        <span class="metric-lbl">RESPONSE RATE</span>
+                        <span class="metric-val" id="rateResponse">42%</span>
+                    </div>
+                    <div class="summary-metric-divider"></div>
+                    <div class="summary-metric-tile">
+                        <span class="metric-lbl">INTERVIEW RATE</span>
+                        <span class="metric-val" id="rateInterview">29%</span>
+                    </div>
+                </div>
+
+                <!-- Action Bar & Export -->
+                <div class="app-toolbar glass-card">
+                    <div class="toolbar-left">
+                        <button type="button" class="btn btn-primary btn-sm btn-glow" id="btnAddApplication"><i class="fa-solid fa-plus"></i> ADD APPLICATION</button>
+                    </div>
+                    <div class="toolbar-right">
+                        <button type="button" class="btn btn-secondary btn-sm" id="btnExportCsv"><i class="fa-solid fa-file-csv"></i> EXPORT CSV REPORT</button>
+                        <button type="button" class="btn btn-secondary btn-sm" id="btnPrintReport"><i class="fa-solid fa-print"></i> PRINT REPORT</button>
+                    </div>
+                </div>
+
+                <!-- Top Priority Focus Section -->
+                <section class="top-focus-section glass-card" style="margin-bottom: 2rem;">
+                    <div class="section-header-compact">
+                        <h2><i class="fa-solid fa-fire" style="color: #f59e0b;"></i> TOP APPLICATIONS TO FOCUS ON</h2>
+                        <span class="section-desc">Smart prioritization based on Job Match, ATS Score & Follow-up status.</span>
+                    </div>
+                    <div class="top-focus-grid" id="topFocusGrid">
+                        <!-- JS populates top priority items -->
+                    </div>
+                </section>
+
+                <!-- Search & Filters Bar -->
+                <div class="glass-card filter-bar-card" style="margin-bottom: 1.5rem; padding: 1rem 1.25rem;">
+                    <div class="filter-controls-grid">
+                        <div class="filter-group">
+                            <label>Search Company / Role</label>
+                            <input type="text" id="appSearch" class="filter-input" placeholder="Search...">
+                        </div>
+                        <div class="filter-group">
+                            <label>Stage Status</label>
+                            <select id="appStatusFilter" class="filter-select">
+                                <option value="All">All Stages</option>
+                                <option value="Wishlist">Wishlist</option>
+                                <option value="Applied">Applied</option>
+                                <option value="Assessment">Assessment</option>
+                                <option value="Interview">Interview</option>
+                                <option value="Offer">Offer</option>
+                                <option value="Rejected">Rejected</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Sort By</label>
+                            <select id="appSort" class="filter-select">
+                                <option value="priority">Highest Priority</option>
+                                <option value="newest">Newest First</option>
+                                <option value="match">Highest Match Score</option>
+                                <option value="followup">Follow-up Due</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Application Cards Container -->
+                <div class="app-cards-container" id="appCardsContainer">
+                    <!-- JS populates application cards -->
+                </div>
+
+                <!-- Analytics & Performance Section -->
+                <section class="analytics-section glass-card" style="margin-top: 2.5rem;">
+                    <div class="section-header-compact">
+                        <h2><i class="fa-solid fa-chart-pie" style="color: var(--secondary);"></i> APPLICATION PERFORMANCE ANALYTICS</h2>
+                        <span class="attribution-badge">Recorded user application metrics</span>
+                    </div>
+
+                    <div class="analytics-grid">
+                        <div class="analytics-card-box">
+                            <h4><i class="fa-solid fa-file-signature"></i> RESUME VERSION PERFORMANCE</h4>
+                            <div id="resumePerfList" class="perf-list">
+                                <!-- JS populates resume performance -->
+                            </div>
+                        </div>
+
+                        <div class="analytics-card-box">
+                            <h4><i class="fa-solid fa-bullseye"></i> MATCH SCORE CONVERSION</h4>
+                            <div id="matchPerfList" class="perf-list">
+                                <!-- JS populates match range performance -->
+                            </div>
+                        </div>
+
+                        <div class="analytics-card-box">
+                            <h4><i class="fa-solid fa-circle-xmark"></i> REJECTION PATTERNS</h4>
+                            <div id="rejectionPatternsList" class="perf-list">
+                                <!-- JS populates rejection counts -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- AI Application Coach Panel -->
+                <section class="coach-panel-section glass-card" style="margin-top: 2rem;">
+                    <div class="coach-header">
+                        <h2><i class="fa-solid fa-brain" style="color: var(--secondary);"></i> AI APPLICATION COACH</h2>
+                        <div class="quick-prompts-chips">
+                            <button type="button" class="prompt-chip" data-prompt="Which applications should I follow up?">Which applications to follow up?</button>
+                            <button type="button" class="prompt-chip" data-prompt="Which resume performs best?">Which resume performs best?</button>
+                            <button type="button" class="prompt-chip" data-prompt="Why am I getting rejected?">Why am I getting rejected?</button>
+                        </div>
+                    </div>
+                    <div class="coach-reply-box" id="appCoachReply">
+                        Select a quick prompt or ask the coach for application pipeline advice.
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/application_intelligence.js') }}"></script>
+</body>
+</html>

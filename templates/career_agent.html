@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Career Agent — CareerForge AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='assets/careerforge-favicon.png') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/career_agent.css') }}">
+</head>
+<body class="dark-theme">
+    <div class="app-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="{{ url_for('static', filename='assets/careerforge-logo.png') }}" alt="CareerForge AI Logo" class="sidebar-logo-img" height="44" width="auto">
+                <span class="sidebar-brand-name">CareerForge<span style="color: var(--secondary);">.AI</span></span>
+            </div>
+            <nav class="sidebar-menu">
+                <a href="/career-agent" class="sidebar-link active"><i class="fa-solid fa-robot" style="color: var(--secondary);"></i> <span>AI Career Agent</span></a>
+                <a href="/placements" class="sidebar-link"><i class="fa-solid fa-graduation-cap" style="color: var(--cyan);"></i> <span>Placement Command</span></a>
+                <a href="/placement-strategy" class="sidebar-link"><i class="fa-solid fa-bullseye" style="color: var(--secondary);"></i> <span>Placement Strategy</span></a>
+                <a href="/job-match" class="sidebar-link"><i class="fa-solid fa-microchip" style="color: var(--accent);"></i> <span>AI Job Matching</span></a>
+                <a href="/" class="sidebar-link"><i class="fa-solid fa-house"></i> <span>Overview</span></a>
+                <a href="/#formSection" class="sidebar-link"><i class="fa-solid fa-bullseye"></i> <span>Career Guide</span></a>
+                <a href="/#tabATS" class="sidebar-link"><i class="fa-solid fa-file-contract"></i> <span>Resume Analyzer</span></a>
+                <a href="/resume-builder" class="sidebar-link"><i class="fa-solid fa-file-signature"></i> <span>AI Resume Builder</span></a>
+                <a href="/intelligence" class="sidebar-link"><i class="fa-solid fa-brain"></i> <span>Career Intelligence</span></a>
+                <a href="/#tabOverview" class="sidebar-link"><i class="fa-solid fa-layer-group"></i> <span>Skill Gaps</span></a>
+                <a href="/#tabRoadmap" class="sidebar-link"><i class="fa-solid fa-route"></i> <span>Roadmap</span></a>
+                <a href="/#tabPlan" class="sidebar-link"><i class="fa-solid fa-calendar-check"></i> <span>30-Day Plan</span></a>
+                <a href="/jobs" class="sidebar-link"><i class="fa-solid fa-briefcase"></i> <span>AI Job Matching</span></a>
+                <a href="/interview" class="sidebar-link"><i class="fa-solid fa-microphone"></i> <span>AI Interview</span></a>
+                <a href="/applications" class="sidebar-link"><i class="fa-solid fa-briefcase"></i> <span>Applications</span></a>
+                <a href="/progress" class="sidebar-link"><i class="fa-solid fa-chart-line"></i> <span>Progress</span></a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="sidebar-footer-btn">
+                    <span><i class="fa-solid fa-award" style="color: var(--secondary);"></i> Command Center</span>
+                    <span class="ai-status-indicator"></span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="app-main">
+            <div class="main-content">
+                <!-- Header Row -->
+                <div class="card-title-row" style="margin-bottom: 1.5rem;">
+                    <div>
+                        <h1 class="hero-title" style="font-size: 2.2rem; margin-bottom: 0.3rem;">AI <span class="text-gradient">Career Agent</span></h1>
+                        <p style="color: var(--text-muted); font-size: 0.95rem; margin: 0;">Your personal AI career command center connecting skills, resume, jobs, interview, and progress.</p>
+                    </div>
+                    <div style="display: flex; gap: 0.75rem; align-items: center;">
+                        <div class="streak-badge" id="streakBadge">
+                            <i class="fa-solid fa-fire text-warning"></i> <span id="streakCount">7</span> DAY STREAK
+                        </div>
+                        <button class="btn btn-outline" onclick="openNotificationDrawer()">
+                            <i class="fa-solid fa-bell"></i> <span class="badge badge-accent" id="notifCount">3</span>
+                        </button>
+                        <button class="btn btn-primary" onclick="generateCareerReport()">
+                            <i class="fa-solid fa-file-invoice"></i> Generate Career Report
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Notifications Panel (Collapsible) -->
+                <div class="glass-card notif-panel" id="notifPanel" style="display: none; margin-bottom: 1.5rem;">
+                    <div class="card-title-row">
+                        <h4><i class="fa-solid fa-bell text-secondary"></i> Smart Career Notifications</h4>
+                        <button class="btn-icon" onclick="openNotificationDrawer()"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                    <div class="notif-list" id="notifList">
+                        <div class="notif-item">
+                            <i class="fa-solid fa-clock text-warning"></i>
+                            <div><strong>Follow-up due today:</strong> Stripe Backend Engineer application pending 7 days.</div>
+                        </div>
+                        <div class="notif-item">
+                            <i class="fa-solid fa-chart-line text-success"></i>
+                            <div><strong>Interview score improved:</strong> Mock performance increased +12% this week.</div>
+                        </div>
+                        <div class="notif-item">
+                            <i class="fa-solid fa-briefcase text-cyan"></i>
+                            <div><strong>New 87% Job Match:</strong> Python Backend Developer at TechForge Solutions.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- HERO CARD: YOUR NEXT BEST ACTION -->
+                <div class="glass-card primary-action-hero" style="margin-bottom: 1.5rem;">
+                    <div class="hero-top-badge">
+                        <span>🎯 YOUR NEXT BEST ACTION</span>
+                        <span class="badge badge-danger" id="primaryPriorityBadge">HIGH PRIORITY</span>
+                    </div>
+
+                    <div class="hero-action-body">
+                        <div class="hero-action-main">
+                            <h2 class="hero-action-title" id="primaryActionTitle">🎯 Practice Docker Interviews</h2>
+                            <p class="hero-action-reason" id="primaryActionReason">
+                                Docker appears in your top matching jobs and your latest interview performance shows a weakness in this area.
+                            </p>
+                        </div>
+                        
+                        <div class="hero-meta-col">
+                            <div class="meta-pill"><i class="fa-solid fa-clock"></i> Est. Time: <strong id="primaryTime">45 minutes</strong></div>
+                            <div class="meta-pill"><i class="fa-solid fa-bolt text-warning"></i> Expected Impact: <strong id="primaryImpact">+12% Interview Score</strong></div>
+                            <div class="meta-pill"><i class="fa-solid fa-compass text-cyan"></i> Source: <strong id="primarySource">Interview Simulator</strong></div>
+                        </div>
+                    </div>
+
+                    <div class="hero-btn-row">
+                        <a href="/interview" class="btn btn-primary btn-lg" id="btnStartPrimary">
+                            <i class="fa-solid fa-play"></i> START ACTION NOW
+                        </a>
+                        <button class="btn btn-outline" onclick="markPrimaryComplete()">
+                            <i class="fa-solid fa-circle-check"></i> Mark Completed
+                        </button>
+                    </div>
+                </div>
+
+                <!-- CAREER READINESS SNAPSHOT -->
+                <div class="glass-card dash-card" style="margin-bottom: 1.5rem;">
+                    <div class="card-title-row">
+                        <h3><i class="fa-solid fa-chart-pie text-violet"></i> Career Readiness Snapshot</h3>
+                        <span class="badge badge-info">Unified System Metrics</span>
+                    </div>
+
+                    <div class="snapshot-grid">
+                        <div class="snap-card">
+                            <div class="snap-label">Overall Readiness</div>
+                            <div class="snap-value text-gradient" id="snapOverall">78%</div>
+                            <div class="snap-sub">Target Role Qualified</div>
+                        </div>
+                        <div class="snap-card">
+                            <div class="snap-label">Skills Coverage</div>
+                            <div class="snap-value text-cyan" id="snapSkills">74%</div>
+                            <div class="snap-sub">Core Tech Foundation</div>
+                        </div>
+                        <div class="snap-card">
+                            <div class="snap-label">Resume ATS</div>
+                            <div class="snap-value text-warning" id="snapResume">84%</div>
+                            <div class="snap-sub">Parser Optimized</div>
+                        </div>
+                        <div class="snap-card">
+                            <div class="snap-label">Job Match</div>
+                            <div class="snap-value text-success" id="snapJobMatch">87%</div>
+                            <div class="snap-sub">Target Role Fit</div>
+                        </div>
+                        <div class="snap-card">
+                            <div class="snap-label">Interview Score</div>
+                            <div class="snap-value text-secondary" id="snapInterview">78%</div>
+                            <div class="snap-sub">Mock Simulator</div>
+                        </div>
+                        <div class="snap-card">
+                            <div class="snap-label">Applications</div>
+                            <div class="snap-value text-blue" id="snapApps">42%</div>
+                            <div class="snap-sub">Pipeline Conversion</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ADAPTIVE DAILY CAREER MISSION -->
+                <div class="glass-card dash-card" style="margin-bottom: 1.5rem;">
+                    <div class="card-title-row">
+                        <div>
+                            <h3><i class="fa-solid fa-calendar-day text-cyan"></i> Today's Adaptive Career Mission</h3>
+                            <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0.2rem 0 0 0;">How much time do you have today?</p>
+                        </div>
+
+                        <div class="time-selector-group">
+                            <button class="time-btn" onclick="selectAvailableTime(30)">30 min</button>
+                            <button class="time-btn active" onclick="selectAvailableTime(60)">1 hour</button>
+                            <button class="time-btn" onclick="selectAvailableTime(120)">2 hours</button>
+                            <button class="time-btn" onclick="selectAvailableTime(180)">3+ hours</button>
+                        </div>
+                    </div>
+
+                    <div class="mission-task-list" id="missionTaskList">
+                        <!-- Populated by JS -->
+                    </div>
+
+                    <div class="mission-footer">
+                        <span>Total Estimated Time: <strong id="missionTotalTime" style="color: var(--secondary);">1h 0m</strong></span>
+                        <button class="btn btn-outline btn-sm" onclick="completeFullMission()">
+                            <i class="fa-solid fa-check-double"></i> Complete All Tasks Today
+                        </button>
+                    </div>
+                </div>
+
+                <!-- TOP 3 ACTIONS PRIORITY -->
+                <div class="glass-card dash-card" style="margin-bottom: 1.5rem;">
+                    <div class="card-title-row">
+                        <h3><i class="fa-solid fa-list-check text-warning"></i> Top 3 High-Impact Priority Actions</h3>
+                        <span class="badge badge-accent">Ranked by Intelligence Engine</span>
+                    </div>
+
+                    <div class="top-actions-grid" id="topActionsGrid">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- CAREER MOMENTUM & RISK DETECTION -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;" class="grid-2-col">
+                    <!-- Momentum -->
+                    <div class="glass-card dash-card">
+                        <div class="card-title-row">
+                            <h3><i class="fa-solid fa-gauge-high text-success"></i> Career Momentum</h3>
+                            <span class="badge badge-success" id="momentumBadge">STRONG</span>
+                        </div>
+                        
+                        <div class="momentum-body">
+                            <div class="momentum-circle">
+                                <span class="momentum-score-val" id="momentumScore">82</span>
+                                <span class="momentum-max">/ 100</span>
+                            </div>
+                            <div class="momentum-info">
+                                <div style="font-weight: 700; color: #fff; font-size: 1.1rem;" id="momentumLabel">STRONG MOMENTUM</div>
+                                <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.3rem;">
+                                    Based on practice consistency, resume readiness, job matching, and weekly application output.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Risk Detection -->
+                    <div class="glass-card dash-card">
+                        <div class="card-title-row">
+                            <h3><i class="fa-solid fa-triangle-exclamation text-danger"></i> Career Risk Detection</h3>
+                            <span class="badge badge-danger">Proactive Alerts</span>
+                        </div>
+
+                        <div class="risk-list" id="riskList">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CAREER GOAL & MILESTONES -->
+                <div class="glass-card dash-card" style="margin-bottom: 1.5rem;">
+                    <div class="card-title-row">
+                        <h3><i class="fa-solid fa-flag-checkered text-secondary"></i> Career Goal & Target Milestones</h3>
+                        <button class="btn btn-outline btn-sm" onclick="toggleEditGoalForm()">
+                            <i class="fa-solid fa-pen-to-square"></i> Set Goal
+                        </button>
+                    </div>
+
+                    <div id="goalEditForm" style="display: none; background: rgba(15,23,42,0.6); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div>
+                                <label style="font-size: 0.8rem; color: var(--text-muted);">Target Role</label>
+                                <input type="text" id="goalTargetRole" class="form-input" value="AI Engineer">
+                            </div>
+                            <div>
+                                <label style="font-size: 0.8rem; color: var(--text-muted);">Target Date</label>
+                                <input type="text" id="goalTargetDate" class="form-input" value="30 June 2027">
+                            </div>
+                        </div>
+                        <button class="btn btn-primary btn-sm" style="margin-top: 0.75rem;" onclick="saveCareerGoal()">Save Goal</button>
+                    </div>
+
+                    <div class="goal-overview-row">
+                        <div>
+                            <div style="font-size: 0.85rem; color: var(--text-muted);">Target Goal</div>
+                            <h4 id="dispGoalRole" style="color: #fff; margin: 0.2rem 0;">AI Engineer</h4>
+                            <div style="font-size: 0.8rem; color: var(--secondary);" id="dispGoalDate">Target Date: 30 June 2027</div>
+                        </div>
+
+                        <div style="flex: 1; max-width: 300px;">
+                            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: #fff; margin-bottom: 0.3rem;">
+                                <span>Goal Progress</span>
+                                <strong id="dispGoalPct">54%</strong>
+                            </div>
+                            <div class="goal-bar-bg"><div class="goal-bar-fill" id="dispGoalFill" style="width: 54%;"></div></div>
+                        </div>
+                    </div>
+
+                    <div class="milestone-checklist" id="milestoneChecklist">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- WEEKLY CAREER REVIEW -->
+                <div class="glass-card dash-card" style="margin-bottom: 1.5rem;">
+                    <div class="card-title-row">
+                        <h3><i class="fa-solid fa-chart-column text-cyan"></i> Weekly Career Review</h3>
+                        <span class="badge badge-accent">7-Day Delta</span>
+                    </div>
+
+                    <div class="weekly-metrics-grid" id="weeklyMetricsGrid">
+                        <!-- Populated by JS -->
+                    </div>
+                    
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid rgba(255,255,255,0.08);" id="weeklyHighlight">
+                        Your biggest improvement this week was technical interview performance (+12%).
+                    </p>
+                </div>
+
+                <!-- AI CAREER AGENT CHAT -->
+                <div class="glass-card coach-widget-card">
+                    <div class="card-title-row">
+                        <h3><i class="fa-solid fa-robot text-cyan"></i> AI Career Agent Chat</h3>
+                        <span class="badge badge-accent">Unified Context Assistant</span>
+                    </div>
+
+                    <div class="coach-chat-window" id="agentChatWindow">
+                        <div class="chat-bubble ai">
+                            Hello! I am your <strong>AI Career Agent</strong>. I've analyzed your skills, ATS resume score, job matches, mock interview history, and active applications. What would you like to focus on today?
+                        </div>
+                    </div>
+
+                    <div class="coach-prompts-row" id="agentPromptsRow">
+                        <span class="coach-prompt-chip" onclick="sendAgentPrompt('What should I do today?')">What should I do today?</span>
+                        <span class="coach-prompt-chip" onclick="sendAgentPrompt('Am I ready to apply?')">Am I ready to apply?</span>
+                        <span class="coach-prompt-chip" onclick="sendAgentPrompt('Why is my score low?')">Why is my score low?</span>
+                        <span class="coach-prompt-chip" onclick="sendAgentPrompt('Which skill should I learn?')">Which skill should I learn?</span>
+                        <span class="coach-prompt-chip" onclick="sendAgentPrompt('Which job should I apply to?')">Which job should I apply to?</span>
+                        <span class="coach-prompt-chip" onclick="sendAgentPrompt('Should I improve my resume?')">Should I improve my resume?</span>
+                        <span class="coach-prompt-chip" onclick="sendAgentPrompt('Why am I getting rejected?')">Why am I getting rejected?</span>
+                    </div>
+
+                    <form id="agentInputForm" style="display: flex; gap: 0.75rem; margin-top: 0.5rem;">
+                        <input type="text" id="agentQueryInput" class="form-input" placeholder="Ask your AI Career Agent anything..." required>
+                        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> Send</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- CAREER REPORT MODAL -->
+    <div class="modal-backdrop" id="reportModal" style="display: none;">
+        <div class="glass-card modal-content" style="max-width: 800px; width: 90%; max-height: 85vh; overflow-y: auto; margin: 5vh auto; padding: 2rem;">
+            <div class="card-title-row" style="margin-bottom: 1rem;">
+                <h2><i class="fa-solid fa-file-invoice text-secondary"></i> Executive AI Career Report</h2>
+                <button class="btn-icon" onclick="closeCareerReport()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <div id="reportMarkdownContainer" style="color: #e2e8f0; line-height: 1.6; font-size: 0.95rem;">
+                <div style="text-align: center; padding: 2rem;"><i class="fa-solid fa-spinner fa-spin fa-2x text-secondary"></i><br><br>Generating executive report...</div>
+            </div>
+
+            <div style="margin-top: 1.5rem; text-align: right;">
+                <button class="btn btn-outline" onclick="window.print()"><i class="fa-solid fa-print"></i> Print Report</button>
+                <button class="btn btn-primary" onclick="closeCareerReport()">Done</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/career_agent.js') }}"></script>
+</body>
+</html>
