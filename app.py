@@ -4,7 +4,7 @@ import secrets
 
 from flask import Flask, g, jsonify, redirect, render_template, request, session, url_for
 from config.config import Config
-from services.user_store import consume_rate_limit, get_user, initialize_database
+from services.user_store import consume_rate_limit, connect, get_user, initialize_database
 from routes.auth import auth_bp
 from routes.career import career_bp
 from routes.resume import resume_bp
@@ -60,7 +60,13 @@ def create_app(test_config=None):
 
     @app.route("/api/health")
     def health():
-        return jsonify({"status": "healthy", "success": True}), 200
+        try:
+            with connect(app.config["DATABASE_URL"]) as connection:
+                connection.execute("SELECT 1").fetchone()
+        except Exception:
+            app.logger.exception("Health check database connection failed")
+            return jsonify({"status": "unavailable", "success": False}), 503
+        return jsonify({"status": "healthy", "database": "connected", "success": True}), 200
 
     @app.before_request
     def authenticate_and_limit():
