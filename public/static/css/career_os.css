@@ -1,0 +1,70 @@
+/* AI Career OS CSS */
+.quick-actions-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.os-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 0.75rem;
+}
+
+.os-command-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.os-command-grid > * {
+    min-width: 0;
+}
+
+.os-card {
+    background: rgba(30, 41, 59, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    padding: 0.8rem;
+    text-align: center;
+}
+
+.os-val {
+    display: block;
+    font-size: 1.4rem;
+    font-weight: 800;
+    font-family: 'JetBrains Mono', monospace;
+    color: #fff;
+}
+
+.os-lbl {
+    font-size: 0.75rem;
+    color: var(--text-muted, #94a3b8);
+}
+
+.chat-msg {
+    padding: 0.6rem 0.8rem;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    font-size: 0.88rem;
+    white-space: pre-wrap;
+}
+
+.chat-msg.ai {
+    background: rgba(99, 102, 241, 0.2);
+    border-left: 3px solid var(--secondary, #6366f1);
+    color: #f8fafc;
+}
+
+.chat-msg.user {
+    background: rgba(30, 41, 59, 0.8);
+    text-align: right;
+    color: #fff;
+}
+
+@media (max-width: 768px) {
+    .os-command-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}

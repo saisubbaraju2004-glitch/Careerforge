@@ -1,4 +1,5 @@
 import json
+import os
 import re
 import sqlite3
 from datetime import datetime, timezone
@@ -6,6 +7,7 @@ from pathlib import Path
 
 from sqlalchemy import create_engine, text
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.pool import NullPool
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from config.config import BASE_DIR, normalize_database_url
@@ -115,7 +117,7 @@ class _DatabaseConnection:
                 self.connection.execute(text(statement))
 
 
-def connect(database_url):
+def connect(database_url, serverless=None):
     database_url = normalize_database_url(database_url)
     if database_url.startswith("sqlite:///"):
         connection = sqlite3.connect(_database_path(database_url), timeout=10)
@@ -125,11 +127,36 @@ def connect(database_url):
         return _DatabaseConnection(connection, is_sqlite=True)
     if not database_url.startswith("postgresql+psycopg://"):
         raise RuntimeError("DATABASE_URL must use sqlite:/// or a PostgreSQL URL.")
-    engine = _engines.get(database_url)
-    if engine is None:
-        engine = create_engine(database_url, pool_pre_ping=True, pool_recycle=300)
-        _engines[database_url] = engine
+    engine = _database_engine(database_url, serverless)
     return _DatabaseConnection(engine.connect(), is_sqlite=False)
+
+
+def _database_engine(database_url, serverless=None):
+    if serverless is None:
+        serverless = bool(os.getenv("VERCEL") or os.getenv("VERCEL_ENV"))
+    engine_key = (database_url, bool(serverless))
+    engine = _engines.get(engine_key)
+    if engine is None:
+        connect_args = {"connect_timeout": 10}
+        if serverless:
+            connect_args["prepare_threshold"] = 0
+            engine = create_engine(
+                database_url,
+                poolclass=NullPool,
+                connect_args=connect_args,
+            )
+        else:
+            engine = create_engine(
+                database_url,
+                pool_pre_ping=True,
+                pool_size=3,
+                max_overflow=2,
+                pool_timeout=20,
+                pool_recycle=300,
+                connect_args=connect_args,
+            )
+        _engines[engine_key] = engine
+    return engine
 
 
 def initialize_database(database_url):

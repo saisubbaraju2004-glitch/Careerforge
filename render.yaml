@@ -3,6 +3,7 @@ services:
     name: CareerForge
     runtime: python
     plan: starter
+    branch: master
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn --bind 0.0.0.0:$PORT wsgi:app
     healthCheckPath: /api/health
@@ -13,12 +14,4 @@ services:
       - key: SESSION_COOKIE_SECURE
         value: "True"
       - key: DATABASE_URL
-        fromDatabase:
-          name: careerforge-db
-          property: connectionString
-
-databases:
-  - name: careerforge-db
-    databaseName: careerforge
-    user: careerforge
-    plan: basic-256mb
+        sync: false

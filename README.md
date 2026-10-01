@@ -1,45 +1,24 @@
 # CareerForge AI
 
-CareerForge AI is a Flask-based career planning and placement preparation application.
-
-## Requirements
-
-- Python 3.10 or later
-- Environment variables configured from `.env.example`
-
-Create a `.env` file from `.env.example`, set `FLASK_SECRET_KEY` to a unique,
-high-entropy value, and add AI provider keys if AI-backed features are needed.
-The application uses deterministic local fallbacks when an AI provider is not
-configured or unavailable.
+CareerForge AI is the existing Flask/Jinja career planning and placement preparation application. Its V1–V15 routes and UI remain in the current `app.py`, `routes/`, `services/`, `templates/`, and `static/` structure.
 
 ## Local development
 
-Install the dependencies and run the Flask application:
+Use Python 3.10 or later and create a local `.env` from `.env.example`. Set a unique local `FLASK_SECRET_KEY`; `.env` is ignored by Git. For local SQLite development, remove or leave `DATABASE_URL` empty in `.env`. For HTTP development, set `SESSION_COOKIE_SECURE=False` locally. SQLite is used only when no database URL is configured outside Render/Vercel production.
 
 ```powershell
 python -m pip install -r requirements.txt
 python app.py
 ```
 
-The development entry point binds to `127.0.0.1:5000` unless `HOST` and `PORT`
-are set. Keep `FLASK_DEBUG=False` except during local debugging.
+The local server defaults to `127.0.0.1:5000`. The application health endpoint is `/api/health`. Run `python scripts/check_local_schema.py` to validate the SQLite bootstrap in an isolated temporary directory.
 
-## Production
+## Production architecture
 
-Use Waitress rather than Flask's development server:
+Production uses Supabase PostgreSQL as the single application database and Supabase Storage’s private `resumes` bucket for original resume files. Render runs the app with Gunicorn; Vercel discovers the Flask `app` exported from root `app.py` and serves CDN assets from `public/static/`.
 
-```powershell
-python -m pip install -r requirements.txt
-python wsgi.py
-```
+See [SUPABASE_SETUP.md](SUPABASE_SETUP.md) for applying the schema and creating the private bucket, and [DEPLOYMENT.md](DEPLOYMENT.md) for Render and Vercel environment settings. The repository does not run remote migrations or deploy to either service automatically.
 
-The WSGI entry point uses Waitress and reads `HOST` and `PORT` from the
-environment (defaults: `0.0.0.0:8000`). Keep `FLASK_DEBUG=False`. The application
-serves its health check at `/api/health`.
+Vercel Function requests are limited to 4.5 MB, so CareerForge enforces a 4 MB total request limit there; Render/local keep the 10 MB limit. A direct-to-Supabase upload flow would be needed to support larger Vercel uploads.
 
-Resume uploads are temporarily stored in `uploads/` while parsed and should not
-be shared between application users or retained as durable user data.
-
-Do not expose the application to the public internet until authentication,
-request rate limiting, and durable per-user data storage are provided by the
-application or a trusted deployment boundary.
+Keep production secrets and database URLs in the Render/Vercel environment settings. Never commit `.env` or expose `SUPABASE_SERVICE_ROLE_KEY` to browser code.

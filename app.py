@@ -29,8 +29,13 @@ def create_app(test_config=None):
     app.config.from_object(Config)
     if test_config:
         app.config.update(test_config)
+        if "AUTO_CREATE_SCHEMA" not in test_config:
+            app.config["AUTO_CREATE_SCHEMA"] = app.config["DATABASE_URL"].startswith("sqlite:///")
     Config.init_app(app)
-    initialize_database(app.config["DATABASE_URL"])
+    if app.config.get(
+        "AUTO_CREATE_SCHEMA", app.config["DATABASE_URL"].startswith("sqlite:///")
+    ):
+        initialize_database(app.config["DATABASE_URL"])
     logging.basicConfig(level=os.getenv("LOG_LEVEL", "INFO").upper())
 
     # Register API Blueprints
@@ -98,7 +103,8 @@ def create_app(test_config=None):
 
     @app.errorhandler(413)
     def file_too_large(e):
-        return jsonify({"success": False, "error": "Uploaded file exceeds maximum limit (10MB)"}), 413
+        limit_mb = app.config["MAX_CONTENT_LENGTH"] // (1024 * 1024)
+        return jsonify({"success": False, "error": f"Uploaded file exceeds maximum limit ({limit_mb}MB)"}), 413
 
     @app.errorhandler(500)
     def internal_error(e):

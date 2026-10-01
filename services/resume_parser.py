@@ -1,5 +1,6 @@
 import os
 import re
+from io import BytesIO
 from pathlib import Path
 from pypdf import PdfReader
 from docx import Document
@@ -33,6 +34,15 @@ class ResumeParser:
         return b"\x00" not in header
 
     @staticmethod
+    def canonical_mimetype(filename):
+        extension = Path(filename).suffix.lower()
+        return next(
+            mimetype
+            for mimetype in ResumeParser.MIME_TYPES[extension]
+            if mimetype != "application/octet-stream"
+        )
+
+    @staticmethod
     def extract_text(file_path):
         file_path = Path(file_path)
         if not file_path.exists():
@@ -47,6 +57,24 @@ class ResumeParser:
             return ResumeParser._extract_from_txt(file_path)
         else:
             raise ValueError(f"Unsupported file format: {ext}")
+
+    @staticmethod
+    def extract_text_from_bytes(file_bytes, filename):
+        extension = Path(filename).suffix.lower()
+        if extension == ".pdf":
+            reader = PdfReader(BytesIO(file_bytes))
+            return "\n".join(
+                extracted for page in reader.pages
+                if (extracted := page.extract_text())
+            ).strip()
+        if extension == ".docx":
+            document = Document(BytesIO(file_bytes))
+            return "\n".join(
+                paragraph.text for paragraph in document.paragraphs if paragraph.text
+            ).strip()
+        if extension == ".txt":
+            return file_bytes.decode("utf-8", errors="ignore").strip()
+        raise ValueError("Unsupported resume format.")
 
     @staticmethod
     def _extract_from_pdf(file_path):

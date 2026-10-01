@@ -1,4 +1,3 @@
-import os
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
@@ -13,6 +12,12 @@ from services.ai_service import AIService
 from services.resume_builder_service import ResumeBuilderService
 from services.job_matching_service import JobMatchingService
 from services.user_store import add_user_record
+from services.resume_storage import (
+    StorageConfigurationError,
+    StorageOperationError,
+    delete_resume,
+    upload_resume,
+)
 
 resume_bp = Blueprint("resume", __name__)
 career_engine = CareerEngine()
@@ -27,7 +32,7 @@ def resume_builder_page():
 
 @resume_bp.route("/api/analyze-resume", methods=["POST"])
 def analyze_resume():
-    upload_path = None
+    stored_object_path = None
     try:
         file = request.files.get("resume_file") or request.files.get("resume") or request.files.get("file")
         if not file:
@@ -51,11 +56,11 @@ def analyze_resume():
         if not filename:
             return jsonify({"success": False, "error": "Invalid filename."}), 400
         extension = Path(filename).suffix.lower()
-        upload_path = Config.UPLOAD_FOLDER / f"{uuid.uuid4().hex}{extension}"
-        file.save(upload_path)
-
-        if os.path.exists(upload_path) and os.path.getsize(upload_path) == 0:
-            os.remove(upload_path)
+        content = file.stream.read(current_app.config["MAX_CONTENT_LENGTH"] + 1)
+        if len(content) > current_app.config["MAX_CONTENT_LENGTH"]:
+            limit_mb = current_app.config["MAX_CONTENT_LENGTH"] // (1024 * 1024)
+            return jsonify({"success": False, "error": f"Resume file exceeds the {limit_mb}MB limit."}), 413
+        if not content:
             return jsonify({"success": False, "error": "Selected file is empty."}), 400
 
         target_role_id = request.form.get("target_role", "python_backend_developer")
@@ -64,16 +69,10 @@ def analyze_resume():
 
         # 1. Extract resume text
         try:
-            resume_text = ResumeParser.extract_text(upload_path)
-        except Exception as parse_err:
-            if os.path.exists(upload_path):
-                os.remove(upload_path)
-            upload_path = None
-            return jsonify({"success": False, "error": f"Failed to parse uploaded file: {str(parse_err)}"}), 400
+            resume_text = ResumeParser.extract_text_from_bytes(content, filename)
+        except Exception:
+            return jsonify({"success": False, "error": "Unable to parse the uploaded resume."}), 400
         if not resume_text or len(resume_text.strip()) < 20:
-            if upload_path.exists():
-                os.remove(upload_path)
-            upload_path = None
             return jsonify({
                 "success": False,
                 "error": "Could not extract readable text from document. Please upload a clear PDF or DOCX file."
@@ -95,10 +94,6 @@ def analyze_resume():
             weak_bullets=ats_result.get("weak_bullets")
         )
 
-        # Cleanup uploaded file after processing
-        if upload_path.exists():
-            os.remove(upload_path)
-
         payload = {
             "ats_score": ats_result["overall_ats"],
             "score_breakdown": ats_result["breakdown"],
@@ -109,30 +104,68 @@ def analyze_resume():
             "bullet_rewrites": ai_feedback.get("bullet_rewrites", []),
             "ats_recommendations": ai_feedback.get("ats_recommendations", [])
         }
-        add_user_record(
-            current_app.config["DATABASE_URL"],
-            g.user_id,
-            "resume",
-            uuid.uuid4().hex,
-            {
-                "ats_score": payload["ats_score"],
-                "skills": payload["parsed_skills"],
-                "target_role": role_title,
-                "analyzed_at": datetime.now(timezone.utc).isoformat(),
-            },
-        )
+        record = {
+            "ats_score": payload["ats_score"],
+            "skills": payload["parsed_skills"],
+            "target_role": role_title,
+            "analyzed_at": datetime.now(timezone.utc).isoformat(),
+        }
+        if current_app.config["DATABASE_URL"].startswith("postgresql+psycopg://"):
+            content_type = ResumeParser.canonical_mimetype(filename)
+            stored_object_path = upload_resume(
+                supabase_url=current_app.config["SUPABASE_URL"],
+                service_role_key=current_app.config["SUPABASE_SERVICE_ROLE_KEY"],
+                bucket=current_app.config["SUPABASE_STORAGE_BUCKET"],
+                user_id=g.user_id,
+                filename=filename,
+                content_type=content_type,
+                content=content,
+            )
+            record["storage"] = {
+                "provider": "supabase",
+                "bucket": current_app.config["SUPABASE_STORAGE_BUCKET"],
+                "object_path": stored_object_path,
+                "filename": filename,
+                "content_type": content_type,
+                "size_bytes": len(content),
+            }
+
+        try:
+            add_user_record(
+                current_app.config["DATABASE_URL"],
+                g.user_id,
+                "resume",
+                uuid.uuid4().hex,
+                record,
+            )
+        except Exception:
+            if stored_object_path:
+                try:
+                    delete_resume(
+                        supabase_url=current_app.config["SUPABASE_URL"],
+                        service_role_key=current_app.config["SUPABASE_SERVICE_ROLE_KEY"],
+                        bucket=current_app.config["SUPABASE_STORAGE_BUCKET"],
+                        object_path=stored_object_path,
+                    )
+                except StorageOperationError:
+                    current_app.logger.error("Failed to remove an unreferenced resume object.")
+            raise
 
         return jsonify({"success": True, "data": payload}), 200
 
     except RequestEntityTooLarge:
+        limit_mb = current_app.config["MAX_CONTENT_LENGTH"] // (1024 * 1024)
         return jsonify({
             "success": False,
-            "error": "Uploaded file exceeds maximum limit (10MB)."
+            "error": f"Uploaded file exceeds maximum limit ({limit_mb}MB)."
         }), 413
-    except Exception as e:
-        if upload_path and upload_path.exists():
-            os.remove(upload_path)
-        return jsonify({"success": False, "error": f"Resume analysis failed: {str(e)}"}), 500
+    except StorageConfigurationError:
+        return jsonify({"success": False, "error": "Resume storage is not configured."}), 503
+    except StorageOperationError:
+        return jsonify({"success": False, "error": "Resume storage is temporarily unavailable."}), 503
+    except Exception as error:
+        current_app.logger.error("Resume analysis failed (%s)", type(error).__name__)
+        return jsonify({"success": False, "error": "Resume analysis failed."}), 500
 
 # V5 AI Resume Builder API Endpoints
 
